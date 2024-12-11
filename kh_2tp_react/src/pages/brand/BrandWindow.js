@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AxiosApi from "../../api/AxiosApi";
 import styled from "styled-components";
@@ -32,8 +32,10 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
 const SortBy = styled.div`
   display: flex;
   justify-content: end;
+  width: 1280px;
   margin-top: 10px;
-  margin-right: 100px;
+  margin-bottom: 20px;
+  gap: 10px;
 
   /* 3D effect on the buttons */
   perspective: 230px;
@@ -56,12 +58,12 @@ const SortBy = styled.div`
     position: absolute;
     width: 100%;
     height: 100%;
-    border: 2px solid #000;
+    border: 1px solid #000;
     text-align: center;
     box-sizing: border-box;
     transition: all 0.3s ease-in-out;
     transform-style: preserve-3d;
-    font-size: 12px;
+    font-size: 1em;
     top: 0;
     left: 0;
     transform-origin: 50% 50%;
@@ -107,11 +109,11 @@ const SortBy = styled.div`
 `;
 
 const BrandStoresBlock = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
-  `;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+`;
 
 const BrandContainer = styled.div`
   width: 1280px;
@@ -119,7 +121,7 @@ const BrandContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   background-color: #e3e3e3;
   border-radius: 10px;
 `;
@@ -135,19 +137,21 @@ const BrandLogo = styled.div`
 
 const StoresContainer = styled.div`
   width: 1280px;
+  padding-left: 3.5px;
+  padding-bottom: 100px;
   margin: 0 auto;
   position: relative;
   display: flex;
   align-items: center;
   white-space: nowrap;
-  justify-content: center;
+  justify-content: baseline;
   gap: 20px;
 `;
 
 const EachStore = styled.div`
   box-sizing: border-box;
   width: 195px;
-  height: 200px;
+  height: 160px;
   border-radius: 10px;
   background-color: #e3e3e3;
   overflow: hidden;
@@ -179,8 +183,9 @@ const EachTextContainer = styled.div`
 
 const EachText1 = styled.div`
   box-sizing: border-box;
-  padding-top: 10px;
-  height: 29px;
+  width: 175px;
+  padding-top: 5px;
+  height: 24px;
   font-size: 0.8em;
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -193,6 +198,14 @@ const EachText2 = styled.div`
   box-sizing: border-box;
   font-size: 0.7em;
 `;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+  transition: color 0.3s;
+`;
+
 
 const BrandWindow = () => {
   const { brandNo } = useParams(); // URL 파라미터에서 brandNo 추출
@@ -245,6 +258,7 @@ const BrandWindow = () => {
 
   return (
     <>
+      <BrandStoresBlock>
       <SortBy>
         <button
           onClick={() => {
@@ -274,19 +288,20 @@ const BrandWindow = () => {
           <span data-text="거리순">거리순</span>
         </button>
       </SortBy>
-      <BrandStoresBlock>
-        <BrandContainer>
-            <BrandLogo
-              style={{
-                backgroundImage: `url(${
-                  brandData[0].brandVO.brandLogo2 || "defaultLogoURL"
-                })`,
-              }}
-            />
-          </BrandContainer>
 
-          <StoresContainer>
-            {brandData.map((store) => (
+        <BrandContainer>
+          <BrandLogo
+            style={{
+              backgroundImage: `url(${
+                brandData[0].brandVO.brandLogo2 || "defaultLogoURL"
+              })`,
+            }}
+          />
+        </BrandContainer>
+
+        <StoresContainer>
+          {brandData.map((store) => (
+            <StyledLink to={`/stores/${store.storeNo}`} key={store.storeNo}>
               <EachStore key={store.storeNo}>
                 <EachImage
                   style={{
@@ -314,8 +329,9 @@ const BrandWindow = () => {
                   </EachText2>
                 </EachTextContainer>
               </EachStore>
-            ))}
-          </StoresContainer>
+            </StyledLink>
+          ))}
+        </StoresContainer>
       </BrandStoresBlock>
     </>
   );

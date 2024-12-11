@@ -135,8 +135,8 @@ const BrandContainer = styled.div`
 
 const BrandMain = styled.div`
   box-sizing: border-box;
-  width: 200px;
-  height: 145px;
+  width: 195px;
+  height: 160px;
   margin-top: 10px;
   margin-bottom: 10px;
   box-sizing: border-box;
@@ -182,17 +182,19 @@ const Stores = styled.div`
 
 const EachStore = styled.div`
   box-sizing: border-box;
-  width: 250px;
-  height: 200px;
-  display: flex;
-  flex-direction: column;
+  width: 195px;
+  height: 160px;
   border-radius: 10px;
   background-color: #e3e3e3;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 `;
 
 const EachImage = styled.div`
   box-sizing: border-box;
-  width: 250px;
+  width: 195px;
   height: 140px;
   background-size: cover;
   background-repeat: no-repeat;
@@ -204,7 +206,7 @@ const EachImage = styled.div`
 const EachTextContainer = styled.div`
   box-sizing: border-box;
   padding-left: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -213,8 +215,9 @@ const EachTextContainer = styled.div`
 
 const EachText1 = styled.div`
   box-sizing: border-box;
-  padding-top: 10px;
-  height: 29px;
+  width: 175px;
+  padding-top: 5px;
+  height: 24px;
   font-size: 0.8em;
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -238,7 +241,7 @@ const StyledLink = styled(Link)`
 const ArrowButton = styled.button`
   position: absolute;
   width: 50px;
-  height: 145px;
+  height: 160px;
   background-color: #e3e3e3;
   color: black;
   border: none;
