@@ -28,83 +28,6 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
   return R * c;
 };
 
-const SortBy = styled.div`
-  display: flex;
-  justify-content: end;
-  margin-top: 10px;
-  margin-right: 100px;
-
-  /* 3D effect on the buttons */
-  perspective: 230px;
-
-  button {
-    width: 80px;
-    height: 30px;
-    line-height: 30px;
-    font-weight: 600;
-    background: none;
-    border: none;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    perspective: inherit; /* Ensure that perspective is inherited from the parent */
-  }
-
-  button span {
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border: 2px solid #000;
-    text-align: center;
-    box-sizing: border-box;
-    transition: all 0.3s ease-in-out;
-    transform-style: preserve-3d;
-    font-size: 12px;
-    top: 0;
-    left: 0;
-    transform-origin: 50% 50%;
-  }
-
-  /* First span - initial rotation state */
-  button span:nth-child(1) {
-    box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9,
-      7px 7px 20px 0px #0002, 4px 4px 5px 0px #0001;
-    -webkit-transform: rotateX(90deg);
-    -moz-transform: rotateX(90deg);
-    transform: rotateX(90deg);
-    -webkit-transform-origin: 50% 50% -20px;
-    -moz-transform-origin: 50% 50% -20px;
-    transform-origin: 50% 50% -20px;
-    transform: rotateX(90deg); /* Initially rotated vertically */
-  }
-
-  /* Second span - initially in view */
-  button span:nth-child(2) {
-    -webkit-transform: rotateX(0deg);
-    -moz-transform: rotateX(0deg);
-    transform: rotateX(0deg);
-    -webkit-transform-origin: 50% 50% -20px;
-    -moz-transform-origin: 50% 50% -20px;
-    transform-origin: 50% 50% -20px;
-  }
-
-  /* Hover state */
-  button:hover span:nth-child(1) {
-    -webkit-transform: rotateX(0deg);
-    -moz-transform: rotateX(0deg);
-    transform: rotateX(0deg);
-  }
-
-  button:hover span:nth-child(2) {
-    background: #e0e5ec;
-    color: #e0e5ec;
-    -webkit-transform: rotateX(-90deg);
-    -moz-transform: rotateX(-90deg);
-    transform: rotateX(-90deg);
-  }
-`;
-
 const HomeItemBlock = styled.div`
   width: 100%;
   box-sizing: border-box;
@@ -112,7 +35,46 @@ const HomeItemBlock = styled.div`
   align-items: center;
   flex-direction: column;
   background-color: #fff;
+  margin-top: 20px;
 `;
+
+const DropdownContainer = styled.div`
+  width: 1280px;
+  display: flex;
+  justify-content: right;
+  position: relative;
+`;
+
+const Dropdown = styled.select`
+  padding: 5px 10px;
+  font-size: 1em;
+  border: none;
+  border-bottom: 1px solid black;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  width: 120px;
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 2px center;
+  &:focus {
+    outline: none;
+  }
+  & option {
+  padding: 10px;
+  background-color: black;
+  color: white;
+  }
+  & option:checked {
+    background-color: black;
+    color: white;
+  }
+`;
+
 
 const Background = styled.div`
   width: 1280px;
@@ -261,7 +223,7 @@ const ArrowButton = styled.button`
 const HomeItem = ({ dataReceivedAfterSearch }) => {
   const [sortType, setSortType] = useState("name");
   const [sortByDistance, setSortByDistance] = useState(false);
-
+  const [age, setAge] = useState('');
   // containerRef를 배열로 설정
   const containerRefs = useRef([]);
 
@@ -351,38 +313,28 @@ const HomeItem = ({ dataReceivedAfterSearch }) => {
     }
   };
 
+  const handleSortChange = (e) => {
+    const value = e.target.value;
+    if (value === "distance") {
+      setSortType(null);
+      setSortByDistance((prev) => !prev);
+    } else {
+      setSortType(value);
+      setSortByDistance(false);
+    }
+  };
+    
   return (
     <>
-      <SortBy>
-        <button
-          onClick={() => {
-            setSortType("name");
-            setSortByDistance(false);
-          }}
-        >
-          <span>CLICK</span>
-          <span data-text="자음순">자음순</span>
-        </button>
-        <button
-          onClick={() => {
-            setSortType("rating");
-            setSortByDistance(false);
-          }}
-        >
-          <span>CLICK</span>
-          <span data-text="별점순">별점순</span>
-        </button>
-        <button
-          onClick={() => {
-            setSortType(null);
-            setSortByDistance((prev) => !prev);
-          }}
-        >
-          <span>CLICK</span>
-          <span data-text="거리순">거리순</span>
-        </button>
-      </SortBy>
       <HomeItemBlock>
+        <DropdownContainer>
+          <Dropdown onChange={handleSortChange}>
+            <option value="" hidden>정렬 방식 선택</option>
+            <option value="name">자음순</option>
+            <option value="rating">별점순</option>
+            <option value="distance">거리순</option>
+          </Dropdown>
+        </DropdownContainer>
         <Background>
           {sortedStores.map((brandData, index) => (
             <BrandContainer key={brandData.brand.brandName}>

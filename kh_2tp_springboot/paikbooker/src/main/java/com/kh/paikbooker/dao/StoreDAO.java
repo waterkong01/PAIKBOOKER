@@ -1,9 +1,6 @@
 package com.kh.paikbooker.dao;
 
-import com.kh.paikbooker.vo.MenuVO;
-import com.kh.paikbooker.vo.ReservationVO;
-import com.kh.paikbooker.vo.ReviewVO;
-import com.kh.paikbooker.vo.StoreVO;
+import com.kh.paikbooker.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
