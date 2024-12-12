@@ -37,6 +37,25 @@ const StoreDetailMap = () => {
     const map = new kakao.maps.Map(mapContainer, mapOptions);
     const geocoder = new kakao.maps.services.Geocoder();
 
+    // 지도 생성 후에 z-index 설정
+    setTimeout(() => {
+      const mapWrapper = mapContainer.querySelector(".kakao-map");
+      if (mapWrapper) {
+        mapWrapper.style.zIndex = "-1"; // 지도 레이어의 z-index를 낮게 설정
+      }
+
+      // 마커와 지도 레이어의 z-index를 각각 수정
+      const markers = mapContainer.querySelectorAll(".kakao-marker");
+      markers.forEach((marker) => {
+        marker.style.zIndex = "1"; // 마커의 z-index를 높게 설정
+      });
+
+      const mapOverlay = mapContainer.querySelector(".kakao-map-overlay");
+      if (mapOverlay) {
+        mapOverlay.style.zIndex = "999"; // 오버레이의 z-index를 높게 설정
+      }
+    }, 100); // 지도 렌더링 후 0.1초 뒤에 z-index 수정
+
     geocoder.addressSearch(store.storeAddr, (result, status) => {
       // 정상적으로 검색이 완료됐으면
       if (status === kakao.maps.services.Status.OK) {
@@ -66,7 +85,11 @@ const StoreDetailMap = () => {
     <>
       <div
         id="map"
-        style={{ width: "44vw", height: "24vw", marginTop: "20px" }}
+        style={{
+          width: "50vw",
+          height: "50vw",
+          zIndex: 0,
+        }}
       ></div>
     </>
   );

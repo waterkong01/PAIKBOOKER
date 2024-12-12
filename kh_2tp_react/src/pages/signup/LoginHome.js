@@ -2,7 +2,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const LoginHome = ({ setShowModal }) => {
+const LoginHome = () => {
   const navigate = useNavigate();
   const loggedInUserId = localStorage.getItem("loggedInUserId");
   
@@ -14,7 +14,6 @@ const LoginHome = ({ setShowModal }) => {
   };
 
   const handleSignupClick = () => {
-    // setShowModal(true); 
     navigate("/Signup"); 
   };
   return (

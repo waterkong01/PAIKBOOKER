@@ -1,64 +1,85 @@
-// Modal.js
-import React from "react";
+import React, { useRef } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 
-// 모달 컴포넌트
-const Modal = ({ show, onClose, children }) => {
-  if (!show) return null; // show가 false면 아무것도 렌더링 하지 않음
-
-  return (
-    <ModalOverlay onClick={onClose}>
-      <ModalContent onClick={(e) => e.stopPropagation()}>
-        {" "}
-        {/* 클릭 시 모달 내부 클릭은 무시 */}
-        <CloseButton onClick={onClose}>×</CloseButton>
-        {children}
-      </ModalContent>
-    </ModalOverlay>
-  );
-};
-
-// 모달 오버레이 (배경)
-const ModalOverlay = styled.div`
+// 오버레이 스타일
+const Overlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); // 반투명 배경
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; // 모달이 다른 요소들 위에 보이도록
+  z-index: 10000;
 `;
 
-// 모달 콘텐츠 (내용 부분)
-const ModalContent = styled.div`
-  background-color: white;
-  padding: 40px; // 패딩을 좀 더 크게 설정하여 여백을 추가
+// 모달 박스 스타일
+const ModalBox = styled.div`
+  background: white;
+  margin-top: 15vw;
+  padding: 40px 80px;
   border-radius: 8px;
-  width: 600px; // 너비를 600px로 늘림
-  max-width: 90%; // 화면이 작아지면 최대 90%로 크기 조정
-  max-height: 80%; // 화면 크기에 비례하여 최대 높이 조정
-  overflow-y: auto; // 내용이 많으면 스크롤 추가
-  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  text-align: center;
+`;
 
-  @media (max-width: 768px) {
-    width: 90%; // 작은 화면에서는 90%로 크기 설정
-    max-width: 500px; // 더 작은 크기 조정
+const ModalMessage = styled.div`
+  font-size: 1.2em;
+`
+// 닫기 버튼 스타일
+const CloseButton = styled.button`
+  background-color: rgba(0, 0, 0, .5);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 8px 16px;
+  cursor: pointer;
+  margin-top: 20px;
+  font-size: 0.8em;
+
+  &:hover {
+    background-color: black;
   }
 `;
 
-// 닫기 버튼
-const CloseButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 30px;
-  cursor: pointer;
-  color: #333;
-`;
+const Modal = ({ isOpen, message, onClose }) => {
+  const modalRef = useRef();
+
+    // 모달 외부를 클릭했을 때 모달을 닫는 함수
+    useEffect(() => {
+      const handleClickOutside = (e) => {
+        if (modalRef.current && !modalRef.current.contains(e.target)) {
+          onClose(); // 외부 클릭 시 모달 닫기
+        }
+      };
+  
+      if (isOpen) {
+        // 모달이 열려있을 때만 이벤트 리스너 추가
+        document.addEventListener("mousedown", handleClickOutside);
+      } else {
+        // 모달이 닫히면 이벤트 리스너 제거
+        document.removeEventListener("mousedown", handleClickOutside);
+      }
+  
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside); // 정리
+      };
+    }, [isOpen, onClose]);
+  
+    if (!isOpen) return null;
+
+  return (
+    <Overlay>
+      <ModalBox ref={modalRef}>
+        <ModalMessage dangerouslySetInnerHTML={{ __html: message }}
+        />
+        <CloseButton onClick={onClose}>닫기</CloseButton>
+      </ModalBox>
+    </Overlay>
+  );
+};
 
 export default Modal;

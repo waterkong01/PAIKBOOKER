@@ -11,6 +11,12 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     
   }
+
+  b, strong {
+  font-weight: bold;
+}
+
 `;
+
 
 export default GlobalStyle;

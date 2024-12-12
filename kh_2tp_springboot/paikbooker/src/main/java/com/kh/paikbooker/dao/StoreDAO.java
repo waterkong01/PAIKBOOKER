@@ -15,7 +15,6 @@ public class StoreDAO {
     private JdbcTemplate jdbcTemplate;
 
     // 예약) query
-    private static final String SELECT_ALL_STORES = "SELECT * FROM STORE_TB ORDER BY STORE_NAME ASC";
     private static final String SELECT_STORE_BY_STORE_NO = "SELECT * FROM STORE_TB WHERE STORE_NO = ?";
     private static final String SELECT_RESERVED_TIMES = "SELECT R_TIME FROM RESERVATION_TB WHERE STORE_NO = ?";
     private static final String REFER_STOREINFO = "SELECT STORE_NO, STORE_NAME, STORE_PHONE, BRAND_NAME, BRAND_LOGO1, BRAND_LOGO2, BRAND_MARKER FROM STORE_TB WHERE STORE_NO = ?";
@@ -30,11 +29,6 @@ public class StoreDAO {
     private static final String SELECT_STORE_HOURS = "SELECT BRAND_OPEN, BRAND_CLOSE FROM STORE_TB WHERE STORE_NO = ?";
     private static final String SELECT_MENU_IMG = "SELECT M.MENU_IMG, M.MENU_NAME FROM STORE_TB S JOIN MENU_TB M ON S.BRAND_NAME = M.BRAND_NAME WHERE S.STORE_NO = ?";
     private static final String SELECT_RATING_RESULT = "SELECT RV_PRICE, RV_TASTE, RV_VIBE, RV_KIND FROM REVIEW_TB R JOIN STORE_TB S ON R.STORE_NAME = S.STORE_NAME WHERE S.STORE_NO = ?";
-
-    // 조회) 전체 매장 조회
-    public List<StoreVO> getAllStores() {
-        return jdbcTemplate.query(SELECT_ALL_STORES, new BeanPropertyRowMapper<>(StoreVO.class));
-    }
 
     // 조회) 특정 매장 조회
     public StoreVO getStoreByStoreNo(int storeNo) {

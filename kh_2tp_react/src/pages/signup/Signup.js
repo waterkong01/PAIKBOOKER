@@ -6,14 +6,12 @@ import { Container, Items } from "../../components/SignupComponent";
 import AxiosApi from "../../api/AxiosApi";
 import { storage } from "../../api/Firebase";
 import styled from "styled-components";
-import Modal from "../../components/Modal";
 
 const DEFAULT_PROFILE_URL =
   "https://firebasestorage.googleapis.com/v0/b/project-mini-db956.firebasestorage.app/o/default_profile.png?alt=media&token=6ccfd06d-4d99-4c7b-b603-1baf0517116b";
 
 const Signup = () => {
 
-  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   // States for input values

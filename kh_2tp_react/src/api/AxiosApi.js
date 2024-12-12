@@ -99,12 +99,6 @@ const AxiosApi = {
     }
   },
 
-  // 매장) 전체 매장 조회 (StoreList)
-  getStoreList: async () => {
-    const response = await axios.get(PAIKBOOKER_DOMAIN + `/stores`);
-    return response.data;
-  },
-
   // 매장) 특정 매장 조회 (StoreDetail, StoreDetailReservation)
   getEachStore: async (storeNo) => {
     const response = await axios.get(PAIKBOOKER_DOMAIN + `/stores/${storeNo}`);

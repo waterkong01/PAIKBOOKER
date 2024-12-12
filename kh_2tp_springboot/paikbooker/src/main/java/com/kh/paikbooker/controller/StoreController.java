@@ -27,12 +27,6 @@ public class StoreController {
     @Autowired
     private StoreDAO storeDAO;
 
-    // 조회) 전체 매장 조회
-    @GetMapping
-    public List<StoreVO> getAllStores() {
-        return storeDAO.getAllStores();
-    }
-
     // 조회) 특정 매장 조회
     @GetMapping("/{storeNo}")
     public StoreVO getStoreByStoreNo(@PathVariable int storeNo) {

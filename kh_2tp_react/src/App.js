@@ -1,6 +1,5 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import StoreList from "./pages/stores/StoreList";
 import StoreDetail from "./pages/stores/StoreDetail";
 import Layout from "./styles/Layout";
 import GlobalStyle from "./styles/GlobalStyle";
@@ -29,7 +28,6 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Layout />}>
-              <Route path="/stores" element={<StoreList />} />
               <Route path="/stores/:storeNo" element={<StoreDetail />} />
               <Route path="/stores/categories" element={<StoreSearch />} />
               <Route path="/reservation" element={<Reservation />} />

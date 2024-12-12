@@ -2,55 +2,69 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import AxiosApi from "../../api/AxiosApi";
+import Modal from "../../components/Modal";
 
 const StoreReservationContainer = styled.div`
   box-sizing: border-box;
-  width: 50vw;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const StoreReservationTimeContainer = styled.div`
   box-sizing: border-box;
-  width: 100%;
-  margin-top: 0;
+  width: 95%;
+  margin-left: 1em;
+  background-color: #fff;
+  border-radius: 1em;
+  padding: 2em;
+  box-shadow: 0 0.2em 0.5em 0.2em rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const StoreReservationMenuTitle = styled.div`
   box-sizing: border-box;
   width: 100%;
-  height: 40px;
-  margin-top: 0;
-  font-size: 1.5em;
-  font-weight: 500;
-  font-family: "Noto Sans KR", sans-serif;
+  height: auto;
+  font-size: clamp(16px, 1.5vw, 20px);
+  font-weight: 600;
   position: relative;
 `;
 
 // 시간 버튼 컨테이너
 const TimeButtonContainer = styled.div`
   display: flex;
-  margin-top: 1vh;
-  width: 90%;
+  margin-top: 2%;
+  width: 100%;
   flex-wrap: wrap; /* 버튼이 많을 경우 줄 바꿈 처리 */
   justify-content: left;
-  row-gap: 10px;
-  column-gap: 10px;
+  row-gap: 1vw;
+  column-gap: 2%;
 `;
 
 const TimeButton = styled.button`
-  width: calc((100% - (5 - 1) * 10px) / 5); /* 기본 5개 배치 */
-  height: 4vh;
-
-  padding: 10px 20px;
+  width: 23.5%;
+  aspect-ratio: 3; /* 3:1 비율 */
   border: none;
-  border-radius: 30px;
-  font-size: 0.8em;
+  border-radius: 2em;
+  font-size: clamp(12px, 1.2vw, 15px);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   &.available {
-    background-color: black;
-    color: white;
+    background-color: white;
+    border: 1px solid black;
+    color: black;
+    &:hover {
+      background-color: black;
+      color: white;
+      border: 1px solid black;
+    }
   }
   &.reserved {
     background-color: #d8d8d8;
@@ -58,7 +72,7 @@ const TimeButton = styled.button`
     cursor: not-allowed;
   }
   &.selected {
-    background-color: green;
+    background-color: black;
     color: white;
   }
 `;
@@ -66,58 +80,77 @@ const TimeButton = styled.button`
 const StoreReservationPersonAndConfirmContainer = styled.div`
   width: 100%;
   display: flex;
+  margin-top: 5%;
+  margin-bottom: 5%;
 `;
 
 const StoreReservationSubMenuTitle = styled.div`
   box-sizing: border-box;
-  width: 50%;
-  height: 40px;
-  margin-top: 2vh;
-  font-size: 1.5em;
-  font-weight: 500;
-  font-family: "Noto Sans KR", sans-serif;
+  width: 95%;
+  height: auto;
+  font-size: clamp(16px, 1.5vw, 20px);
+  font-weight: 600;
   position: relative;
 `;
 
 const StoreReservationPersonContainer = styled.div`
   box-sizing: border-box;
   width: 45%;
-  margin-top: 2vh;
-  margin-bottom: 5vh;
+  margin-left: 1.5em;
+  background-color: white;
+  border-radius: 1em;
+  padding: 2em;
+  box-shadow: 0 0.2em 0.5em 0.2em rgba(0, 0, 0, 0.15);
+  margin-right: 1em;
+  justify-content: center;
+  align-items: center;
 `;
 
 // 인원 버튼 컨테이너
 const PersonButtonContainer = styled.div`
   display: flex;
-  margin-top: 1vh;
+  margin-top: 7%;
+  width: 100%;
   flex-wrap: wrap; /* 버튼이 많을 경우 줄 바꿈 처리 */
-  gap: 5px; /* 버튼 간격 */
+  row-gap: 0.8vw; /* 버튼 간격 */
+  column-gap: 4%;
+  justify-content: left;
 `;
 
 // 인원 버튼 스타일
 const PersonButton = styled.button`
-  margin: 5px;
-  width: 40px;
-  height: 40px;
-  border: none;
-  border-radius: 50px;
-  font-size: 0.8em;
+  width: 22%; /* 기본 5개 배치 */
+  aspect-ratio: 1; /* 1:1 비율 */
+  border: 1px solid black;
+  border-radius: 2em;
+  font-size: 0.9vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  background-color: black;
-  color: white;
+  background-color: white;
+  color: black;
+  &:hover {
+      background-color: black;
+      color:white;
+    }
   &.selected {
-    background-color: green;
+    background-color: black;
     color: white;
   }
 `;
 
 const StoreReservationConfirmContainer = styled.div`
   box-sizing: border-box;
-  width: 60%;
-  margin-top: 2vh;
-  margin-bottom: 5vh;
-  display: flex;
-  flex-direction: column;
+  width: 45%;
+  margin-right: 1em;
+  background-color: white;
+  border-radius: 1.5em;
+  padding: 2em;
+  box-shadow: 0 0.2em 0.5em 0.2em rgba(0, 0, 0, 0.15);
+  margin-left: 1em;
+  justify-content: center;
+  align-items: center;
 `;
 
 const StoreReservationConfirmList = styled.div`
@@ -130,41 +163,38 @@ const StoreReservationConfirmList = styled.div`
 
 const StoreReservationConfirmIndex = styled.div`
   box-sizing: border-box;
-  width: 30%;
-  line-height: 2.6em;
+  width: 100%;
+  line-height: 1.5em;
   position: relative;
   font-weight: bold;
 `;
 
 const StoreReservationConfirmContents = styled.div`
   box-sizing: border-box;
-  width: 70%;
-  line-height: 2.6em;
+  width: 100%;
+  line-height: 1.5em;
   position: relative;
 `;
 
 const StoreReservationConfirmHr = styled.hr`
   box-sizing: border-box;
-  width: 85%;
+  width: 100%;
   margin-top: 0.3vh;
   margin-bottom: 0.3vh;
 `;
 
 // 예약 버튼 스타일
 const SubmitButton = styled.button`
-  margin: 5px;
-  width: 85%;
-  height: 40px;
+  margin-top: 1em;
+  width: 100%;
+  height: auto;
   border: none;
-  border-radius: 50px;
-  font-size: 0.8em;
+  padding: 0.5em;
+  border-radius: 1em;
+  font-size: 1em;
   cursor: pointer;
   background-color: black;
   color: white;
-  &.selected {
-    background-color: green;
-    color: white;
-  }
 `;
 
 const StoreDetailReservation = () => {
@@ -174,6 +204,8 @@ const StoreDetailReservation = () => {
   const [selectedTime, setSelectedTime] = useState("");
   const [selectedPerson, setSelectedPerson] = useState("");
   const [storeName, setStoreName] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   // 스토어 이름 조회 (alert용)
   useEffect(() => {
@@ -212,6 +244,7 @@ const StoreDetailReservation = () => {
 
   const filteredAvailableTimes = filterTimes(availableTimes);
   const filteredReservedTimes = filterTimes(reservedTimes);
+
   const combinedTimes = [...reservedTimes, ...availableTimes].sort(
     (a, b) => a - b
   );
@@ -224,14 +257,10 @@ const StoreDetailReservation = () => {
     setSelectedPerson(person);
   };
 
-  // 예약 후 해당 시간을 ReservedTimes에 추가
-  const disableTime = (time) => {
-    setReservedTimes((prevReservedTimes) => [...prevReservedTimes, time]); // 예약된 시간 추가
-  };
-
   const handleSubmit = async () => {
     if (!selectedTime || !selectedPerson) {
-      alert("시간과 인원을 모두 선택해주세요.");
+      setModalMessage("시간과 인원을 모두 선택해주세요.");
+      setIsModalOpen(true);
       return;
     }
     const reservationData = {
@@ -243,17 +272,24 @@ const StoreDetailReservation = () => {
     };
     try {
       await AxiosApi.createReservation(reservationData);
-      alert(
-        `${reservationData.userId}님,\n${storeName} ${reservationData.rTime}:00 ${reservationData.rPersonCnt}명\n예약이 성공적으로 완료되었습니다!`
-      );
 
       setSelectedTime(null);
       setSelectedPerson(null);
-      disableTime(selectedTime);
+
+      // 예약 성공 시 모달 메시지 설정
+      setModalMessage(
+        `<span style="font-size: 1.1em;"><strong style="font-size: 1.1em;">${reservationData.userId}</strong> 님</span><br />${storeName} ${reservationData.rTime}:00 ${reservationData.rPersonCnt}명<br />예약이 성공적으로 완료되었습니다!`
+      );
+      setIsModalOpen(true); // 모달 열기
     } catch (error) {
-      console.error("예약 요청 오류: ", error);
-      alert("예약에 실패했습니다. 다시 시도해주세요.");
+      setModalMessage("예약에 실패했습니다.<br />다시 시도해주세요.");
+      setIsModalOpen(true);
     }
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false); // 모달 닫기
+    window.location.reload(); // 페이지 리로드
   };
 
   return (
@@ -309,7 +345,7 @@ const StoreDetailReservation = () => {
             예약 내용 확인
           </StoreReservationSubMenuTitle>
           <StoreReservationConfirmList>
-            <StoreReservationConfirmIndex>
+            <StoreReservationConfirmIndex style={{ marginTop: "2em" }}>
               예약지점
             </StoreReservationConfirmIndex>
             <StoreReservationConfirmContents>
@@ -329,13 +365,16 @@ const StoreDetailReservation = () => {
             </StoreReservationConfirmContents>
             <StoreReservationConfirmHr />
           </StoreReservationConfirmList>
-          <SubmitButton
-            className="available"
-            onClick={handleSubmit}
-            disabled={!selectedTime || !selectedPerson}
-          >
+          <SubmitButton className="available" onClick={handleSubmit}>
             예약하기
           </SubmitButton>
+
+          {/* 모달 표시 */}
+          <Modal
+            isOpen={isModalOpen}
+            message={modalMessage}
+            onClose={closeModal}
+          />
         </StoreReservationConfirmContainer>
       </StoreReservationPersonAndConfirmContainer>
     </StoreReservationContainer>

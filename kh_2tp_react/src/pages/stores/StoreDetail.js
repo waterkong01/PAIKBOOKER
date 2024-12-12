@@ -8,30 +8,58 @@ import styled from "styled-components";
 import { PhoneFilled } from "@ant-design/icons";
 import Rating from "@mui/material/Rating";
 
+const Container = styled.div`
+  margin-top: 2%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  overflow-x: hidden;
+  @media (max-width: 768px) {
+    width: 100%;
+    align-items: center;
+    order: 1;
+  }
+`;
+
 const StoreName = styled.div`
   box-sizing: border-box;
-  margin-top: 5vh;
-  width: 90vw;
-  height: 40px;
-  left: 3vw;
-  margin-left: 20px;
-  font-size: 1.8em;
-  font-weight: 500;
+  width: 100%;
+  max-width: 1280px;
+  height: auto;
+  margin-left: 5%;
+  font-size: clamp(20px, 2vw, 24px);
+  font-weight: 600;
   font-family: "Noto Sans KR", sans-serif;
   display: flex;
   position: relative;
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-right: 1%;
+    align-items: center;
+    order: 2;
+  }
 `;
 
-const Container = styled.div`
-  box-sizing: border-box;
+const StoreDetailContainer = styled.div`
+  width: 100%;
+  max-width: 1280px;
+  margin-top: 1%;
   display: flex;
   align-items: flex-start;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const StoreDetailLeft = styled.div`
   box-sizing: border-box;
-  left: 0;
-  width: 50vw;
+  margin-left: 2%;
+  margin-right: 1%;
+  width: 50%;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -40,179 +68,175 @@ const StoreDetailLeft = styled.div`
   position: relative;
   overflow-x: hidden;
   overflow-y: auto;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-right: 1%;
+    align-items: center;
+  }
 `;
+
 
 const BrandImgContainer = styled.div`
   box-sizing: border-box;
-  margin-top: 2vh;
-  left: 3vw;
-  width: 44vw;
-  height: 24vw;
-  aspect-ratio: 2 / 1.2;
+  width: 100%;
+  max-width: 640px;
+  margin-top: 1%;
+  aspect-ratio: 1.5;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  border-radius: 50px;
+  border-radius: 1em;
   background-color: #f0f0f0;
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 768px;
+  }
 `;
 
 const BrandImage = styled.img`
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  height: 100%;
   display: block;
-  width: 100%;
   object-fit: contain;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const StoreInfoContainer = styled.div`
   box-sizing: border-box;
-  margin-top: 2vh;
-  left: 3vw;
-  width: 44vw;
-  height: 110px;
+  margin-top: 1%;
+  width: 100%;
+  height: auto;
   position: relative;
   display: flex;
   justify-content: space-between;
-  flex-direction: column;
-  gap: 10px;
+  gap: 1%;
   flex-wrap: wrap;
 `;
 
 const StoreAddrAndPhoneContainer = styled.div`
   box-sizing: border-box;
   position: relative;
-  top: 0;
-  left: 1vw;
-  width: 26vw;
+  width: 70%;
   display: flex;
   align-content: left;
   flex-direction: column;
 `;
 const StoreAddr = styled.div`
   box-sizing: border-box;
-  margin-top: 5px;
-  font-size: 1.4em;
-  font-weight: 400;
+  font-size: clamp(16px, 1.5vw, 20px);
   text-align: left;
+  margin-top: 1%;
 `;
 
 const StoreHourContainer = styled.div`
   box-sizing: border-box;
-  margin-top: 5px;
-  font-size: 1.2em;
-  font-weight: 400;
+  font-size: clamp(14px, 1.3vw, 17px);
   text-align: left;
-  position: relative;
+  margin-top: 0.8%;
 `;
 
 const StorePhoneContainer = styled.div`
   box-sizing: border-box;
-  margin-top: 15px;
+  margin-top: 4%;
   display: flex;
-  gap: 10px;
-  position: relative;
+  gap: 1.5%;
 `;
 
 const StorePhone = styled.div`
   box-sizing: border-box;
-  font-size: 1.4em;
-  font-weight: 500;
+  font-size: clamp(16px, 1.5vw, 20px);
   text-align: left;
   position: relative;
 `;
 
 const StorePhoneImg = styled.div`
   box-sizing: border-box;
-  margin-left: 0;
   display: flex;
   padding-top: 5px;
-  width: 30px;
-  height: 30px;
-  font-size: 2em;
+  transform: scale(1.2);
   position: relative;
 `;
 
 const StoreRatingContainer = styled.div`
   box-sizing: border-box;
-  top: 0;
-  left: 3vw;
   position: relative;
-  width: 18vw;
+  width: 29%;
   display: flex;
+  align-content: left;
 `;
 
 const StoreRatingText = styled.div`
   box-sizing: border-box;
-  width: 30%;
-  font-size: 1.15em;
-  font-weight: 400;
+  width: 45%;
+  font-size: clamp(12px, 1.2vw, 15px);
   position: relative;
-  line-height: 1.5em;
+  line-height: 170%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
-
-
 
 const StoreRatingStars = styled.div`
   box-sizing: border-box;
-  width: 70%;
+  width: 55%;
   position: relative;
   display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+`;
+
+const StoreLeftMenuTitle = styled.div`
+  box-sizing: border-box;
+  margin-top: 10%;
+  width: 100%;
+  height: auto;
+  font-size: clamp(16px, 1.5vw, 20px);
+  font-weight: 600;
+  position: relative;
 `;
 
 const BrandMapContainer = styled.div`
   box-sizing: border-box;
-  margin-top: 1vh;
-  left: 3vw;
-  width: 44vw;
-  height: 24vw;
-  aspect-ratio: 2 / 1.2;
+  width: 100%;
+  max-width: 640px;
+  margin-top: 2%;
+  aspect-ratio: 1.5;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  border-radius: 50px;
+  border-radius: 1em;
   background-color: #f0f0f0;
 `;
 
-const StoreLeftMenuTitle = styled.div`
-  box-sizing: border-box;
-  margin-top: 5vh;
-  width: 80%;
-  height: 40px;
-  left: 3vw;
-  margin-left: 10px;
-  font-size: 1.5em;
-  font-weight: 500;
-  font-family: "Noto Sans KR", sans-serif;
-  position: relative;
-`;
-
 const BrandMenuContainer = styled.div`
-  margin-top: 1vh;
   box-sizing: border-box;
-  left: 3vw;
-  width: 44vw;
-  height: 24vw;
-  aspect-ratio: 2 / 1.2;
+  width: 100%;
+  max-width: 640px;
+  margin-top: 2%;
+  aspect-ratio: 1.5;
   position: relative;
   display: flex;
   justify-content: left;
-  align-items: top;
-  overflow: hidden;
-  border-radius: 10px;
-  gap: 10px;
+  gap: 4%;
   overflow-x: auto;
+  overflow-y: hidden;
 `;
 
 const StoreDetailRight = styled.div`
   box-sizing: border-box;
-  margin-top: 0;
-  right: 0;
-  width: 50vw;
+  margin-left: 1%;
+  margin-right: 2%;
+  width: 50%;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -220,15 +244,15 @@ const StoreDetailRight = styled.div`
   align-items: left;
   position: sticky;
   top: 0;
-  overflow-y: auto;
   overflow-x: hidden;
+  overflow-y: auto;
 `;
 
 const StoreReservationContainer = styled.div`
   box-sizing: border-box;
-  margin-top: 2vh;
-  width: 50vw;
-  margin-left: 10px;
+  width: 100%;
+  max-width: 640px;
+  margin-top: 1%;
   position: relative;
 `;
 
@@ -304,112 +328,138 @@ const StoreDetail = () => {
 
   return (
     <>
-      <StoreName>{store.storeName}</StoreName>
       <Container>
-        <StoreDetailLeft>
-          <BrandImgContainer>
-            <BrandImage src={store.brandImg2} />
-          </BrandImgContainer>
-          <StoreInfoContainer>
-            <StoreAddrAndPhoneContainer>
-              <StoreAddr>{store.storeAddr}</StoreAddr>
-              <StoreHourContainer>{isOpen}</StoreHourContainer>
-              <StorePhoneContainer>
-                <StorePhone>{store.storePhone}</StorePhone>
-                <StorePhoneImg>
-                  <PhoneFilled style={{ fontSize: "20px" }} />
-                </StorePhoneImg>
-              </StorePhoneContainer>
-            </StoreAddrAndPhoneContainer>
-            <StoreRatingContainer>
-              <StoreRatingText>
-                가격
-                <br />
-                맛
-                <br />
-                분위기
-                <br />
-                친절함
-                <br />
-              </StoreRatingText>
-              <StoreRatingStars>
-                <Rating
-                  name="half-rating-read"
-                  defaultValue={avgPrice}
-                  precision={0.5}
-                  readOnly
-                  sx={{
-                    "& .MuiRating-icon": {
-                      fontSize: "1.45em", // 채워진 별 크기
-                    },
-                    "& .MuiRating-iconEmpty": {
-                      fontSize: "1.45em", // 빈 별 크기
-                    },
-                  }}
-                />
-                <br />
-                <Rating
-                  name="half-rating-read"
-                  defaultValue={avgTaste}
-                  precision={0.5}
-                  readOnly
-                  sx={{
-                    "& .MuiRating-icon": {
-                      fontSize: "1.45em", // 채워진 별 크기
-                    },
-                    "& .MuiRating-iconEmpty": {
-                      fontSize: "1.45em", // 빈 별 크기
-                    },
-                  }}
-                />
-                <br />
-                <Rating
-                  name="half-rating-read"
-                  defaultValue={avgVibe}
-                  precision={0.5}
-                  readOnly                  sx={{
-                    "& .MuiRating-icon": {
-                      fontSize: "1.45em", // 채워진 별 크기
-                    },
-                    "& .MuiRating-iconEmpty": {
-                      fontSize: "1.45em", // 빈 별 크기
-                    },
-                  }}
-                />
-                <br />
-                <Rating
-                  name="half-rating-read"
-                  defaultValue={avgKind}
-                  precision={0.5}
-                  readOnly
-                  sx={{
-                    "& .MuiRating-icon": {
-                      fontSize: "1.45em", // 채워진 별 크기
-                    },
-                    "& .MuiRating-iconEmpty": {
-                      fontSize: "1.45em", // 빈 별 크기
-                    },
-                  }}
-                />
-                <br />
-              </StoreRatingStars>
-            </StoreRatingContainer>
-          </StoreInfoContainer>
-          <StoreLeftMenuTitle>{store.storeName} 지도</StoreLeftMenuTitle>
-          <BrandMapContainer>
-            <StoreDetailMap />
-          </BrandMapContainer>
-          <StoreLeftMenuTitle>{store.storeName} 메뉴</StoreLeftMenuTitle>
-          <BrandMenuContainer>
-            <StoreDetailMenu />
-          </BrandMenuContainer>
-        </StoreDetailLeft>
+        <StoreName>{store.storeName}</StoreName>
+        <StoreDetailContainer>
+          <StoreDetailLeft>
+            <BrandImgContainer>
+              <BrandImage src={store.brandImg2} />
+            </BrandImgContainer>
+            <StoreInfoContainer>
+              <StoreAddrAndPhoneContainer>
+                <StoreAddr>{store.storeAddr}</StoreAddr>
+                <StoreHourContainer>{isOpen}</StoreHourContainer>
+                <StorePhoneContainer>
+                  <StorePhone>{store.storePhone}</StorePhone>
+                  <StorePhoneImg>
+                    <PhoneFilled />
+                  </StorePhoneImg>
+                </StorePhoneContainer>
+              </StoreAddrAndPhoneContainer>
+              <StoreRatingContainer>
+                <StoreRatingText>
+                  가격
+                  <br />
+                  맛
+                  <br />
+                  분위기
+                  <br />
+                  친절함
+                  <br />
+                </StoreRatingText>
+                <StoreRatingStars>
+                  <Rating
+                    name="half-rating-read"
+                    defaultValue={avgPrice}
+                    precision={0.5}
+                    readOnly
+                    sx={{
+                      "& .MuiRating-icon": {
+                        fontSize: "clamp(12px, 1.2vw, 15px)", // 채워진 별 크기
+                        margin: 0,
+                        padding: 0,
+                        lineHeight: "175%",
+                      },
+                      "& .MuiRating-iconEmpty": {
+                        fontSize: "clamp(12px, 1.2vw, 15px)", // 빈 별 크기
+                        margin: 0,
+                        padding: 0,
+                        lineHeight: "175%",
+                      },
+                    }}
+                  />
 
-        <StoreDetailRight>
-          <StoreReservationContainer>
-            <StoreDetailReservation />
-          </StoreReservationContainer>
-        </StoreDetailRight>
+                  <Rating
+                    name="half-rating-read"
+                    defaultValue={avgTaste}
+                    precision={0.5}
+                    readOnly
+                    sx={{
+                      "& .MuiRating-icon": {
+                        fontSize: "clamp(12px, 1.2vw, 15px)", // 채워진 별 크기
+                        margin: 0,
+                        padding: 0,
+                        lineHeight: "175%",
+                      },
+                      "& .MuiRating-iconEmpty": {
+                        fontSize: "clamp(12px, 1.2vw, 15px)", // 빈 별 크기
+                        margin: 0,
+                        padding: 0,
+                        lineHeight: "175%",
+                      },
+                    }}
+                  />
+
+                  <Rating
+                    name="half-rating-read"
+                    defaultValue={avgVibe}
+                    precision={0.5}
+                    readOnly
+                    sx={{
+                      "& .MuiRating-icon": {
+                        fontSize: "clamp(12px, 1.2vw, 15px)", // 채워진 별 크기
+                        margin: 0,
+                        padding: 0,
+                        lineHeight: "175%",
+                      },
+                      "& .MuiRating-iconEmpty": {
+                        fontSize: "clamp(12px, 1.2vw, 15px)", // 빈 별 크기
+                        margin: 0,
+                        padding: 0,
+                        lineHeight: "175%",
+                      },
+                    }}
+                  />
+
+                  <Rating
+                    name="half-rating-read"
+                    defaultValue={avgKind}
+                    precision={0.5}
+                    readOnly
+                    sx={{
+                      "& .MuiRating-icon": {
+                        fontSize: "clamp(12px, 1.2vw, 15px)", // 채워진 별 크기
+                        margin: 0,
+                        padding: 0,
+                        lineHeight: "175%",
+                      },
+                      "& .MuiRating-iconEmpty": {
+                        fontSize: "clamp(12px, 1.2vw, 15px)", // 빈 별 크기
+                        margin: 0,
+                        padding: 0,
+                        lineHeight: "175%",
+                      },
+                    }}
+                  />
+                </StoreRatingStars>
+              </StoreRatingContainer>
+            </StoreInfoContainer>
+            <StoreLeftMenuTitle>{store.storeName} 지도</StoreLeftMenuTitle>
+            <BrandMapContainer>
+              <StoreDetailMap />
+            </BrandMapContainer>
+            <StoreLeftMenuTitle>{store.storeName} 메뉴</StoreLeftMenuTitle>
+            <BrandMenuContainer>
+              <StoreDetailMenu />
+            </BrandMenuContainer>
+          </StoreDetailLeft>
+
+          <StoreDetailRight>
+            <StoreReservationContainer>
+              <StoreDetailReservation />
+            </StoreReservationContainer>
+          </StoreDetailRight>
+        </StoreDetailContainer>
       </Container>
     </>
   );

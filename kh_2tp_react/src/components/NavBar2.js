@@ -11,7 +11,7 @@ const Background = styled.div`
   justify-content: center;
   align-items: center;
   position: fixed;
-  z-index: 1000; /* 다른 요소들 위에 표시되도록 설정 */
+  z-index: 100; /* 다른 요소들 위에 표시되도록 설정 */
   background-color: #fff; /* 배경 색 */
 `;
 
