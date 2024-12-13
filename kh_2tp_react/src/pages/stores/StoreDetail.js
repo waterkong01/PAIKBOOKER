@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom";
 import AxiosApi from "../../api/AxiosApi";
 import { PhoneFilled } from "@ant-design/icons";
 import Rating from "@mui/material/Rating";
-import Modal from "../../components/Modal";
-import MobileReservationModal1 from "../../components/MobileReservationModal1";
+import PcBasicModal from "../../components/PcBasicModal";
 import * as Detail from "../../styles/StoreDetailStyle";
+import MobileReservationModal1 from "../../components/MobileReservationModal1";
 
 const { kakao } = window;
 
@@ -20,6 +20,8 @@ const StoreDetail = () => {
   const [selectedPerson, setSelectedPerson] = useState("");
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [confirmModalMessage, setConfirmModalMessage] = useState("");
+  const [isReservationModalOpen, setIsReservationModalOpen] = useState(false);
+  const [reservationModalContent, setReservationModalContent] = useState(null);
 
   const menuScrollContainerRef = useRef(null);
 
@@ -139,6 +141,13 @@ const StoreDetail = () => {
     getTimes();
   }, [storeNo]);
 
+  // useEffect를 사용하여 상태 값이 변경되었을 때 제대로 처리될 수 있도록 함
+  useEffect(() => {
+    if (isReservationModalOpen) {
+      console.log('모달 내용:', reservationModalContent);
+    }
+  }, [isReservationModalOpen, reservationModalContent]);
+
   // 정보) 리뷰 평점 계산
   const calculateAverageRating = (ratings) => {
     if (!ratings || ratings.length === 0) return 0;
@@ -254,6 +263,15 @@ const StoreDetail = () => {
   const closeConfirmModal = () => {
     setIsConfirmModalOpen(false); // 모달 닫기
     window.location.reload(); // 페이지 리로드
+  };
+
+  const openReservationModal = () => {
+    setIsReservationModalOpen(true);
+  };
+
+  const closeReservationModal = () => {
+    setIsReservationModalOpen(false);
+    setReservationModalContent(null); // 모달 닫기 시 내용 초기화
   };
 
   return (
@@ -419,11 +437,6 @@ const StoreDetail = () => {
             </Detail.BrandMenuContainer>
           </Detail.StoreDetailLeft>
 
-          <Detail.MobileReservationButton>
-            예약하기
-          </Detail.MobileReservationButton>
-
-
           <Detail.StoreDetailRight>
             <Detail.StoreReservationTitle>예약</Detail.StoreReservationTitle>
             <Detail.StoreReservationContainer>
@@ -516,7 +529,7 @@ const StoreDetail = () => {
                   </Detail.SubmitButton>
 
                   {/* 모달 표시 */}
-                  <Modal
+                  <PcBasicModal
                     isOpen={isConfirmModalOpen}
                     message={confirmModalMessage}
                     onClose={closeConfirmModal}
@@ -525,6 +538,18 @@ const StoreDetail = () => {
               </Detail.StoreReservationPersonAndConfirmContainer>
             </Detail.StoreReservationContainer>
           </Detail.StoreDetailRight>
+
+          <Detail.MobileReservationButton onClick={openReservationModal}>
+            예약하기
+          </Detail.MobileReservationButton>
+
+          {isReservationModalOpen && (
+          <MobileReservationModal1
+            isOpen={isReservationModalOpen}
+            onClose={closeReservationModal}
+          >
+          </MobileReservationModal1>
+          )}
         </Detail.StoreDetailContainer>
       </Detail.Container>
     </>

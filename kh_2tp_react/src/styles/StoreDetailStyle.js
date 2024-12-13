@@ -319,7 +319,7 @@ export const StoreDetailRight = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
   @media (max-width: 768px) {
-    width: 100%;
+    display: none;
   }
 `;
 
@@ -551,3 +551,4 @@ export const MobileReservationButton = styled.button`
     display: none;
   }
 `;
+

@@ -11,7 +11,7 @@ import EditReview from "./pages/mypage/EditReview";
 import LoginHome from "./pages/signup/LoginHome";
 import Login from "./pages/signup/Login";
 import Signup from "./pages/signup/Signup";
-import Modal from "./components/Modal";
+import PcBasicModal from "./components/PcBasicModal";
 import { useState } from "react";
 import Member from "./pages/member/Member";
 import MemberInfo from "./pages/member/MemberInfo";
@@ -46,10 +46,7 @@ function App() {
               <Route path="/brand/:brandNo" element={<BrandWindow />} />
             </Route>
           </Routes>
-          {/* 회원가입 모달 */}
-          <Modal show={showModal} onClose={() => setShowModal(false)}>
-            <Signup closeModal={() => setShowModal(false)} />
-          </Modal>
+
         </Router>
       </UserStore>
     </>

@@ -7,7 +7,6 @@ import { Container, Items } from "../../components/SignupComponent";
 import AxiosApi from "../../api/AxiosApi";
 import { storage } from "../../api/Firebase";
 import styled from "styled-components";
-import Modal from "../../components/Modal";
 
 const DEFAULT_PROFILE_URL =
   "https://firebasestorage.googleapis.com/v0/b/project-mini-db956.firebasestorage.app/o/default_profile.png?alt=media&token=6ccfd06d-4d99-4c7b-b603-1baf0517116b";
@@ -286,36 +285,7 @@ const MemberInfo = () => {
         </Button>
       </Items>
 
-      {showPasswordModal && (
-        <Modal
-          show={showPasswordModal}
-          onClose={() => setShowPasswordModal(false)}
-        >
-          <h2>비밀번호 변경</h2>
-          <Input
-            type="password"
-            placeholder="현재 비밀번호"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-          />
-          <Input
-            type="password"
-            placeholder="새 비밀번호"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
-          <Input
-            type="password"
-            placeholder="새 비밀번호 확인"
-            value={confirmNewPassword}
-            onChange={(e) => setConfirmNewPassword(e.target.value)}
-          />
-          <span className={`message ${isPasswordMatch ? "success" : "error"}`}>
-            {passwordMessage}
-          </span>
-          <Button onClick={handlePasswordChange}>변경</Button>
-        </Modal>
-      )}
+
     </Container>
   );
 };
