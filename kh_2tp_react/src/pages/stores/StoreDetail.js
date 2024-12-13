@@ -1,368 +1,43 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import StoreDetailReservation from "./StoreDetailReservation";
-import StoreDetailMap from "./StoreDetailMap";
-import StoreDetailMenu from "./StoreDetailMenu";
 import AxiosApi from "../../api/AxiosApi";
-import styled from "styled-components";
 import { PhoneFilled } from "@ant-design/icons";
 import Rating from "@mui/material/Rating";
 import Modal from "../../components/Modal";
+import * as Detail from "../../styles/StoreDetailStyle";
 
-const Container = styled.div`
-  margin-top: 2%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  overflow-x: hidden;
-  @media (max-width: 768px) {
-    width: 100%;
-    align-items: center;
-    margin: 0;
-    padding: 0;
-  }
-`;
-
-const StoreDetailContainer = styled.div`
-  width: 100%;
-  max-width: 1280px;
-  margin-top: 1%;
-  display: flex;
-  align-items: flex-start;
-  @media (max-width: 768px) {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    padding: 0;
-  }
-`;
-
-const StoreDetailLeft = styled.div`
-  box-sizing: border-box;
-  margin-left: 2%;
-  margin-right: 1%;
-  width: 50%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: left;
-  position: relative;
-  overflow-x: hidden;
-  overflow-y: auto;
-  @media (max-width: 768px) {
-    width: 100%;
-    margin: 0;
-    align-items: center;
-  }
-`;
-
-const StoreName = styled.div`
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 1280px;
-  height: 4%;
-  margin-bottom: 1%;
-  font-size: clamp(20px, 2vw, 24px);
-  font-weight: 600;
-  display: flex;
-  position: relative;
-  @media (max-width: 768px) {
-    width: 100%;
-    margin-top: 10%;
-    justify-content: center;
-    order: 2;
-  }
-`;
-
-const BrandImgContainer = styled.div`
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 640px;
-  margin-top: 1%;
-  aspect-ratio: 1.5;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  border-radius: 1em;
-  background-color: #f0f0f0;
-  @media (max-width: 768px) {
-    width: 100%;
-    max-width: 768px;
-    margin: 0;
-    border-radius: 0;
-    order: 1;
-  }
-`;
-
-const BrandImage = styled.img`
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  display: block;
-  object-fit: contain;
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-`;
-
-const StoreInfoContainer = styled.div`
-  box-sizing: border-box;
-  margin-top: 1%;
-  width: 100%;
-  height: auto;
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  gap: 1%;
-  flex-wrap: wrap;
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-    order: 3;
-  }
-`;
-
-const StoreAddrAndPhoneContainer = styled.div`
-  box-sizing: border-box;
-  position: relative;
-  width: 70%;
-  display: flex;
-  align-content: left;
-  flex-direction: column;
-  @media (max-width: 768px) {
-    align-items: center;
-  }
-`;
-
-const StoreAddr = styled.div`
-  box-sizing: border-box;
-  font-size: clamp(16px, 1.5vw, 20px);
-  text-align: left;
-  margin-top: 1%;
-`;
-
-const StoreHourContainer = styled.div`
-  box-sizing: border-box;
-  font-size: clamp(14px, 1.3vw, 17px);
-  text-align: left;
-  margin-top: 0.8%;
-`;
-
-const StorePhoneContainer = styled.div`
-  box-sizing: border-box;
-  margin-top: 4%;
-  display: flex;
-  gap: 1.5%;
-  @media (max-width: 768px) {
-    width: 100%;
-    justify-content: center;
-  }
-`;
-
-const StorePhone = styled.div`
-  box-sizing: border-box;
-  font-size: clamp(16px, 1.5vw, 20px);
-  text-align: left;
-  position: relative;
-`;
-
-const StorePhoneImg = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  padding-top: 5px;
-  transform: scale(1.2);
-  position: relative;
-`;
-
-const StoreRatingContainer = styled.div`
-  box-sizing: border-box;
-  position: relative;
-  width: 29%;
-  display: flex;
-  align-content: left;
-  @media (max-width: 768px) {
-    margin-top: 5%;
-  }
-`;
-
-const StoreRatingText = styled.div`
-  box-sizing: border-box;
-  width: 45%;
-  font-size: clamp(13px, 1.2vw, 15px);
-  position: relative;
-  line-height: 170%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-
-const StoreRatingStars = styled.div`
-  box-sizing: border-box;
-  width: 55%;
-  position: relative;
-  display: block;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-`;
-
-const StoreLeftMapTitle = styled.div`
-  box-sizing: border-box;
-  margin-top: 10%;
-  width: 100%;
-  height: auto;
-  font-size: clamp(16px, 1.5vw, 20px);
-  font-weight: 600;
-  position: relative;
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
-
-const BrandMapContainer = styled.div`
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 640px;
-  margin-top: 2%;
-  aspect-ratio: 1.5;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  border-radius: 1em;
-  background-color: #f0f0f0;
-  @media (max-width: 768px) {
-    margin-top: 10%;
-    width: 100%;
-    max-width: 768px;
-    border-radius: 0;
-    order: 5;
-  }
-`;
-
-const StoreLeftMenuTitle = styled.div`
-  box-sizing: border-box;
-  margin-top: 10%;
-  width: 100%;
-  height: auto;
-  font-size: clamp(16px, 1.5vw, 20px);
-  font-weight: 600;
-  position: relative;
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
-
-const BrandMenuContainer = styled.div`
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 640px;
-  margin-top: 2%;
-  aspect-ratio: 1.5;
-  position: relative;
-  display: flex;
-  justify-content: left;
-  gap: 4%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
-
-const StoreDetailRight = styled.div`
-  box-sizing: border-box;
-  margin-left: 1%;
-  margin-right: 2%;
-  width: 50%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: left;
-  position: sticky;
-  top: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
-
-const StoreReservationTtitle = styled.div`
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 1280px;
-  margin-left: 1em;
-  height: 4%;
-  margin-bottom: 1%;
-  font-size: clamp(20px, 2vw, 24px);
-  font-weight: 600;
-  font-family: "Noto Sans KR", sans-serif;
-  display: flex;
-  position: relative;
-  @media (max-width: 768px) {
-    width: 100%;
-    margin-right: 1%;
-    align-items: center;
-    order: 3;
-  }
-`;
-
-const StoreReservationContainer = styled.div`
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 640px;
-  margin-top: 1%;
-  position: relative;
-`;
-
-const MobileReservationButton = styled.button`
-  width: 100%;
-  height: 10vh;
-  padding: 1em;
-  background-color: black;
-  color: white;
-  font-size: clamp(20px, 2vw, 24px);
-  font-weight: 600;
-  position: fixed;
-  bottom: 0;
-  cursor: pointer;
-  z-index: 1000;
-  @media (min-width: 769px) {
-    display: none;
-  }
-`;
+const { kakao } = window;
 
 const StoreDetail = () => {
   const { storeNo } = useParams();
   const [store, setStore] = useState(null);
   const [ratings, setRatings] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [menu, setMenu] = useState([]);
+  const [availableTimes, setAvailableTimes] = useState([]);
+  const [reservedTimes, setReservedTimes] = useState([]);
+  const [selectedTime, setSelectedTime] = useState("");
+  const [selectedPerson, setSelectedPerson] = useState("");
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [confirmModalMessage, setConfirmModalMessage] = useState("");
+  const [isMobileModalOpen1, setIsMobileModalOpen1] = useState(false);
+  const [isMobileModalOpen2, setIsMobileModalOpen2] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const menuScrollContainerRef = useRef(null);
 
-  // 특정 매장 조회
+  // 정보) 매장 조회
   useEffect(() => {
     const getEachStore = async () => {
       try {
         const response = await AxiosApi.getEachStore(storeNo);
         setStore(response);
       } catch (error) {
-        console.error("특정 매장 조회 오류 : ", error);
+        console.error("매장/영업시간 조회 오류 : ", error);
       }
     };
     getEachStore();
   }, [storeNo]);
 
-  // 별점 조회
+  // 정보) 별점 조회
   useEffect(() => {
     const getRatingResults = async () => {
       try {
@@ -376,7 +51,110 @@ const StoreDetail = () => {
     getRatingResults();
   }, [storeNo]);
 
-  // 리뷰 평점 계산
+  // 지도) 지도 생성
+  useEffect(() => {
+    if (!store) return;
+
+    //지도를 담을 영역의 DOM 레퍼런스
+    const mapContainer = document.getElementById("map");
+    const mapOptions = {
+      //지도를 생성할 때 필요한 기본 옵션
+      center: new kakao.maps.LatLng(37.49900095617105, 127.03286623287303), // 지도의 중심좌표
+      level: 3, // 지도의 레벨 (확대, 축소 정도)
+    };
+
+    //지도 생성 및 객체 리턴
+    const map = new kakao.maps.Map(mapContainer, mapOptions);
+    const geocoder = new kakao.maps.services.Geocoder();
+
+    // 지도 생성 후에 z-index 설정
+    setTimeout(() => {
+      const mapWrapper = mapContainer.querySelector(".kakao-map");
+      if (mapWrapper) {
+        mapWrapper.style.zIndex = "-1"; // 지도 레이어의 z-index를 낮게 설정
+      }
+
+      // 마커와 지도 레이어의 z-index를 각각 수정
+      const markers = mapContainer.querySelectorAll(".kakao-marker");
+      markers.forEach((marker) => {
+        marker.style.zIndex = "1"; // 마커의 z-index를 높게 설정
+      });
+
+      const mapOverlay = mapContainer.querySelector(".kakao-map-overlay");
+      if (mapOverlay) {
+        mapOverlay.style.zIndex = "999"; // 오버레이의 z-index를 높게 설정
+      }
+    }, 100); // 지도 렌더링 후 0.1초 뒤에 z-index 수정
+
+    geocoder.addressSearch(store.storeAddr, (result, status) => {
+      // 정상적으로 검색이 완료됐으면
+      if (status === kakao.maps.services.Status.OK) {
+        const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+        // 결과값으로 받은 위치를 마커로 표시
+        const markerImage = new kakao.maps.MarkerImage(
+          store.brandMarker,
+          new kakao.maps.Size(50, 50),
+          { offset: new kakao.maps.Point(27, 48) }
+        );
+
+        const marker = new kakao.maps.Marker({
+          position: coords,
+          image: markerImage,
+          map: map,
+        });
+
+        map.setCenter(coords);
+      } else {
+        console.error("주소 검색 실패:", status);
+      }
+    });
+  }, [store]);
+
+  // 메뉴) 브랜드별 메뉴 조회
+  useEffect(() => {
+    const getMenus = async () => {
+      try {
+        const response = await AxiosApi.getMenus(storeNo);
+        setMenu(response);
+      } catch (error) {
+        console.error("메뉴 조회 오류 발생 : ", error);
+      }
+    };
+    getMenus();
+  }, []);
+
+  // 예약) 예약 가능 및 예약 불가능 시간 조회
+  useEffect(() => {
+    const getTimes = async () => {
+      try {
+        const response = await AxiosApi.times(storeNo);
+        // 백엔드 API에서 Map 반환 > JSON형식으로 직렬화되어 프론트에 전달
+        // 이미 JSON 형식으로 처리되므로 일반 객체로 접근 가능
+        setAvailableTimes(response.availableTimes);
+        setReservedTimes(response.reservedTimes);
+      } catch (error) {
+        console.error("예약 가능/불가능 시간 가져오기 증 오류 발생 : ", error);
+      }
+    };
+    getTimes();
+  }, [storeNo]);
+
+  // 예약 모달) 가로 768 이하면 isMobile true
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setIsMobile(true);
+      } else {
+        setIsMobile(false);
+      }
+    };
+    handleResize(); // 초기화
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // 정보) 리뷰 평점 계산
   const calculateAverageRating = (ratings) => {
     if (!ratings || ratings.length === 0) return 0;
 
@@ -404,47 +182,136 @@ const StoreDetail = () => {
     return <p>Store Loading</p>;
   }
 
-  // 영업 중/영업 종료 상태 계산
+  // 정보) 영업 중/영업 종료 상태 계산
   const openHour = parseInt(store.brandOpen, 10);
   const closeHour = parseInt(store.brandClose, 10);
   const currentHour = new Date().getHours();
-
   const isOpen =
     currentHour >= openHour && currentHour < closeHour
       ? `영업 중 · ${closeHour}:00에 영업 종료`
       : `영업 종료 · ${openHour}:00에 영업 시작`;
 
-  const openModal = () => {
-    setIsModalOpen(true);
+  // 메뉴) 화살표 한번 클릭시 이동량
+  const menuScrollAmount = 300;
+
+  // 메뉴) 왼쪽 화살표 클릭
+  const menuScrollLeft = () => {
+    if (menuScrollContainerRef.current) {
+      menuScrollContainerRef.current.scrollBy({
+        left: -menuScrollAmount,
+      });
+    }
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false); // 모달 닫기
+  // 메뉴) 오른쪽 화살표 클릭
+  const menuScrollRight = () => {
+    if (menuScrollContainerRef.current) {
+      menuScrollContainerRef.current.scrollBy({
+        left: menuScrollAmount,
+      });
+    }
+  };
+
+  // 예약) 현재 시간 이후의 시간만 표시
+  const filterTimes = (times) => {
+    const currentHour = new Date().getHours(); // 현재 시간 (24시간 형식)
+    return times.filter((time) => Number(time) > currentHour);
+  };
+
+  // 예약) 예약된시간 / 예약가능시간 나누기
+  const filteredAvailableTimes = filterTimes(availableTimes);
+  const filteredReservedTimes = filterTimes(reservedTimes);
+
+  // 예약) 합쳐서 정렬
+  const combinedTimes = [...reservedTimes, ...availableTimes].sort(
+    (a, b) => a - b
+  );
+
+  // 예약) 시간선택
+  const handleTimeSelect = (time) => {
+    setSelectedTime(time);
+  };
+
+  // 예약) 인원선택
+  const handlePersonSelect = (person) => {
+    setSelectedPerson(person);
+  };
+
+  // 예약) 제출
+  const handleSubmit = async () => {
+    if (!selectedTime || !selectedPerson) {
+      setConfirmModalMessage("시간과 인원을 모두 선택해주세요.");
+      setIsConfirmModalOpen(true);
+      return;
+    }
+    const reservationData = {
+      rTime: selectedTime,
+      rPersonCnt: selectedPerson,
+      storeNo: Number(storeNo),
+      storeName: store.storeName,
+      userId: localStorage.getItem("loggedInUserId"),
+    };
+    try {
+      await AxiosApi.createReservation(reservationData);
+      setSelectedTime(null);
+      setSelectedPerson(null);
+      // 예약 성공 시 모달 메시지 설정
+      setConfirmModalMessage(
+        `<span style="font-size: 1.1em;"><strong style="font-size: 1.1em;">${reservationData.userId}</strong> 님</span><br />${store.storeName} ${reservationData.rTime}:00 ${reservationData.rPersonCnt}명<br />예약이 성공적으로 완료되었습니다!`
+      );
+      setIsConfirmModalOpen(true); // 모달 열기
+    } catch (error) {
+      setConfirmModalMessage("예약에 실패했습니다.<br />다시 시도해주세요.");
+      setIsConfirmModalOpen(true);
+    }
+  };
+
+  const closeConfirmModal = () => {
+    setIsConfirmModalOpen(false); // 모달 닫기
     window.location.reload(); // 페이지 리로드
   };
 
+  const openMobileModal1 = () => {
+    setIsMobileModalOpen1(true);
+  };
+
+  const openMobileModal2 = () => {
+    setIsMobileModalOpen2(true);
+  };
+
+  const closeMobileModal1 = () => {
+    setIsMobileModalOpen1(false); // 모달 닫기
+  };
+
+  const closeMobileModal2 = () => {
+    setIsMobileModalOpen2(false); // 모달 닫기
+    window.location.reload(); // 페이지 리로드
+  };
+
+
+
   return (
     <>
-      <Container>
-        <StoreDetailContainer>
-          <StoreDetailLeft>
-            <StoreName>{store.storeName}</StoreName>
-            <BrandImgContainer>
-              <BrandImage src={store.brandImg2} />
-            </BrandImgContainer>
-            <StoreInfoContainer>
-              <StoreAddrAndPhoneContainer>
-                <StoreAddr>{store.storeAddr}</StoreAddr>
-                <StoreHourContainer>{isOpen}</StoreHourContainer>
-                <StorePhoneContainer>
-                  <StorePhone>{store.storePhone}</StorePhone>
-                  <StorePhoneImg>
+      <Detail.Container>
+        <Detail.StoreDetailContainer>
+          <Detail.StoreDetailLeft>
+            <Detail.StoreDetailTitle>{store.storeName}</Detail.StoreDetailTitle>
+            <Detail.BrandImgContainer>
+              <Detail.BrandImage src={store.brandImg2} />
+            </Detail.BrandImgContainer>
+            <Detail.StoreInfoContainer>
+              <Detail.StoreAddrAndPhoneContainer>
+                <Detail.StoreAddr>{store.storeAddr}</Detail.StoreAddr>
+                <Detail.StoreHourContainer>{isOpen}</Detail.StoreHourContainer>
+                <Detail.StorePhoneContainer>
+                  <Detail.StorePhone>{store.storePhone}</Detail.StorePhone>
+                  <Detail.StorePhoneImg>
                     <PhoneFilled />
-                  </StorePhoneImg>
-                </StorePhoneContainer>
-              </StoreAddrAndPhoneContainer>
-              <StoreRatingContainer>
-                <StoreRatingText>
+                  </Detail.StorePhoneImg>
+                </Detail.StorePhoneContainer>
+              </Detail.StoreAddrAndPhoneContainer>
+              <Detail.StoreRatingContainer>
+                <Detail.StoreRatingText>
                   가격
                   <br />
                   맛
@@ -453,8 +320,8 @@ const StoreDetail = () => {
                   <br />
                   친절함
                   <br />
-                </StoreRatingText>
-                <StoreRatingStars>
+                </Detail.StoreRatingText>
+                <Detail.StoreRatingStars>
                   <Rating
                     name="half-rating-read"
                     defaultValue={avgPrice}
@@ -475,7 +342,6 @@ const StoreDetail = () => {
                       },
                     }}
                   />
-
                   <Rating
                     name="half-rating-read"
                     defaultValue={avgTaste}
@@ -496,7 +362,6 @@ const StoreDetail = () => {
                       },
                     }}
                   />
-
                   <Rating
                     name="half-rating-read"
                     defaultValue={avgVibe}
@@ -517,7 +382,6 @@ const StoreDetail = () => {
                       },
                     }}
                   />
-
                   <Rating
                     name="half-rating-read"
                     defaultValue={avgKind}
@@ -538,36 +402,168 @@ const StoreDetail = () => {
                       },
                     }}
                   />
-                </StoreRatingStars>
-              </StoreRatingContainer>
-            </StoreInfoContainer>
-            <StoreLeftMapTitle>{store.storeName} 지도</StoreLeftMapTitle>
-            <BrandMapContainer>
-              <StoreDetailMap />
-            </BrandMapContainer>
-            <StoreLeftMenuTitle>{store.storeName} 메뉴</StoreLeftMenuTitle>
-            <BrandMenuContainer>
-              <StoreDetailMenu />
-            </BrandMenuContainer>
-            <MobileReservationButton onClick={openModal}>
+                </Detail.StoreRatingStars>
+              </Detail.StoreRatingContainer>
+            </Detail.StoreInfoContainer>
+            <Detail.StoreLeftMapTitle>
+              {store.storeName} 지도
+            </Detail.StoreLeftMapTitle>
+            <Detail.BrandMapContainer id="map"></Detail.BrandMapContainer>
+            <Detail.StoreLeftMenuTitle>
+              {store.storeName} 메뉴
+            </Detail.StoreLeftMenuTitle>
+            <Detail.BrandMenuContainer>
+              <Detail.MenuArrowButton
+                className="left-arrow"
+                onClick={menuScrollLeft}
+              >
+                &lt;
+              </Detail.MenuArrowButton>
+              <Detail.MenuImageContainer ref={menuScrollContainerRef}>
+                {menu.map((item, index) => (
+                  <div key={index}>
+                    <img
+                      src={item.menu.menuImg}
+                      alt={item.menu.menuName}
+                      style={{
+                        height: "50%",
+                        objectFit: "contain",
+                        borderRadius: "1em",
+                      }}
+                    />
+                    <br />
+                    <p
+                      style={{
+                        textAlign: "center",
+                        fontSize: "clamp(14px, 1.3vw, 17px)",
+                      }}
+                    >
+                      {item.menu.menuName}
+                    </p>
+                    <br />
+                  </div>
+                ))}
+              </Detail.MenuImageContainer>
+              <Detail.MenuArrowButton
+                className="right-arrow"
+                onClick={menuScrollRight}
+              >
+                &gt;
+              </Detail.MenuArrowButton>
+            </Detail.BrandMenuContainer>
+            <Detail.MobileReservationButton onClick={openMobileModal1}>
               예약하기
-            </MobileReservationButton>
+            </Detail.MobileReservationButton>
             <Modal
-            isOpen={isModalOpen}
-            // message={modalMessage}
-            onClose={closeModal}
-          />
-      
-          </StoreDetailLeft>
+              isOpen={isMobileModalOpen1}
+              // message={modalMessage}
+              onClose={closeMobileModal1}
+            />
+          </Detail.StoreDetailLeft>
 
-          <StoreDetailRight>
-            <StoreReservationTtitle>예약</StoreReservationTtitle>
-            <StoreReservationContainer>
-              <StoreDetailReservation />
-            </StoreReservationContainer>
-          </StoreDetailRight>
-        </StoreDetailContainer>
-      </Container>
+          <Detail.StoreDetailRight>
+            <Detail.StoreReservationTitle>예약</Detail.StoreReservationTitle>
+            <Detail.StoreReservationContainer>
+              <Detail.StoreReservationTimeContainer>
+                <Detail.StoreReservationMenuTitle>
+                  예약 시간 선택
+                </Detail.StoreReservationMenuTitle>
+                <Detail.TimeButtonContainer>
+                  {combinedTimes.map((time, index) => {
+                    const isReserved = filteredReservedTimes.includes(time);
+                    const isAvailable = filteredAvailableTimes.includes(time);
+
+                    return isReserved ? (
+                      <Detail.TimeButton
+                        key={`${time}-${index}`}
+                        className="reserved"
+                        disabled
+                      >
+                        {time}:00
+                      </Detail.TimeButton>
+                    ) : isAvailable ? (
+                      <Detail.TimeButton
+                        key={`${time}-${index}`}
+                        className={`available ${
+                          selectedTime === time ? "selected" : ""
+                        }`}
+                        onClick={() => handleTimeSelect(time)}
+                      >
+                        {time}:00
+                      </Detail.TimeButton>
+                    ) : null;
+                  })}
+                </Detail.TimeButtonContainer>
+              </Detail.StoreReservationTimeContainer>
+              <Detail.StoreReservationPersonAndConfirmContainer>
+                <Detail.StoreReservationPersonContainer>
+                  <Detail.StoreReservationSubMenuTitle>
+                    인원 선택
+                  </Detail.StoreReservationSubMenuTitle>
+                  <Detail.PersonButtonContainer>
+                    {Array.from({ length: 15 }, (_, i) => i + 1).map(
+                      (person) => (
+                        <Detail.PersonButton
+                          key={person}
+                          className={`available ${
+                            selectedPerson === person ? "selected" : ""
+                          }`}
+                          onClick={() => handlePersonSelect(person)}
+                        >
+                          {person}명
+                        </Detail.PersonButton>
+                      )
+                    )}
+                  </Detail.PersonButtonContainer>
+                </Detail.StoreReservationPersonContainer>
+                <Detail.StoreReservationConfirmContainer>
+                  <Detail.StoreReservationSubMenuTitle>
+                    예약 내용 확인
+                  </Detail.StoreReservationSubMenuTitle>
+                  <Detail.StoreReservationConfirmList>
+                    <Detail.StoreReservationConfirmIndex
+                      style={{ marginTop: "2em" }}
+                    >
+                      예약지점
+                    </Detail.StoreReservationConfirmIndex>
+                    <Detail.StoreReservationConfirmContents>
+                      {store.storeName}
+                    </Detail.StoreReservationConfirmContents>
+                    <Detail.StoreReservationConfirmHr />
+                    <Detail.StoreReservationConfirmIndex>
+                      예약시간
+                    </Detail.StoreReservationConfirmIndex>
+                    <Detail.StoreReservationConfirmContents>
+                      {selectedTime ? `${selectedTime}:00` : ""}
+                    </Detail.StoreReservationConfirmContents>
+                    <Detail.StoreReservationConfirmHr />
+                    <Detail.StoreReservationConfirmIndex>
+                      인원수
+                    </Detail.StoreReservationConfirmIndex>
+                    <Detail.StoreReservationConfirmContents>
+                      {selectedPerson ? `${selectedPerson}명` : ""}
+                    </Detail.StoreReservationConfirmContents>
+                    <Detail.StoreReservationConfirmHr />
+                  </Detail.StoreReservationConfirmList>
+                  <Detail.SubmitButton
+                    className="available"
+                    onClick={handleSubmit}
+                  >
+                    예약하기
+                  </Detail.SubmitButton>
+
+                  {/* 모달 표시 */}
+                  <Modal
+                    isOpen={isConfirmModalOpen}
+                    message={confirmModalMessage}
+                    onClose={closeConfirmModal}
+                  />
+                </Detail.StoreReservationConfirmContainer>
+              </Detail.StoreReservationPersonAndConfirmContainer>
+            </Detail.StoreReservationContainer>
+          </Detail.StoreDetailRight>
+        </Detail.StoreDetailContainer>
+      </Detail.Container>
     </>
   );
 };

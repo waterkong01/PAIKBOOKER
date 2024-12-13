@@ -17,7 +17,6 @@ public class StoreDAO {
     // 예약) query
     private static final String SELECT_STORE_BY_STORE_NO = "SELECT * FROM STORE_TB WHERE STORE_NO = ?";
     private static final String SELECT_RESERVED_TIMES = "SELECT R_TIME FROM RESERVATION_TB WHERE STORE_NO = ?";
-    private static final String REFER_STOREINFO = "SELECT STORE_NO, STORE_NAME, STORE_PHONE, BRAND_NAME, BRAND_LOGO1, BRAND_LOGO2, BRAND_MARKER FROM STORE_TB WHERE STORE_NO = ?";
     private static final String INSERT_RESERVATIONS = """
             INSERT INTO RESERVATION_TB 
             (R_NO, R_TIME, R_PERSON_CNT, R_SUBMIT_TIME, USER_ID, USER_NAME, STORE_NO, STORE_NAME, STORE_PHONE, BRAND_NAME)
@@ -25,7 +24,6 @@ public class StoreDAO {
             FROM USER_TB U, STORE_TB S WHERE U.USER_ID = ? AND S.STORE_NO = ?
         """;
 
-    private static final String SELECT_ADDR_AND_BRAND_BY_STORE_NO = "SELECT STORE_ADDR, BRAND_NAME, BRAND_MARKER FROM STORE_TB WHERE STORE_NO = ?";
     private static final String SELECT_STORE_HOURS = "SELECT BRAND_OPEN, BRAND_CLOSE FROM STORE_TB WHERE STORE_NO = ?";
     private static final String SELECT_MENU_IMG = "SELECT M.MENU_IMG, M.MENU_NAME FROM STORE_TB S JOIN MENU_TB M ON S.BRAND_NAME = M.BRAND_NAME WHERE S.STORE_NO = ?";
     private static final String SELECT_RATING_RESULT = "SELECT RV_PRICE, RV_TASTE, RV_VIBE, RV_KIND FROM REVIEW_TB R JOIN STORE_TB S ON R.STORE_NAME = S.STORE_NAME WHERE S.STORE_NO = ?";
@@ -91,11 +89,6 @@ public class StoreDAO {
                 reservationVO.getUserId(), // USER_ID (WHERE)
                 reservationVO.getStoreNo()); // STORE_NO (WHERE)
     };
-
-    // 지도) 매장 주소로 지도 위치 설정
-    public StoreVO getAddrAndBrandByStoreNo(int storeNo) {
-        return jdbcTemplate.queryForObject(SELECT_ADDR_AND_BRAND_BY_STORE_NO, new Object[]{storeNo}, new BeanPropertyRowMapper<>(StoreVO.class));
-    }
 
     // 별점) STORE_NO로 REVIEW_TB에서 각 별점 가져오기
     public List<ReviewVO> getRatingResults(int storeNo) {

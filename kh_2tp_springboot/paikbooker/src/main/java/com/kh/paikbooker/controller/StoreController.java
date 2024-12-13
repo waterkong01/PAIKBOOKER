@@ -38,6 +38,7 @@ public class StoreController {
     public List<Map<String, Object>> getMenuImg(@PathVariable int storeNo) {
         return storeDAO.getMenuImg(storeNo);
     }
+
     // 예약) 예약 가능 및 예약 불가능 시간 조회
     @GetMapping("/{storeNo}/times")
     public Map<String, List<String>> getAllTimes(@PathVariable int storeNo) {
@@ -89,12 +90,6 @@ public class StoreController {
             return ResponseEntity.badRequest().body("예약 실패 : " + e.getMessage());
         }
 
-    }
-
-    // 지도) 매장 주소로 지도 위치 설정
-    @GetMapping("/{storeNo}/map")
-    public StoreVO getAddrAndBrandByStoreNo(@PathVariable int storeNo) {
-        return storeDAO.getAddrAndBrandByStoreNo(storeNo);
     }
 
     // 별점) STORE_NO로 REVIEW_TB에서 각 별점 가져오기

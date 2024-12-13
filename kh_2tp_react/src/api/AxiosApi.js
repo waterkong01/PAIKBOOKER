@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useParams } from "react-router-dom";
 const PAIKBOOKER_DOMAIN = "http://localhost:8111";
 
 const AxiosApi = {
@@ -126,14 +125,6 @@ const AxiosApi = {
   getMenus: async (storeNo) => {
     const response = await axios.get(
       PAIKBOOKER_DOMAIN + `/stores/${storeNo}/menus`
-    );
-    return response.data;
-  },
-
-  // 지도) 매장 정보 가져오기 (StoreDatailMap)
-  getStoreAddrNameMarker: async (storeNo) => {
-    const response = await axios.get(
-      PAIKBOOKER_DOMAIN + `/stores/${storeNo}/map`
     );
     return response.data;
   },
