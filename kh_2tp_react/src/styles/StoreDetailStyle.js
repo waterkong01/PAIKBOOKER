@@ -319,7 +319,7 @@ export const StoreDetailRight = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
   @media (max-width: 768px) {
-    display: none;
+    width: 100%;
   }
 `;
 

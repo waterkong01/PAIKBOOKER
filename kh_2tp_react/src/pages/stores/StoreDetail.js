@@ -4,6 +4,7 @@ import AxiosApi from "../../api/AxiosApi";
 import { PhoneFilled } from "@ant-design/icons";
 import Rating from "@mui/material/Rating";
 import Modal from "../../components/Modal";
+import MobileReservationModal1 from "../../components/MobileReservationModal1";
 import * as Detail from "../../styles/StoreDetailStyle";
 
 const { kakao } = window;
@@ -19,9 +20,7 @@ const StoreDetail = () => {
   const [selectedPerson, setSelectedPerson] = useState("");
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [confirmModalMessage, setConfirmModalMessage] = useState("");
-  const [isMobileModalOpen1, setIsMobileModalOpen1] = useState(false);
-  const [isMobileModalOpen2, setIsMobileModalOpen2] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+
   const menuScrollContainerRef = useRef(null);
 
   // 정보) 매장 조회
@@ -140,20 +139,6 @@ const StoreDetail = () => {
     getTimes();
   }, [storeNo]);
 
-  // 예약 모달) 가로 768 이하면 isMobile true
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 768) {
-        setIsMobile(true);
-      } else {
-        setIsMobile(false);
-      }
-    };
-    handleResize(); // 초기화
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   // 정보) 리뷰 평점 계산
   const calculateAverageRating = (ratings) => {
     if (!ratings || ratings.length === 0) return 0;
@@ -270,25 +255,6 @@ const StoreDetail = () => {
     setIsConfirmModalOpen(false); // 모달 닫기
     window.location.reload(); // 페이지 리로드
   };
-
-  const openMobileModal1 = () => {
-    setIsMobileModalOpen1(true);
-  };
-
-  const openMobileModal2 = () => {
-    setIsMobileModalOpen2(true);
-  };
-
-  const closeMobileModal1 = () => {
-    setIsMobileModalOpen1(false); // 모달 닫기
-  };
-
-  const closeMobileModal2 = () => {
-    setIsMobileModalOpen2(false); // 모달 닫기
-    window.location.reload(); // 페이지 리로드
-  };
-
-
 
   return (
     <>
@@ -451,15 +417,12 @@ const StoreDetail = () => {
                 &gt;
               </Detail.MenuArrowButton>
             </Detail.BrandMenuContainer>
-            <Detail.MobileReservationButton onClick={openMobileModal1}>
-              예약하기
-            </Detail.MobileReservationButton>
-            <Modal
-              isOpen={isMobileModalOpen1}
-              // message={modalMessage}
-              onClose={closeMobileModal1}
-            />
           </Detail.StoreDetailLeft>
+
+          <Detail.MobileReservationButton>
+            예약하기
+          </Detail.MobileReservationButton>
+
 
           <Detail.StoreDetailRight>
             <Detail.StoreReservationTitle>예약</Detail.StoreReservationTitle>

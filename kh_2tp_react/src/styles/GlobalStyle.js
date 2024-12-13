@@ -16,6 +16,7 @@ const GlobalStyle = createGlobalStyle`
   font-weight: bold;
 }
 
+
 `;
 
 
