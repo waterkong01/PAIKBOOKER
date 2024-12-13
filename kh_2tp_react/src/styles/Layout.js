@@ -1,5 +1,5 @@
-import { Outlet, useLocation } from "react-router-dom";
-import styled from "styled-components";
+import { Outlet, useLocation, useParams } from "react-router-dom";
+import styled, { css } from "styled-components";
 import NavBar1 from "../components/NavBar1";
 import NavBar2 from "../components/NavBar2";
 import NavBar3 from "../components/NavBar3";
@@ -10,6 +10,14 @@ import AxiosApi from "../api/AxiosApi";
 const StyledHeader = styled.header`
   width: 100%;
   height: 260px;
+  @media (max-width: 768px) {
+      // MO 상세페이지에서 헤더 숨기기
+  ${(props) =>
+    props.hide &&
+    css`
+      display: none;
+    `}
+  }
 `;
 
 const StyledMain = styled.main`
@@ -22,6 +30,7 @@ const Layout = () => {
   const [reservationTime, setReservationTime] = useState("");
   const [region, setRegion] = useState("");
   const location = useLocation(); // 현재 경로 가져오기
+  const { storeNo } = useParams();
 
   // Main 화면 띄어주는 Component에 Data 전달 (조건 검색 후 받은 Data[])
   const [dataReceivedAfterSearch, setDataReceivedAfterSearch] = useState([]); // 검색된 매장들
@@ -52,9 +61,13 @@ const Layout = () => {
   }, [getDataFromServerAndUpdateStoreList, region, brandName, reservationTime]);
 
 
+  
+  // MO 상세페이지에서 헤더 숨기기
+  const shouldHideHeader = location.pathname === `/stores/${storeNo}`;
+
   return (
     <>
-      <StyledHeader>
+      <StyledHeader hide={shouldHideHeader}>
         <NavBar1 />
         <NavBar2
           getDataFromServerAndUpdateStoreList={

@@ -86,8 +86,8 @@ const StoreDetailMap = () => {
       <div
         id="map"
         style={{
-          width: "50vw",
-          height: "50vw",
+          width: "100vw",
+          height: "100vh",
           zIndex: 0,
         }}
       ></div>
