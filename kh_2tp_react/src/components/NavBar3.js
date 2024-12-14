@@ -14,8 +14,14 @@ const Background = styled.div`
   display: flex;
   align-items: center;
   position: fixed;
-  z-index: 100;
+  z-index: 1000;
   background-color: #fff;
+
+  @media (max-width:768px) {
+    width: 100%;
+    height: 90px;
+    top: 70px;
+  }
 `;
 
 const BrandContainerWrapper = styled.div`

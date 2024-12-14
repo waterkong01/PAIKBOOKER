@@ -174,6 +174,13 @@ const AxiosApi = {
     return axios.get(PAIKBOOKER_DOMAIN + `/brand/${brandNo}`);
   },
 
+  // MobileHome Search
+  getMobileHomeSearchData: async (searchData) => {
+    return await axios.get(PAIKBOOKER_DOMAIN + `/mobile/search`,{
+      params: { keyword: searchData }, // 검색어를 쿼리 파라미터로 전달
+    });
+  },
+
 
 };
 

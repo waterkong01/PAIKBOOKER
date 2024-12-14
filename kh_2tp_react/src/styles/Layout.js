@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import NavBar1 from "../components/NavBar1";
 import NavBar2 from "../components/NavBar2";
 import NavBar3 from "../components/NavBar3";
-import HomeItem from "../components/HomeItems";
+import PCHome from "../components/PCHome";
 import { useState, useEffect, useCallback } from "react";
 import AxiosApi from "../api/AxiosApi";
 
@@ -81,7 +81,7 @@ const Layout = () => {
         {/* 디버깅용 상태 출력 */}
         {console.log("현재 stores 상태:", dataReceivedAfterSearch)}{""}
         {location.pathname === "/" && (
-        <HomeItem dataReceivedAfterSearch={dataReceivedAfterSearch} />
+        <PCHome dataReceivedAfterSearch={dataReceivedAfterSearch} />
       )}
         <Outlet />
       </StyledMain>

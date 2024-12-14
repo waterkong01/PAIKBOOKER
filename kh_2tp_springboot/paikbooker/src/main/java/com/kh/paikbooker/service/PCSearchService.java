@@ -12,7 +12,8 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class PCSearchDropDownService {
+
+public class PCSearchService {
     private final SearchDAO searchDAO;
 
     // 매장 불러오는 조건 (store_addr을 "구" 형식으로 가공)
@@ -122,4 +123,5 @@ public class PCSearchDropDownService {
 
         return formattedAddress;
     }
+
 }
