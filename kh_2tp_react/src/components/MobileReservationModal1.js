@@ -23,7 +23,7 @@ const Overlay = styled.div`
 // 모달 박스 스타일
 const ModalBox = styled.div`
   background: white;
-  width: 70vw;
+  width: 60vw;
   padding: 2vw;
   border-radius: 5vw;
   box-shadow: 0 0.2em 0.5em 0.2em rgba(0, 0, 0, 0.15);
@@ -52,11 +52,11 @@ const StoreReservationMenuTitle = styled.div`
   box-sizing: border-box;
   width: 100%;
   height: auto;
-  font-size: 4vw;
+  font-size: 3vw;
   font-weight: 600;
   position: relative;
-  padding: 2vw;
-  text-align: left;
+  padding: 3vw;
+  text-align: center;
   justify-content: center;
   align-items: center;
 `;
@@ -64,7 +64,6 @@ const StoreReservationMenuTitle = styled.div`
 // 시간 버튼 컨테이너
 const TimeButtonContainer = styled.div`
   display: flex;
-  margin-top: 1vw;
   width: 100%;
   flex-wrap: wrap; /* 버튼이 많을 경우 줄 바꿈 처리 */
   justify-content: left;
@@ -73,11 +72,11 @@ const TimeButtonContainer = styled.div`
 `;
 
 const TimeButton = styled.button`
-  width: 19.5vw;
-  aspect-ratio: 2.5; /* 3:1 비율 */
+  width: 16.4vw;
+  aspect-ratio: 3; /* 3:1 비율 */
   border: none;
   border-radius: 5vw;
-  font-size: 3vw;
+  font-size: 2vw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -106,7 +105,7 @@ const TimeButton = styled.button`
 const StoreReservationSubMenuTitle = styled.div`
   width: 95%;
   height: auto;
-  font-size: 4vw;
+  font-size: 3vw;
   font-weight: 600;
   position: relative;
   padding: 2vw;
@@ -119,27 +118,26 @@ const StoreReservationPersonContainer = styled.div`
   background-color: white;
   justify-content: left;
   align-items: center;
-  margin-top: 4vw;
+  margin-top: 2vw;
 `;
 
 // 인원 버튼 컨테이너
 const PersonButtonContainer = styled.div`
   display: flex;
   width: 100%;
-  margin-top: 2vw;
   flex-wrap: wrap; /* 버튼이 많을 경우 줄 바꿈 처리 */
-  row-gap: 2.8vw; /* 버튼 간격 */
-  column-gap: 2.8vw;
+  row-gap: 3vw; /* 버튼 간격 */
+  column-gap: 3vw;
   justify-content: center;
 `;
 
 // 인원 버튼 스타일
 const PersonButton = styled.button`
-  width: 10vw;
+  width: 7vw;
   aspect-ratio: 1; /* 1:1 비율 */
   border: 1px solid black;
   border-radius: 10em;
-  font-size: 3vw;
+  font-size: 2vw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -157,13 +155,13 @@ const PersonButton = styled.button`
 `;
 
 const SubmitButton = styled.button`
-  margin-top: 5vw;
+  margin-top: 4vw;
   width: 100%;
-  height: 10vw;
+  height: 6vw;
   border: none;
   padding: 0.5em;
   border-radius: 5vw;
-  font-size: 3vw;
+  font-size: 2vw;
   background-color: ${(props) => (props.disabled ? "#d8d8d8" : "black")};
   color: ${(props) => (props.disabled ? "#aaa" : "white")};
   cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
@@ -178,8 +176,8 @@ const MobileReservationModal1 = ({ isOpen, onClose }) => {
   const [selectedPerson, setSelectedPerson] = useState("");
   const [storeName, setStoreName] = useState("");
   const [isBasicModalOpen, setIsBasicModalOpen] = useState(false);
-  const [isModal1Open, setIsModal1Open] = useState(true);
-  const [isModal2Open, setIsModal2Open] = useState(false);
+  const [isReservationModal1Open, setIsReservationModal1Open] = useState(false);
+  const [isReservationModal2Open, setIsReservationModal2Open] = useState(false);
   const [basicModalMessage, setBasicModalMessage] = useState("");
 
   // 스토어 이름 조회 (alert용)
@@ -263,12 +261,13 @@ const MobileReservationModal1 = ({ isOpen, onClose }) => {
 
   const nextButton = async () => {
     try {
-      setIsModal1Open(false); // 모달1 닫기
-      setIsModal2Open(true);
+      setIsReservationModal1Open(false);
+      setIsReservationModal2Open(true);
+      onClose();
     } catch (error) {
       setBasicModalMessage("예약에 실패했습니다.<br />다시 시도해주세요.");
       setIsBasicModalOpen(true);
-      setIsModal1Open(false);
+      setIsReservationModal1Open(false);
     }
   };
 
@@ -277,9 +276,18 @@ const MobileReservationModal1 = ({ isOpen, onClose }) => {
     window.location.reload(); // 페이지 리로드
   };
 
-  const closeModal1 = () => {
-    setIsModal1Open(false); // 모달 닫기
-    window.location.reload(); // 페이지 리로드
+  const closeReservationModal1 = () => {
+    setIsReservationModal1Open(false); // 모달 닫기
+    setIsReservationModal2Open(true);
+  };
+
+  const openReservationModal2 = () => {
+    setIsReservationModal1Open(false);
+    setIsReservationModal2Open(true);
+  };
+
+  const closeReservationModal2 = () => {
+    setIsReservationModal2Open(false);
   };
 
   if (!isOpen) return null;
@@ -340,16 +348,17 @@ const MobileReservationModal1 = ({ isOpen, onClose }) => {
 
           <SubmitButton
             className="available"
-            onClick={nextButton}
+            onClick={openReservationModal2}
             disabled={!selectedTime || !selectedPerson}
           >
             다음으로
           </SubmitButton>
 
-          {isModal2Open && (
+          {isReservationModal2Open && (
             <MobileReservationModal2
-              isOpen={isModal2Open}
-              onClose={closeModal1}
+              // storeName={reservationData.storeName}
+              isOpen={isReservationModal2Open}
+              onClose={closeReservationModal2}
               reservationData={reservationData}
             />
           )}

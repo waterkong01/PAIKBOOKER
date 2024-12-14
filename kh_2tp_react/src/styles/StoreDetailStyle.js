@@ -279,7 +279,7 @@ export const MenuArrowButton = styled.button`
   color: black;
   border: none;
   cursor: pointer;
-  z-index: 10;
+  z-index: 5;
   padding: 1%;
   font-size: clamp(10px, 1vw, 12px);
   border-radius: 0.7em;
@@ -457,7 +457,7 @@ export const PersonButtonContainer = styled.div`
 
 // 인원 버튼 스타일
 export const PersonButton = styled.button`
-  width: 22%; /* 기본 5개 배치 */
+  width: 16.8%; /* 기본 5개 배치 */
   aspect-ratio: 1; /* 1:1 비율 */
   border: 1px solid black;
   border-radius: 2em;

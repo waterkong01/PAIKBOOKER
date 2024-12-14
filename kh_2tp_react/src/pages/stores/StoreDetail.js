@@ -6,6 +6,9 @@ import Rating from "@mui/material/Rating";
 import PcBasicModal from "../../components/PcBasicModal";
 import * as Detail from "../../styles/StoreDetailStyle";
 import MobileReservationModal1 from "../../components/MobileReservationModal1";
+import MobileReservationModal2 from "../../components/MobileReservationModal2";
+import LoginModal from "../../components/LoginModal";
+import zIndex from "@mui/material/styles/zIndex";
 
 const { kakao } = window;
 
@@ -20,8 +23,14 @@ const StoreDetail = () => {
   const [selectedPerson, setSelectedPerson] = useState("");
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [confirmModalMessage, setConfirmModalMessage] = useState("");
-  const [isReservationModalOpen, setIsReservationModalOpen] = useState(false);
-  const [reservationModalContent, setReservationModalContent] = useState(null);
+  const [isReservationModal1Open, setIsReservationModal1Open] = useState(false);
+  const [isReservationModal2Open, setIsReservationModal2Open] = useState(false);
+  const [reservationModal1Content, setReservationModal1Content] =
+    useState(null);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("loggedInUserId") ? true : false
+  );
 
   const menuScrollContainerRef = useRef(null);
 
@@ -62,6 +71,7 @@ const StoreDetail = () => {
       //지도를 생성할 때 필요한 기본 옵션
       center: new kakao.maps.LatLng(37.49900095617105, 127.03286623287303), // 지도의 중심좌표
       level: 3, // 지도의 레벨 (확대, 축소 정도)
+      zIndex: -1,
     };
 
     //지도 생성 및 객체 리턴
@@ -83,7 +93,7 @@ const StoreDetail = () => {
 
       const mapOverlay = mapContainer.querySelector(".kakao-map-overlay");
       if (mapOverlay) {
-        mapOverlay.style.zIndex = "999"; // 오버레이의 z-index를 높게 설정
+        mapOverlay.style.zIndex = "2"; // 오버레이의 z-index를 높게 설정
       }
     }, 100); // 지도 렌더링 후 0.1초 뒤에 z-index 수정
 
@@ -143,10 +153,10 @@ const StoreDetail = () => {
 
   // useEffect를 사용하여 상태 값이 변경되었을 때 제대로 처리될 수 있도록 함
   useEffect(() => {
-    if (isReservationModalOpen) {
-      console.log('모달 내용:', reservationModalContent);
+    if (isReservationModal1Open) {
+      console.log("모달 내용:", reservationModal1Content);
     }
-  }, [isReservationModalOpen, reservationModalContent]);
+  }, [isReservationModal1Open, reservationModal1Content]);
 
   // 정보) 리뷰 평점 계산
   const calculateAverageRating = (ratings) => {
@@ -233,30 +243,34 @@ const StoreDetail = () => {
 
   // 예약) 제출
   const handleSubmit = async () => {
-    if (!selectedTime || !selectedPerson) {
-      setConfirmModalMessage("시간과 인원을 모두 선택해주세요.");
-      setIsConfirmModalOpen(true);
-      return;
-    }
-    const reservationData = {
-      rTime: selectedTime,
-      rPersonCnt: selectedPerson,
-      storeNo: Number(storeNo),
-      storeName: store.storeName,
-      userId: localStorage.getItem("loggedInUserId"),
-    };
-    try {
-      await AxiosApi.createReservation(reservationData);
-      setSelectedTime(null);
-      setSelectedPerson(null);
-      // 예약 성공 시 모달 메시지 설정
-      setConfirmModalMessage(
-        `<span style="font-size: 1.1em;"><strong style="font-size: 1.1em;">${reservationData.userId}</strong> 님</span><br />${store.storeName} ${reservationData.rTime}:00 ${reservationData.rPersonCnt}명<br />예약이 성공적으로 완료되었습니다!`
-      );
-      setIsConfirmModalOpen(true); // 모달 열기
-    } catch (error) {
-      setConfirmModalMessage("예약에 실패했습니다.<br />다시 시도해주세요.");
-      setIsConfirmModalOpen(true);
+    if (isLoggedIn) {
+      if (!selectedTime || !selectedPerson) {
+        setConfirmModalMessage("시간과 인원을 모두 선택해주세요.");
+        setIsConfirmModalOpen(true);
+        return;
+      }
+      const reservationData = {
+        rTime: selectedTime,
+        rPersonCnt: selectedPerson,
+        storeNo: Number(storeNo),
+        storeName: store.storeName,
+        userId: localStorage.getItem("loggedInUserId"),
+      };
+      try {
+        await AxiosApi.createReservation(reservationData);
+        setSelectedTime(null);
+        setSelectedPerson(null);
+        // 예약 성공 시 모달 메시지 설정
+        setConfirmModalMessage(
+          `<span style="font-size: 1.1em;"><strong style="font-size: 1.1em;">${reservationData.userId}</strong> 님</span><br />${store.storeName} ${reservationData.rTime}:00 ${reservationData.rPersonCnt}명<br />예약이 성공적으로 완료되었습니다!`
+        );
+        setIsConfirmModalOpen(true); // 모달 열기
+      } catch (error) {
+        setConfirmModalMessage("예약에 실패했습니다.<br />다시 시도해주세요.");
+        setIsConfirmModalOpen(true);
+      }
+    } else {
+      setIsLoginModalOpen(true); // 로그인 모달 열기
     }
   };
 
@@ -265,13 +279,41 @@ const StoreDetail = () => {
     window.location.reload(); // 페이지 리로드
   };
 
-  const openReservationModal = () => {
-    setIsReservationModalOpen(true);
+  const openReservationModal1 = () => {
+    if (isLoggedIn) {
+      setIsReservationModal1Open(true);
+      setIsReservationModal2Open(false);
+    } else {
+      setIsLoginModalOpen(true); // 로그인 모달 열기
+    }
   };
 
-  const closeReservationModal = () => {
-    setIsReservationModalOpen(false);
-    setReservationModalContent(null); // 모달 닫기 시 내용 초기화
+  const openReservationModal2 = () => {
+    setIsReservationModal1Open(false);
+    setIsReservationModal2Open(true);
+  };
+
+  /*   const closeReservationModal1 = () => {
+    setIsReservationModal1Open(false);
+    setIsReservationModal2Open(true);
+    setReservationModal1Content(null); // 모달 닫기 시 내용 초기화
+  };
+
+  const closeReservationModal2 = () => {
+    setIsReservationModal2Open(false);
+  }; */
+  // Modal1 닫힌 후 Modal2 열기
+  const closeReservationModal1 = () => {
+    setIsReservationModal1Open(false);
+
+    // Modal1 상태가 변경 후 Modal2를 열어야 함
+    setTimeout(() => {
+      setIsReservationModal2Open(true);
+    }, 0); // 상태 업데이트 후 Modal2 열기
+  };
+
+  const closeReservationModal2 = () => {
+    setIsReservationModal2Open(false);
   };
 
   return (
@@ -534,21 +576,32 @@ const StoreDetail = () => {
                     message={confirmModalMessage}
                     onClose={closeConfirmModal}
                   />
+                  {isLoginModalOpen && (
+                    <LoginModal onClose={() => setIsLoginModalOpen(false)} />
+                  )}
                 </Detail.StoreReservationConfirmContainer>
               </Detail.StoreReservationPersonAndConfirmContainer>
             </Detail.StoreReservationContainer>
           </Detail.StoreDetailRight>
 
-          <Detail.MobileReservationButton onClick={openReservationModal}>
+          <Detail.MobileReservationButton onClick={openReservationModal1}>
             예약하기
           </Detail.MobileReservationButton>
 
-          {isReservationModalOpen && (
-          <MobileReservationModal1
-            isOpen={isReservationModalOpen}
-            onClose={closeReservationModal}
-          >
-          </MobileReservationModal1>
+          {isReservationModal1Open && (
+            <MobileReservationModal1
+              isOpen={isReservationModal1Open}
+              onClose={closeReservationModal1}
+            />
+          )}
+          {isReservationModal2Open && (
+            <MobileReservationModal1
+              isOpen={isReservationModal2Open}
+              onClose={closeReservationModal2}
+            />
+          )}
+          {isLoginModalOpen && (
+            <LoginModal onClose={() => setIsLoginModalOpen(false)} />
           )}
         </Detail.StoreDetailContainer>
       </Detail.Container>

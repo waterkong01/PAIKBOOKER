@@ -21,7 +21,7 @@ const Overlay = styled.div`
 // 모달 박스 스타일
 const ModalBox = styled.div`
   background: white;
-  width: 70vw;
+  width: 60vw;
   padding: 2vw;
   border-radius: 5vw;
   box-shadow: 0 0.2em 0.5em 0.2em rgba(0, 0, 0, 0.15);
@@ -50,7 +50,7 @@ const StoreReservationSubMenuTitle = styled.div`
   box-sizing: border-box;
   width: 95%;
   height: auto;
-  font-size: 4vw;
+  font-size: 3vw;
   padding: 2vw;
   font-weight: 600;
   position: relative;
@@ -96,11 +96,11 @@ const StoreReservationConfirmHr = styled.hr`
 const SubmitButton = styled.button`
   margin-top: 5vw;
   width: 100%;
-  height: 10vw;
+  height: 6vw;
   border: none;
   padding: 0.5em;
   border-radius: 5vw;
-  font-size: 3vw;
+  font-size: 2vw;
   cursor: pointer;
   background-color: black;
   color: white;
@@ -112,7 +112,8 @@ const MobileReservationModal2 = ({ isOpen, onClose, reservationData }) => {
   const [selectedPerson, setSelectedPerson] = useState("");
   const [storeName, setStoreName] = useState("");
   const [isBasicModalOpen, setIsBasicModalOpen] = useState(false);
-  const [isModal2Open, setIsModal2Open] = useState(true);
+  const [isReservationModal1Open, setIsReservationModal1Open] = useState(true);
+  const [isReservationModal2Open, setIsReservationModal2Open] = useState(true);
   const [basicModalMessage, setBasicModalMessage] = useState("");
 
   // 모달 외부를 클릭했을 때 모달을 닫는 함수
@@ -141,9 +142,9 @@ const MobileReservationModal2 = ({ isOpen, onClose, reservationData }) => {
       await AxiosApi.createReservation(reservationData);
       // 예약 성공 시 모달 메시지 설정
       setBasicModalMessage(
-        `<span style="font-size: 1.1em;"><strong style="font-size: 1.1em;">${reservationData.userId}</strong> 님</span><br />${storeName} ${reservationData.rTime}시 ${reservationData.rPersonCnt}명<br />예약이 성공적으로 완료되었습니다!`
+        `<span style="font-size: 1.1em;"><strong style="font-size: 1.1em;">${reservationData.userId}</strong> 님</span><br />${reservationData.storeName} ${reservationData.rTime}시 ${reservationData.rPersonCnt}명<br />예약이 성공적으로 완료되었습니다!`
       );
-      setIsModal2Open(false); // 모달2 닫기
+      setIsReservationModal2Open(false); // 모달2 닫기
       setIsBasicModalOpen(true); // 모달 열기
 
       setSelectedTime(null);
@@ -160,7 +161,7 @@ const MobileReservationModal2 = ({ isOpen, onClose, reservationData }) => {
   };
 
   const closeModal2 = () => {
-    setIsModal2Open(false); // 모달 닫기
+    setIsReservationModal2Open(false); // 모달 닫기
     window.location.reload(); // 페이지 리로드
   };
 
