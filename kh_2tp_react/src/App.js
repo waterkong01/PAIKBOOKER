@@ -11,15 +11,15 @@ import EditReview from "./pages/mypage/EditReview";
 import LoginHome from "./pages/signup/LoginHome";
 import Login from "./pages/signup/Login";
 import Signup from "./pages/signup/Signup";
-import PcBasicModal from "./components/PcBasicModal";
+import MemberModal from "./components/MemberModal";
 import { useState } from "react";
 import Member from "./pages/member/Member";
 import MemberInfo from "./pages/member/MemberInfo";
+import MemberDetail from "./pages/member/MemberDetail";
 import UserStore from "./context/UserStore";
 import BrandWindow from "./pages/brand/BrandWindow";
 
 function App() {
-  const [showModal, setShowModal] = useState(false);
 
   return (
     <>
@@ -38,14 +38,20 @@ function App() {
             /> */}
               <Route path="/auth" element={<ReviewList />} />
               <Route path="/EditReview" element={<EditReview />} />
-              <Route path="/loginhome" element={<LoginHome />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
+              {/* <Route path="/loginhome" element={<LoginHome />} /> */}
+              {/* <Route path="/login" element={<Login />} /> */}
+              {/* <Route path="/signup" element={<Signup />} /> */}
               <Route path="/Member" element={<Member />} />
+              <Route path="/MemberDetail/:id" element={<MemberDetail />} />
               <Route path="/member/MemberInfo" element={<MemberInfo />} />
+              {/* <Route path="/MemberDetail" element={<MemberDetail />} /> */}
               <Route path="/brand/:brandNo" element={<BrandWindow />} />
             </Route>
           </Routes>
+
+{/*           <Modal show={showModal} onClose={() => setShowModal(false)}>
+            <Signup closeModal={() => setShowModal(false)} />
+          </Modal> */}
 
         </Router>
       </UserStore>

@@ -9,28 +9,29 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background-color: #f9f9f9;
+  /* justify-content: center; */
+  /* height: 100vh; */
+  /* background-color: #f9f9f9; */
 `;
 
 const UserInfo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  background-color: white;
-  padding: 20px;
+  gap: 25px;
+  /* background-color: white; */
+  /* padding: 20px; */
+  padding: 100px;
   border-radius: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); */
 `;
 
 const UserImage = styled.img`
   width: 100px;
-  height: 100px;
+  aspect-ratio: 1 / 1;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #007bff;
+  /* border: 2px solid #007bff; */
   display: ${(props) =>
     props.isLoading ? "none" : "block"}; /* 로딩 중에는 이미지 숨기기 */
 `;
@@ -38,11 +39,61 @@ const UserImage = styled.img`
 const MemberName = styled.h2`
   font-size: 20px;
   color: #333;
+  
 `;
+const BoldName = styled.span`
+  font-weight: bold;
+`
 
 const ErrorMessage = styled.div`
   color: red;
   font-size: 14px;
+`;
+
+
+const MenuContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 50px;
+  width: 90%;
+  padding: 20px;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr); /* 화면이 좁아지면 한 줄에 3개 */
+  }
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr); /* 더 좁아지면 한 줄에 2개 */
+  }
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr; /* 모바일 화면에서는 한 줄에 1개 */
+  }
+`;
+
+const MenuBox = styled.a`
+  text-decoration: none;
+  background-color: white;
+  border-radius: 30px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  color: #333;
+  transition: transform 0.2s;
+  aspect-ratio: 17 / 9;
+  display: flex;
+  align-items: flex-end;
+  text-align: left;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+  h2 {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  p {
+    font-size: 18px;
+    color: #666;
+  }
 `;
 
 // 마이페이지 컴포넌트
@@ -77,11 +128,25 @@ const Member = () => {
     };
 
     fetchMemberData();
-  }, [navigate]);
+  }, []);
 
-  const handleEditClick = () => {
+/*   const handleEditClick = () => {
     navigate("/member/MemberInfo"); // 멤버 수정 페이지로 이동
+  }; */
+
+  const handleMenuBoxClick = (id) => {
+    navigate(`/MemberDetail/${id}`);
   };
+
+  const menuItems = [
+    { id: 1, title: "Profile", description: "개인정보 수정" },
+    { id: 2, title: "Reservation", description: "내가 예약한 장소" },
+    { id: 3, title: "Review", description: "내가 작성한 리뷰" },
+    { id: 4, title: "Notice", description: "공지사항" },
+    { id: 5, title: "Family Site", description: "패밀리 사이트 바로가기" },
+    { id: 6, title: "Privacy Policy", description: "개인정보 처리방침" },
+    { id: 7, title: "Terms and Conditions", description: "이용약관" },
+  ];
 
   return (
     <Container>
@@ -105,17 +170,44 @@ const Member = () => {
         )}
 
         <MemberName>
-          {member ? `${member.userName}님, 안녕하세요!` : "불러오는중"}
+          {member ? 
+            <>
+              <BoldName>
+                {member.userName}
+              </BoldName>
+              님, 안녕하세요!
+            </>
+          : "불러오는중"}
         </MemberName>
         {error && <ErrorMessage>{error}</ErrorMessage>}
 
-        <EditButton onClick={handleEditClick}>멤버 수정</EditButton>
+        {/* <EditButton onClick={handleEditClick}>멤버 수정</EditButton> */}
       </UserInfo>
+      <MenuContainer className="menu-container">
+        {menuItems.map((item) => (
+          <MenuBox key={item.id} onClick={() => handleMenuBoxClick(item.id)}>
+            <div>
+              <h2>{item.title}</h2>
+              <p>{item.description}</p>
+            </div>
+          </MenuBox>
+        ))}
+      </MenuContainer>
+
+{/*       {selectedMenu && (
+        <div className="menu-detail">
+          <h2>Detail for {menuItems.find((item) => item.id === selectedMenu).title}</h2>
+          <p>
+            {menuItems.find((item) => item.id === selectedMenu).description}
+          </p>
+          <button onClick={() => setSelectedMenu(null)}>Go Back</button>
+        </div>
+      )} */}
     </Container>
   );
 };
 
-const EditButton = styled.button`
+/* const EditButton = styled.button`
   background-color: #4caf50;
   color: white;
   border: none;
@@ -130,6 +222,6 @@ const EditButton = styled.button`
   &:hover {
     background-color: #45a049;
   }
-`;
+`; */
 
 export default Member;

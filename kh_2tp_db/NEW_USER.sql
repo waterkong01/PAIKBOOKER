@@ -23,34 +23,34 @@ NOCACHE;
 
 -- USER 더미 데이터 생성
 INSERT INTO USER_TB (USER_NO, USER_ID, USER_PW, USER_NAME, USER_MAIL, USER_BIRTH, USER_PHONE, USER_IMG)
-VALUES (USER_NO_SEQ.NEXTVAL, 'testid01', 'testpw01', '테스트이름01', 'test01@gmail.com', '2001-01-01', '010-0001-0001', 'https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2FDefault_Profile.png?alt=media&token=8def32c4-cf3f-45f1-a737-970eb0a59757');
+VALUES (USER_NO_SEQ.NEXTVAL, 'testid01', 'testpw01', '테스트이름01', 'test01@gmail.com', '2001-01-01', '010-0001-0001', 'https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2FDefault_Profile.png?alt=media');
 
 INSERT INTO USER_TB (USER_NO, USER_ID, USER_PW, USER_NAME, USER_MAIL, USER_BIRTH, USER_PHONE, USER_IMG)
-VALUES (USER_NO_SEQ.NEXTVAL, 'testid02', 'testpw02', '테스트이름02', 'test02@gmail.com', '2002-02-02', '010-0002-0002', 'https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2FDefault_Profile.png?alt=media&token=8def32c4-cf3f-45f1-a737-970eb0a59757');
+VALUES (USER_NO_SEQ.NEXTVAL, 'testid02', 'testpw02', '테스트이름02', 'test02@gmail.com', '2002-02-02', '010-0002-0002', 'https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2FDefault_Profile.png?alt=media');
 
 INSERT INTO USER_TB (USER_NO, USER_ID, USER_PW, USER_NAME, USER_MAIL, USER_BIRTH, USER_PHONE, USER_IMG)
-VALUES (USER_NO_SEQ.NEXTVAL, 'testid03', 'testpw03', '테스트이름03', 'test03@gmail.com', '2003-03-03', '010-0003-0003', 'https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2FDefault_Profile.png?alt=media&token=8def32c4-cf3f-45f1-a737-970eb0a59757');
+VALUES (USER_NO_SEQ.NEXTVAL, 'testid03', 'testpw03', '테스트이름03', 'test03@gmail.com', '2003-03-03', '010-0003-0003', 'https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2FDefault_Profile.png?alt=media');
 
 INSERT INTO USER_TB (USER_NO, USER_ID, USER_PW, USER_NAME, USER_MAIL, USER_BIRTH, USER_PHONE, USER_IMG)
-VALUES (USER_NO_SEQ.NEXTVAL, 'testid04', 'testpw04', '테스트이름04', 'test04@gmail.com', '2004-04-04', '010-0004-0004', 'https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2FDefault_Profile.png?alt=media&token=8def32c4-cf3f-45f1-a737-970eb0a59757');
+VALUES (USER_NO_SEQ.NEXTVAL, 'testid04', 'testpw04', '테스트이름04', 'test04@gmail.com', '2004-04-04', '010-0004-0004', 'https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2FDefault_Profile.png?alt=media');
 
 INSERT INTO USER_TB (USER_NO, USER_ID, USER_PW, USER_NAME, USER_MAIL, USER_BIRTH, USER_PHONE, USER_IMG)
-VALUES (USER_NO_SEQ.NEXTVAL, 'testid05', 'testpw05', '테스트이름05', 'test05@gmail.com', '2005-05-05', '010-0005-0005', 'https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2FDefault_Profile.png?alt=media&token=8def32c4-cf3f-45f1-a737-970eb0a59757');
+VALUES (USER_NO_SEQ.NEXTVAL, 'testid05', 'testpw05', '테스트이름05', 'test05@gmail.com', '2005-05-05', '010-0005-0005', 'https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2FDefault_Profile.png?alt=media');
 
 INSERT INTO USER_TB (USER_NO, USER_ID, USER_PW, USER_NAME, USER_MAIL, USER_BIRTH, USER_PHONE, USER_IMG)
-VALUES (USER_NO_SEQ.NEXTVAL, 'testid06', 'testpw06', '테스트이름06', 'test06@gmail.com', '2006-06-06', '010-0006-0006', 'https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2FDefault_Profile.png?alt=media&token=8def32c4-cf3f-45f1-a737-970eb0a59757');
+VALUES (USER_NO_SEQ.NEXTVAL, 'testid06', 'testpw06', '테스트이름06', 'test06@gmail.com', '2006-06-06', '010-0006-0006', 'https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2FDefault_Profile.png?alt=media');
 
 INSERT INTO USER_TB (USER_NO, USER_ID, USER_PW, USER_NAME, USER_MAIL, USER_BIRTH, USER_PHONE, USER_IMG)
-VALUES (USER_NO_SEQ.NEXTVAL, 'testid07', 'testpw07', '테스트이름07', 'test07@gmail.com', '2007-07-07', '010-0007-0007', 'https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2FDefault_Profile.png?alt=media&token=8def32c4-cf3f-45f1-a737-970eb0a59757');
+VALUES (USER_NO_SEQ.NEXTVAL, 'testid07', 'testpw07', '테스트이름07', 'test07@gmail.com', '2007-07-07', '010-0007-0007', 'https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2FDefault_Profile.png?alt=media');
 
 INSERT INTO USER_TB (USER_NO, USER_ID, USER_PW, USER_NAME, USER_MAIL, USER_BIRTH, USER_PHONE, USER_IMG)
-VALUES (USER_NO_SEQ.NEXTVAL, 'testid08', 'testpw08', '테스트이름08', 'test08@gmail.com', '2008-08-08', '010-0008-0008', 'https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2FDefault_Profile.png?alt=media&token=8def32c4-cf3f-45f1-a737-970eb0a59757');
+VALUES (USER_NO_SEQ.NEXTVAL, 'testid08', 'testpw08', '테스트이름08', 'test08@gmail.com', '2008-08-08', '010-0008-0008', 'https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2FDefault_Profile.png?alt=media');
 
 INSERT INTO USER_TB (USER_NO, USER_ID, USER_PW, USER_NAME, USER_MAIL, USER_BIRTH, USER_PHONE, USER_IMG)
-VALUES (USER_NO_SEQ.NEXTVAL, 'testid09', 'testpw09', '테스트이름09', 'test09@gmail.com', '2009-09-09', '010-0009-0009', 'https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2FDefault_Profile.png?alt=media&token=8def32c4-cf3f-45f1-a737-970eb0a59757');
+VALUES (USER_NO_SEQ.NEXTVAL, 'testid09', 'testpw09', '테스트이름09', 'test09@gmail.com', '2009-09-09', '010-0009-0009', 'https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2FDefault_Profile.png?alt=media');
 
 INSERT INTO USER_TB (USER_NO, USER_ID, USER_PW, USER_NAME, USER_MAIL, USER_BIRTH, USER_PHONE, USER_IMG)
-VALUES (USER_NO_SEQ.NEXTVAL, 'testid10', 'testpw10', '테스트이름10', 'test10@gmail.com', '2010-10-10', '010-0010-0010', 'https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2FDefault_Profile.png?alt=media&token=8def32c4-cf3f-45f1-a737-970eb0a59757');
+VALUES (USER_NO_SEQ.NEXTVAL, 'testid10', 'testpw10', '테스트이름10', 'test10@gmail.com', '2010-10-10', '010-0010-0010', 'https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2FDefault_Profile.png?alt=media');
 
 
 -- USER 테스트용 쿼리문

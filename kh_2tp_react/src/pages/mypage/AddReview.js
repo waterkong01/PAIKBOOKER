@@ -158,7 +158,7 @@ const AddReview = () => {
                     ref={textRef}
                     value={rvContent}
                     onChange={(e) => setRvContent(e.target.value)}
-                    placeholder="내용을 입력해주세요. 200자 이내. 생략 가능"
+                    placeholder="내용을 입력해주세요. 200자 이내. 생략 불가능"
                     onInput={handleResizeHeight}
                 />
                 <ReviewButton type="submit" disabled={!isButtonEnabled}>리뷰 추가</ReviewButton>

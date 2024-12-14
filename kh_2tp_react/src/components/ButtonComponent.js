@@ -6,6 +6,7 @@ const StyledButton = styled.button`
   background-color: ${({ disabled }) => (disabled ? "#ccc" : "#007bff")};
   color: ${({ disabled }) => (disabled ? "#666" : "#fff")};
   padding: 10px 20px;
+  margin: 0 30px;
   border: none;
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   font-size: 16px;

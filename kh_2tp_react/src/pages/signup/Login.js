@@ -4,8 +4,11 @@ import Button from "../../components/ButtonComponent.js";
 import AxiosApi from "../../api/AxiosApi";
 import { Container, Items } from "../../components/SignupComponent.js";
 import Input from "../../components/InputComponent.js";
+import NavBarModal from "../../components/NavBarModal.js";
 
-const Login = () => {
+const Login = ({ closeModal }) => {
+
+  const [showModal, setShowModal] = useState(false);
 
   const [inputId, setInputId] = useState("");
   const [inputPw, setInputPw] = useState("");
@@ -21,6 +24,7 @@ const Login = () => {
       if (rsp.data) {
         localStorage.setItem("loggedInUserId", inputId);
         alert("로그인 성공");
+        // closeModal(); // 모달 닫기
         navigate("/");
       } else {
         alert("아이디 및 패스워드가 틀립니다.");

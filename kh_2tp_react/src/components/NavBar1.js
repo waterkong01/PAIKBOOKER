@@ -1,6 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
+import MemberModal from "./MemberModal";
+import ModalLoginPage from "./ModalLoginPage";
+import LoginModal from "./LoginModal";
+import SignupModal from "./SignupModal";
 
 const Background = styled.div`
   width: 100%;
@@ -98,6 +102,13 @@ const MobileButton = styled.button`
 const NavBar1 = ({ onSearch }) => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [mobileSearchData, setMobileSearchData] = useState("");
+  const navigate = useNavigate();
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [isLoginModalOpen, setLoginModalOpen] = useState(false);
+  const [isSignupModalOpen, setSignupModalOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("loggedInUserId") ? true : false
+  );
 
   // 화면 크기 변경 감지
   useEffect(() => {
@@ -114,13 +125,49 @@ const NavBar1 = ({ onSearch }) => {
   // 검색 버튼 클릭 시 부모 컴포넌트로 검색어 전달
   const handleSearch = () => {
     if (typeof onSearch === "function") {
-      onSearch(mobileSearchData);  // 부모에게 검색어 전달
+      onSearch(mobileSearchData); // 부모에게 검색어 전달
     } else {
       console.warn("onSearch prop이 전달되지 않았습니다.");
     }
   };
 
+  const handleImageClick = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const closeLoginModal = () => {
+    setLoginModalOpen(false);
+  };
+
+  const closeSignupModal = () => {
+    setSignupModalOpen(false);
+  };
+
+  const handleModalLinkClick = (action) => {
+    if (action === "login") {
+      setModalOpen(false);
+      setLoginModalOpen(true);
+    } else if (action === "signup") {
+      setModalOpen(false);
+      setSignupModalOpen(true);
+    } else if (action === "logout") {
+      setIsLoggedIn(false); // 로그인 상태 false
+      localStorage.removeItem("loggedInUserId"); // 로컬스토리지 삭제
+      setModalOpen(false); // 모달 닫기
+      navigate("/");
+      alert("로그아웃 되었습니다.");
+    } else if (action === "member") {
+      navigate("/Member"); // 마이페이지 이동
+      setModalOpen(false); // 모달 닫기
+    }
+  };
+
   return (
+    <>
     <Background>
       <Left>
         <Link to="/">
@@ -134,28 +181,58 @@ const NavBar1 = ({ onSearch }) => {
       {/* PC 화면: 오른쪽 프로필 이미지 */}
       {!isMobile ? (
         <Right>
-          <Link to="/LoginHome">
-            <img
-              src="https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2FProfile.png?alt=media&token=6f3e2ec4-737f-4646-9d52-254c21319266"
-              alt="Profile"
-            />
-          </Link>
+          <img
+            src="https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2FProfile.png?alt=media&token=6f3e2ec4-737f-4646-9d52-254c21319266"
+            alt="Profile"
+            onClick={handleImageClick}
+          />
         </Right>
       ) : (
         /* 모바일 화면: 검색 입력 및 버튼 */
         <MobileRight>
           <WriteSearch>
-            <p style={{ fontSize: "13px", fontWeight: "300" }}>찾으시는 곳이 있으신가요?</p>
+            <p style={{ fontSize: "13px", fontWeight: "300" }}>
+              찾으시는 곳이 있으신가요?
+            </p>
             <MobileInput
               placeholder="검색해 보세요."
               value={mobileSearchData}
-              onChange={writeData}  // 입력값 상태 업데이트
+              onChange={writeData} // 입력값 상태 업데이트
             />
           </WriteSearch>
-          <MobileButton onClick={handleSearch} />  {/* 검색 버튼 클릭 시 handleSearch 호출 */}
+          <MobileButton onClick={handleSearch} />{" "}
+          {/* 검색 버튼 클릭 시 handleSearch 호출 */}
         </MobileRight>
       )}
     </Background>
+
+    {isLoggedIn ? (
+        <MemberModal
+          isOpen={isModalOpen}
+          closeModal={closeModal}
+          handleModalLinkClick={handleModalLinkClick}
+          setIsLoggedIn={setIsLoggedIn}
+        />
+      ) : (
+        <ModalLoginPage
+          isOpen={isModalOpen}
+          closeModal={closeModal}
+          handleModalLinkClick={handleModalLinkClick}
+        />
+      )}
+
+      {isLoginModalOpen && (
+        <LoginModal
+          closeModal={closeLoginModal}
+          setIsLoggedIn={setIsLoggedIn}
+        />
+      )}
+      {isSignupModalOpen && <SignupModal closeModal={closeSignupModal} />}
+
+    </>
+
+
+
   );
 };
 

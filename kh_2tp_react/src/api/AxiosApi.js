@@ -180,7 +180,11 @@ const AxiosApi = {
       params: { keyword: searchData }, // 검색어를 쿼리 파라미터로 전달
     });
   },
-
+  
+  // ID 찾기
+  findIdByEmail: async (email) => {
+    return await axios.post(`${PAIKBOOKER_DOMAIN}/auth/findIdByEmail`, { email });
+  },
 
 };
 

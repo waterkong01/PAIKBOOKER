@@ -2,6 +2,28 @@ import styled, { css } from "styled-components";
 
 // 공통 컨테이너 스타일
 export const Container = styled.div`
+/*   display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  padding: 0 5vw;
+  width: 90%;
+  margin: auto;
+  border: 1px solid #000;
+  border-radius: 10px;
+
+  .footer {
+    display: flex;
+    position: absolute;
+    background-color: #ccc;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30px;
+    color: #222;
+    font-size: 0.8em;
+    justify-content: center;
+    align-items: center;
+  } */
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
@@ -31,6 +53,14 @@ export const Items = styled.div`
   justify-content: ${(props) => props.justify || "flex-start"};
   font-size: ${(props) => props.fontSize || "inherit"};
   color: ${(props) => props.color || "inherit"};
+
+  ${(props) =>
+    props.variant === "title" &&
+    css`
+      font-size: 16px;
+      margin: 0 40px;
+      justify-content: normal;
+    `}
 
   ${(props) =>
     props.variant === "sign" &&

@@ -31,6 +31,8 @@ public class UserDAO {
     private static final String UPDATE_MEMBER = "UPDATE USER_TB SET USER_NAME = ?, USER_PW = ?, USER_PHONE = ? WHERE USER_MAIL = ?";
     private static final String SELECT_ALL_MEMBERS = "SELECT * FROM USER_TB";
 
+    private static final String FIND_ID_BY_EMAIL = "SELECT USER_ID FROM USER_TB WHERE USER_MAIL = ?";
+
     // 로그인
     public boolean login(String userId, String userPw) {
         try {
@@ -90,9 +92,6 @@ public class UserDAO {
 
 
     // 회원 정보 수정
-
-
-
     public boolean updateMember(String userId, Map<String, Object> updatedFields) {
         StringBuilder queryBuilder = new StringBuilder("UPDATE USER_TB SET ");
         List<Object> params = new ArrayList<>();
@@ -114,11 +113,6 @@ public class UserDAO {
             return false;
         }
     }
-
-
-
-
-
     // 회원 삭제
     public boolean deleteMember(String userMail) {
         try {
@@ -137,6 +131,17 @@ public class UserDAO {
         } catch (DataAccessException e) {
             log.error("이메일 존재 여부 확인 중 에러 ", e);
             return false;
+        }
+    }
+
+
+
+    public String findIdByEmail(String email) {
+        try {
+            return jdbcTemplate.queryForObject(FIND_ID_BY_EMAIL, new Object[]{email}, String.class);
+        } catch (DataAccessException e) {
+            log.error("이메일로 아이디 찾기 중 에러 발생", e);
+            return null;
         }
     }
 

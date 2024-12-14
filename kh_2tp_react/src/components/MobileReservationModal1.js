@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import AxiosApi from "../api/AxiosApi";
 import { useParams } from "react-router-dom";
-import MobileBasicModal from "./PcBasicModal";
+import MobileBasicModal from "./MobileBasicModal";
 import MobileReservationModal2 from "./MobileReservationModal2";
 
 // 오버레이 스타일

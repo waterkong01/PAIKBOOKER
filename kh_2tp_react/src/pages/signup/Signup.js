@@ -6,12 +6,14 @@ import { Container, Items } from "../../components/SignupComponent";
 import AxiosApi from "../../api/AxiosApi";
 import { storage } from "../../api/Firebase";
 import styled from "styled-components";
+import NavBarModal from "../../components/NavBarModal";
 
 const DEFAULT_PROFILE_URL =
   "https://firebasestorage.googleapis.com/v0/b/project-mini-db956.firebasestorage.app/o/default_profile.png?alt=media&token=6ccfd06d-4d99-4c7b-b603-1baf0517116b";
 
 const Signup = () => {
 
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   // States for input values
@@ -21,6 +23,22 @@ const Signup = () => {
   const [inputPw, setInputPw] = useState("");
   const [inputConPw, setInputConPw] = useState("");
   const [inputEmail, setInputEmail] = useState("");
+
+  // 현재 날짜
+  const currentYear = new Date().getFullYear();
+  const minYear = currentYear - 100; // 14년 전까지 가능
+  const maxYear = currentYear - 14; // 14년 전까지 가능
+  const years = [];
+
+  for (let year = currentYear - 1; year >= minYear; year--) {
+    if (year <= maxYear) {
+      years.push(year);
+    }
+  }
+
+  // 월과 일 옵션 생성
+  const months = Array.from({ length: 12 }, (_, i) => i + 1);
+  const days = Array.from({ length: 31 }, (_, i) => i + 1);
 
   // States for birth date
   const [selectedYear, setSelectedYear] = useState("");
@@ -47,12 +65,12 @@ const Signup = () => {
   const [phoneMessage, setPhoneMessage] = useState("");
 
   // Arrays for year, month, and day selection
-  const years = Array.from(
+/*   const years = Array.from(
     { length: 100 },
     (_, i) => new Date().getFullYear() - i
   );
   const months = Array.from({ length: 12 }, (_, i) => i + 1);
-  const days = Array.from({ length: 31 }, (_, i) => i + 1);
+  const days = Array.from({ length: 31 }, (_, i) => i + 1); */
 
   // Handle file input and display preview
   const handleFileInputChange = (e) => {
@@ -202,7 +220,8 @@ const Signup = () => {
     const phoneValue = e.target.value;
     setInputPhone(phoneValue);
 
-    const phoneRegex = /^[0-9]{10,13}$/;
+    // const phoneRegex = /^[0-9]{10,13}$/;
+    const phoneRegex = /^010-\d{4}-\d{4}$/;
     if (!phoneRegex.test(phoneValue)) {
       setPhoneMessage("전화번호 형식이 올바르지 않습니다.");
       setIsPhone(false);
@@ -215,6 +234,11 @@ const Signup = () => {
   const onChangeName = (e) => {
     setInputName(e.target.value);
     setIsName(true);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(`생년월일: ${selectedYear}-${selectedMonth}-${selectedDay}`);
   };
 
   return (
@@ -236,18 +260,24 @@ const Signup = () => {
           </FileInputLabel>
         </ProfileImage>
       </ProfileWrapper>
-      <Items variant="item2">
-        <Input
-          type="text"
-          placeholder="이름"
-          value={inputName}
-          onChange={onChangeName}
-        />
+      <Items variant="title">
+        <p>이름</p>
       </Items>
       <Items variant="item2">
         <Input
           type="text"
-          placeholder="아이디"
+          placeholder="이름을 입력해주세요"
+          value={inputName}
+          onChange={onChangeName}
+        />
+      </Items>
+      <Items variant="title">
+        <p>아이디</p>
+      </Items>
+      <Items variant="item2">
+        <Input
+          type="text"
+          placeholder="아이디 입력 (5~15자)"
           value={inputId}
           onChange={onChangeId}
         />
@@ -257,10 +287,13 @@ const Signup = () => {
           <span className={isId ? "success" : "error"}>{idMessage}</span>
         )}
       </Items>
+      <Items variant="title">
+        <p>비밀번호</p>
+      </Items>
       <Items variant="item2">
         <Input
           type="password"
-          placeholder="비밀번호"
+          placeholder="비밀번호 입력 (숫자,영문자,특수문자 포함 8~25자)"
           value={inputPw}
           onChange={onChangePw}
         />
@@ -270,10 +303,13 @@ const Signup = () => {
           <span className={isPw ? "success" : "error"}>{pwMessage}</span>
         )}
       </Items>
+      <Items variant="title">
+        <p>비밀번호 확인</p>
+      </Items>
       <Items variant="item2">
         <Input
           type="password"
-          placeholder="비밀번호 확인"
+          placeholder="비밀번호 재입력"
           value={inputConPw}
           onChange={onChangeConPw}
         />
@@ -283,10 +319,13 @@ const Signup = () => {
           <span className={isConPw ? "success" : "error"}>{conPwMessage}</span>
         )}
       </Items>
+      <Items variant="title">
+        <p>이메일 주소</p>
+      </Items>
       <Items variant="item2">
         <Input
           type="email"
-          placeholder="이메일"
+          placeholder="이메일 주소 입력"
           value={inputEmail}
           onChange={onChangeMail}
         />
@@ -296,10 +335,13 @@ const Signup = () => {
           <span className={isMail ? "success" : "error"}>{mailMessage}</span>
         )}
       </Items>
+      <Items variant="title">
+        <p>전화번호</p>
+      </Items>
       <Items variant="item2">
         <Input
           type="text"
-          placeholder="전화번호"
+          placeholder="전화번호 -(하이픈)포함 13자리 입력"
           value={inputPhone}
           onChange={onChangePhone}
         />
@@ -309,31 +351,34 @@ const Signup = () => {
           <span className={isPhone ? "success" : "error"}>{phoneMessage}</span>
         )}
       </Items>
+      <Items variant="title">
+        <p>생년월일</p>
+      </Items>
       <Items variant="item3">
-        <select onChange={(e) => setSelectedYear(e.target.value)}>
+        <BirthSelect onChange={(e) => setSelectedYear(e.target.value)}>
           <option value="">년도</option>
           {years.map((year) => (
             <option key={year} value={year}>
               {year}
             </option>
           ))}
-        </select>
-        <select onChange={(e) => setSelectedMonth(e.target.value)}>
+        </BirthSelect>
+        <BirthSelect onChange={(e) => setSelectedMonth(e.target.value)}>
           <option value="">월</option>
           {months.map((month) => (
             <option key={month} value={month}>
               {month}
             </option>
           ))}
-        </select>
-        <select onChange={(e) => setSelectedDay(e.target.value)}>
+        </BirthSelect>
+        <BirthSelect onChange={(e) => setSelectedDay(e.target.value)}>
           <option value="">일</option>
           {days.map((day) => (
             <option key={day} value={day}>
               {day}
             </option>
           ))}
-        </select>
+        </BirthSelect>
       </Items>
       <Items variant="item2">
         {isName && isId && isPw && isConPw && isMail && isPhone ? (
@@ -351,7 +396,7 @@ const Signup = () => {
 const ProfileWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin: 30px 0 20px 0;
 `;
 
 const ProfileImage = styled.div`
@@ -389,5 +434,12 @@ const FileInputLabel = styled.label`
 const FileInput = styled.input`
   display: none;
 `;
+
+const BirthSelect = styled.select`
+  border: 1px solid #999;
+  border-radius: 18px;
+  margin-left: 30px;
+  padding: 1em;
+`
 
 export default Signup;

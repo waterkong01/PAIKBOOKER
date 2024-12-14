@@ -7,6 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @Slf4j
 @CrossOrigin(origins = "http://localhost:3000")
@@ -51,6 +54,31 @@ public class AuthController {
         boolean isExist = userDao.isEmailExist(email);
         return ResponseEntity.ok(!isExist);
     }
+
+    // 이메일로 아이디 찾기
+    @PostMapping("/findIdByEmail")
+    public ResponseEntity<Map<String, Object>> findIdByEmail(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        log.info("이메일로 아이디 찾기 요청: {}", email);
+        String userId = userDao.findIdByEmail(email);
+        Map<String, Object> response = new HashMap<>();
+
+/*        if (userId != null) {
+            return ResponseEntity.ok(userId);
+        } else {
+            return ResponseEntity.badRequest().body("아이디를 찾을 수 없습니다.");
+        }*/
+        if (userId != null) {
+            response.put("success", true);
+            response.put("userId", userId);
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("success", false);
+            response.put("message", "아이디를 찾을 수 없습니다.");
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
 
 
 //    // 회원 정보 조회
