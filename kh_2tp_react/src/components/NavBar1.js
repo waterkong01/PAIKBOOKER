@@ -42,6 +42,7 @@ const Right = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 
   img {
     height: 48px;
@@ -99,7 +100,7 @@ const MobileButton = styled.button`
   }
 `;
 
-const NavBar1 = ({ onSearch }) => {
+const NavBar1 = ({ getMobileDataFromServerAndUpdateSearchList }) => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [mobileSearchData, setMobileSearchData] = useState("");
   const navigate = useNavigate();
@@ -124,8 +125,8 @@ const NavBar1 = ({ onSearch }) => {
 
   // 검색 버튼 클릭 시 부모 컴포넌트로 검색어 전달
   const handleSearch = () => {
-    if (typeof onSearch === "function") {
-      onSearch(mobileSearchData); // 부모에게 검색어 전달
+    if (mobileSearchData) {
+      getMobileDataFromServerAndUpdateSearchList(mobileSearchData); // 부모에게 검색어 전달
     } else {
       console.warn("onSearch prop이 전달되지 않았습니다.");
     }

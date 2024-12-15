@@ -1,5 +1,5 @@
-import { Outlet, useLocation } from "react-router-dom";
-import styled from "styled-components";
+import { Outlet, useLocation, useParams } from "react-router-dom";
+import styled, { css } from "styled-components";
 import NavBar1 from "../components/NavBar1";
 import NavBar2 from "../components/NavBar2";
 import NavBar3 from "../components/NavBar3";
@@ -7,16 +7,23 @@ import PCHome from "../components/PCHome";
 import { useState, useEffect, useCallback } from "react";
 import AxiosApi from "../api/AxiosApi";
 import MobileHome from "../components/MobileHome.js";
+import MobileFooter from "../components/MobileFooter.js";
 
 const StyledHeader = styled.header`
   width: 100%;
   height: 260px;
 
-  @media (max-width:768px) {
+  @media (max-width: 768px) {
     width: 100%;
     height: 160px;
     display: flex;
     flex-direction: row;
+    // MO 상세페이지에서 헤더 숨기기
+    ${(props) =>
+      props.hide &&
+      css`
+        display: none;
+      `}
   }
 `;
 
@@ -25,14 +32,30 @@ const StyledMain = styled.main`
   height: calc(100vh - 260px);
 `;
 
+const StyledFooter = styled.footer`
+  @media (max-width: 768px) {
+    width: 100%;
+    bottom: 0;
+    z-index: 1000;
+    position: fixed;
+    // MO 상세페이지에서 푸터 숨기기
+    ${(props) =>
+      props.hide &&
+      css`
+        display: none;
+      `}
+  }
+`;
+
 const Layout = () => {
   // 카테고리 Dropdown 목록
   const [brandName, setBrandName] = useState("");
   const [reservationTime, setReservationTime] = useState("");
   const [region, setRegion] = useState("");
   const location = useLocation(); // 현재 경로 가져오기
+  const { storeNo } = useParams();
 
-  // Main 화면 띄어주는 Component에 Data 전달 (조건 검색 후 받은 Data[])
+  // Main 화면 띄워주는 Component에 Data 전달 (조건 검색 후 받은 Data[])
   const [PCdataReceivedAfterSearch, setPCDataReceivedAfterSearch] = useState([]); // 검색된 매장들
 
   // 컴포넌트가 처음 로드될 때, 기본적으로 모든 매장을 가져오는 검색
@@ -63,31 +86,25 @@ const Layout = () => {
 
   // {UP} PC Version Data통신----------------------------------------------------------------------------------
 
-  // {DOWN} Mobile Version Data 통신---------------------------------------------------------------------------
-
+  // {DOWN} Mobile Version Data 통신---------------------------------------------------------------------------\
+  const [searchData, setSearchData] = useState("");
   const [mobileDataReceivedAfterSearch, setMobileDataReceivedAfterSearch] = useState([]); // 검색된 매장들
 
-  // NavBar1에서 받은 검색 데이터를 백엔드로 보내는 함수
-  const handleSearch = async (searchData) => {
-    try {
-      console.log("NavBar1에서 받은 데이터:", searchData);
-      
-      // Axios를 이용한 API 호출
-      const rsp = await AxiosApi.getMobileHomeSearchData(searchData);
-
-      if (rsp.data && rsp.data.length > 0) {
-        console.log("백엔드에서 받은 검색 결과:", rsp.data);
-      } else {
-        console.log("검색 결과가 없습니다.");
+  const getMobileDataFromServerAndUpdateSearchList = useCallback(
+    async(searchData) => {
+      try {
+        const rsp = await AxiosApi.getMobileHomeSearchData(searchData);
+        setMobileDataReceivedAfterSearch(rsp);
+          } catch (error) {
+            console.error("검색 실패:", error)
       }
+   },
+   []
+  );
 
-      // 검색 결과를 상태로 저장하여 화면에 반영
-      setMobileDataReceivedAfterSearch(rsp.data || []);
-    } catch (error) {
-      console.error("백엔드 통신 에러:", error);
-    }
-  };
-
+  useEffect(() => {
+    getMobileDataFromServerAndUpdateSearchList(searchData);
+  }, [getMobileDataFromServerAndUpdateSearchList,searchData]);
 
   //------------------------------------------------------------------------------
     const [isMobile, setIsMobile] = useState(false);
@@ -105,14 +122,18 @@ const Layout = () => {
       // 클린업
       return () => window.removeEventListener('resize', handleResize);
     }, []);
-  
+
+  // MO 상세페이지에서 헤더/푸터 숨기기
+  const shouldHideHeader = location.pathname === `/stores/${storeNo}`;
+  const shouldHideFooter = location.pathname === `/stores/${storeNo}`;
+
   return (
     <>
-      <StyledHeader>
-      <NavBar1 onSearch={(searchData) => {
-        console.log("onSearch 호출됨, searchData:", searchData);
-        handleSearch(searchData);
-      }} />
+      <StyledHeader hide={shouldHideHeader}>
+      <NavBar1
+          getMobileDataFromServerAndUpdateSearchList={
+            getMobileDataFromServerAndUpdateSearchList}
+        /> 
         <NavBar2
           getPCDataFromServerAndUpdateStoreList={
             getPCDataFromServerAndUpdateStoreList
@@ -122,16 +143,21 @@ const Layout = () => {
       </StyledHeader>
 
       <StyledMain>
-        {/* 디버깅용 상태 출력 */}
-        {console.log("현재 stores 상태:", PCdataReceivedAfterSearch)}{""}
-        {location.pathname === "/" && !isMobile && (
-        <PCHome PCdataReceivedAfterSearch={PCdataReceivedAfterSearch} />
-      )}
-      {location.pathname === "/" && isMobile && (
-        <MobileHome mobileDataReceivedAfterSearch={mobileDataReceivedAfterSearch} />
-      )}
+          {/* 디버깅용 상태 출력 */}
+          {console.log("현재 PCStores 상태:", PCdataReceivedAfterSearch)}{""}
+          {location.pathname === "/" && !isMobile && (
+          <PCHome PCdataReceivedAfterSearch={PCdataReceivedAfterSearch} />
+        )}
+          {/* 디버깅용 상태 출력 */}
+          {console.log("현재 MobileStores 상태:", mobileDataReceivedAfterSearch)}{""}
+          {location.pathname === "/" && isMobile && (
+          <MobileHome mobileDataReceivedAfterSearch={mobileDataReceivedAfterSearch} />
+        )}
         <Outlet />
       </StyledMain>
+      <StyledFooter hide={shouldHideFooter}>
+      <MobileFooter/>
+      </StyledFooter>
     </>
   );
 };

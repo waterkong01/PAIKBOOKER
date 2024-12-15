@@ -110,7 +110,7 @@ const StoreSearch = ({ getPCDataFromServerAndUpdateStoreList }) => {
   const [reservationTimeValue, setReservationTimeValue] = useState("");
   const navigate = useNavigate(); // useNavigate 훅 사용
 
-  // 메인 화면 가져오기
+  // 드롭다운 카테고리 가져오기
   useEffect(() => {
     const fetchCategories = async () => {
       try {

@@ -293,23 +293,10 @@ const StoreDetail = () => {
     setIsReservationModal2Open(true);
   };
 
-  /*   const closeReservationModal1 = () => {
+  const closeReservationModal1 = () => {
     setIsReservationModal1Open(false);
     setIsReservationModal2Open(true);
     setReservationModal1Content(null); // 모달 닫기 시 내용 초기화
-  };
-
-  const closeReservationModal2 = () => {
-    setIsReservationModal2Open(false);
-  }; */
-  // Modal1 닫힌 후 Modal2 열기
-  const closeReservationModal1 = () => {
-    setIsReservationModal1Open(false);
-
-    // Modal1 상태가 변경 후 Modal2를 열어야 함
-    setTimeout(() => {
-      setIsReservationModal2Open(true);
-    }, 0); // 상태 업데이트 후 Modal2 열기
   };
 
   const closeReservationModal2 = () => {

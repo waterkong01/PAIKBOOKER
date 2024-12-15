@@ -150,20 +150,28 @@ const BrandDesc = styled.div`
   justify-items:start;
 `;
 
-const StoresContainer = styled.div`
+const ArrowsAndStores = styled.div`
   width: 768px;
-  padding-left: 70px;
-  padding-right: 70px;
-  margin: 0 auto;
+  display: flex;
+  display: relative;
+`;
+
+const StoresContainer = styled.div`
+  width: 90vw;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 2%;
   position: relative;
   display: flex;
   align-items: center;
   gap: 10px;
+  padding-right: 2vw;
+  padding-left: 2vw;
 `;
 
 const ArrowButton = styled.button`
-  position: relative;
-  width: 50px;
+  position: sticky;
+  width: 5%;
   height: 160px;
   background-color: #e3e3e3;
   color: black;
@@ -186,7 +194,8 @@ const Stores = styled.div`
   white-space: nowrap;
   scroll-behavior: smooth;
   overflow-x: hidden;
-  position: relative;
+  position: sticky;
+  margin-left: 5%;
   gap: 10px;
 `;
 
@@ -254,9 +263,10 @@ const MobileHome = ({ mobileDataReceivedAfterSearch }) => {
   const [sortType, setSortType] = useState("name");
   const [sortByDistance, setSortByDistance] = useState(false);
   const containerRefs = useRef([]);
-  console.log(mobileDataReceivedAfterSearch); // 데이터 확인
+  // console.log("MobileHome why:",mobileDataReceivedAfterSearch); // 데이터 확인
 
-
+  // console.log("sortByDistance:", sortByDistance);
+  // console.log("sortType:", sortType);
    // 브랜드 이름과 설명을 매핑한 배열
    const brandDescriptions = [
     { brandName: "빽보이피자", description: "TRUST ME, THIS IS THE BEST!" },
@@ -288,25 +298,33 @@ const MobileHome = ({ mobileDataReceivedAfterSearch }) => {
   const referenceLat = 37.500666760224306;
   const referenceLon = 127.03646889929213;
 
-  const stores = useMemo(() => {
-    return Array.isArray(mobileDataReceivedAfterSearch) &&
-      mobileDataReceivedAfterSearch.length > 0
-      ? mobileDataReceivedAfterSearch.reduce((acc, curr) => {
-          const brand = acc.find(
-            (item) => item.brand.brandName === curr.brandVO.brandName
-          );
-          if (brand) {
-            brand.stores.push(curr);
-          } else {
-            acc.push({
-              brand: curr.brandVO,
-              stores: [curr],
-            });
-          }
-          return acc;
-        }, [])
-      : [];
-  }, [mobileDataReceivedAfterSearch]);
+  // 배열이 비어 있지 않으면: 데이터를 reduce를 통해 브랜드별로 그룹화하여 새로운 배열을 생성
+ const stores = useMemo(() => {
+  const data = Array.isArray(mobileDataReceivedAfterSearch.data) ? mobileDataReceivedAfterSearch.data : mobileDataReceivedAfterSearch;
+  
+  console.log("Data received:", data);
+
+  return data && data.length > 0
+    ? data.reduce((acc, curr) => {
+        const brandName = curr.brandVO?.brandName; // brandVO가 null이 아닌지 확인
+        if (!brandName) return acc; // brandName이 없는 경우 제외
+
+        const brand = acc.find((item) => item.brand.brandName === brandName);
+
+        if (brand) {
+          brand.stores.push(curr);
+        } else {
+          acc.push({
+            brand: curr.brandVO,
+            stores: [curr],
+          });
+        }
+        return acc;
+      }, [])
+    : [];
+}, [mobileDataReceivedAfterSearch]);
+
+  console.log("stores:", stores);
 
   const sortedStores = useMemo(() => {
     return stores.map((brandData) => {
@@ -403,7 +421,7 @@ const MobileHome = ({ mobileDataReceivedAfterSearch }) => {
                 <StyledLink
                   to={`/brand/${brandData.brand.brandNo}`}
                   key={brandData.brand.brandNo}
-                >
+                 >
                   <BrandMain>
                     <NameBar>
                         <div style={{backgroundColor:"black", width:"5px",height:"30px"}}></div>
@@ -418,54 +436,53 @@ const MobileHome = ({ mobileDataReceivedAfterSearch }) => {
                     </NameBar>
                   </BrandMain>
                 </StyledLink>
-
-                <StoresContainer>
+               <ArrowsAndStores>
                   <ArrowButton
-                    className="left-arrow"
-                    onClick={() => scrollLeft(index)}
-                  >
-                    &lt;
+                      className="left-arrow"
+                      onClick={() => scrollLeft(index)} >
+                      &lt;
                   </ArrowButton>
-                  <Stores ref={setRef(index)}>
-                    {brandData.stores.map((store) => (
-                      <StyledLink to={`/stores/${store.storeNo}`} key={store.storeNo}>
-                          <EachStore>
-                            <EachImage
-                              style={{
-                                backgroundImage: `url(${brandData.brand.brandImg1})`,
-                              }}
-                            ></EachImage>
-                            <EachTextContainer>
-                              <EachText1>{store.storeName}</EachText1>
-                              <EachText2>
-                                <p style={{ color: "RED", display: "inline" }}>
-                                  ★{" "}
-                                </p>
-                                <p style={{ display: "inline" }}>
-                                  {store.avgRatingVO.averageRating}
-                                </p>
-                                <p
-                                  style={{
-                                    color: "#a4a4a4",
-                                    display: "inline",
-                                    marginLeft: "5px",
-                                  }}
-                                >
-                                  {store.brandVO.brandFood}ㆍ{store.storeAddr}
-                                </p>
-                              </EachText2>
-                            </EachTextContainer>
-                          </EachStore>
-                      </StyledLink>
-                    ))}
-                  </Stores>
+                  <StoresContainer>
+                    <Stores ref={setRef(index)}>
+                      {brandData.stores.map((store) => (
+                        <StyledLink to={`/stores/${store.storeNo}`} key={store.storeNo}>
+                            <EachStore>
+                              <EachImage
+                                style={{
+                                  backgroundImage: `url(${brandData.brand.brandImg1})`,
+                                }}
+                              ></EachImage>
+                              <EachTextContainer>
+                                <EachText1>{store.storeName}</EachText1>
+                                <EachText2>
+                                  <p style={{ color: "RED", display: "inline" }}>
+                                    ★{" "}
+                                  </p>
+                                  <p style={{ display: "inline" }}>
+                                    {store.avgRatingVO.averageRating}
+                                  </p>
+                                  <p
+                                    style={{
+                                      color: "#a4a4a4",
+                                      display: "inline",
+                                      marginLeft: "5px",
+                                    }}
+                                  >
+                                    {store.brandVO.brandFood}ㆍ{store.storeAddr}
+                                  </p>
+                                </EachText2>
+                              </EachTextContainer>
+                            </EachStore>
+                        </StyledLink>
+                      ))}
+                    </Stores>
+                  </StoresContainer>
                   <ArrowButton
                     className="right-arrow"
-                    onClick={() => scrollRight(index)}
-                  >
+                    onClick={() => scrollRight(index)}>
                     &gt;
                   </ArrowButton>
-                </StoresContainer>
+               </ArrowsAndStores>
               </div>
             ))}
           </BrandContainer>

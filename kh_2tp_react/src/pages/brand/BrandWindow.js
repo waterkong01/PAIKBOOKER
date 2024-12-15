@@ -135,20 +135,25 @@ const BrandLogo = styled.div`
 
 const StoresContainer = styled.div`
   width: 1280px;
+  margin: 0 auto;
   padding-left: 3.5px;
   padding-bottom: 100px;
-  margin: 0 auto;
   position: relative;
   display: flex;
+  flex-wrap: wrap; /* 행을 넘길 수 있도록 설정 */
   align-items: center;
-  white-space: nowrap;
-  justify-content: baseline;
-  gap: 20px;
+  justify-content: start; /* 왼쪽 정렬 */
+  gap: 20px; /* 각 카드 간의 간격 */
+
+   @media (max-width: 768px) {
+    width: 100%; /* 모바일에서는 전체 너비 사용 */
+    padding-left: 50px; /* 왼쪽 여백 설정 */
+   }
 `;
 
 const EachStore = styled.div`
   box-sizing: border-box;
-  width: 195px;
+  width: calc((1280px - 90px) / 5); /* 한 줄에 5개 배치 */
   height: 160px;
   border-radius: 10px;
   background-color: #e3e3e3;
@@ -156,11 +161,14 @@ const EachStore = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
+
+   @media (max-width: 768px) {
+    width: 100%; /* 모바일 화면에서는 한 줄에 3개 배치 */
+  }
 `;
 
 const EachImage = styled.div`
-  box-sizing: border-box;
-  width: 195px;
+  width: 100%; /* 부모의 100% 너비 */
   height: 140px;
   background-size: cover;
   background-repeat: no-repeat;
@@ -209,10 +217,8 @@ const BrandWindow = () => {
   const [brandData, setBrandData] = useState(null); // 브랜드 데이터를 저장할 상태
   const [loading, setLoading] = useState(true); // 로딩 상태 관리
   const [error, setError] = useState(null); // 에러 상태 관리
-  const [sortType, setSortType] = useState("name"); // 기본 정렬 방식
-  const [sortByDistance, setSortByDistance] = useState(false); // 거리 기준 정렬
-
   // API 호출을 통해 브랜드 정보를 가져오는 함수
+  
   useEffect(() => {
     const fetchBrandData = async () => {
       setLoading(true);
@@ -242,48 +248,8 @@ const BrandWindow = () => {
     return <div>{error}</div>;
   }
 
-  const sortedStores = brandData.stores
-    ? brandData.stores.sort((a, b) => {
-        if (sortType === "rating") {
-          return b.avgRatingVO.averageRating - a.avgRatingVO.averageRating;
-        } else if (sortType === "name") {
-          return a.storeName.localeCompare(b.storeName);
-        }
-        return 0;
-      })
-    : [];
-
   return (
     <>
-      <SortBy>
-        <button
-          onClick={() => {
-            setSortType("name");
-            setSortByDistance(false);
-          }}
-        >
-          <span>CLICK</span>
-          <span data-text="자음순">자음순</span>
-        </button>
-        <button
-          onClick={() => {
-            setSortType("rating");
-            setSortByDistance(false);
-          }}
-        >
-          <span>CLICK</span>
-          <span data-text="별점순">별점순</span>
-        </button>
-        <button
-          onClick={() => {
-            setSortType(null);
-            setSortByDistance((prev) => !prev);
-          }}
-        >
-          <span>CLICK</span>
-          <span data-text="거리순">거리순</span>
-        </button>
-      </SortBy>
       <BrandStoresBlock>
         <BrandContainer>
           <BrandLogo

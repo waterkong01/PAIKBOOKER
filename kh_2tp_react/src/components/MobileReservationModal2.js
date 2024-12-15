@@ -22,10 +22,12 @@ const Overlay = styled.div`
 const ModalBox = styled.div`
   background: white;
   width: 60vw;
+  aspect-ratio: 9 / 13;
   padding: 2vw;
   border-radius: 5vw;
   box-shadow: 0 0.2em 0.5em 0.2em rgba(0, 0, 0, 0.15);
   text-align: center;
+  display: flex;
 `;
 
 const StoreReservationContainer = styled.div`

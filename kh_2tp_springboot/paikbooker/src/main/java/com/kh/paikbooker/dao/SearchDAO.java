@@ -127,23 +127,26 @@ public class SearchDAO {
             sql.append(" AND (")
                     .append("LOWER(b.BRAND_NAME) LIKE ? OR ")
                     .append("LOWER(res.R_TIME) LIKE ? OR ")
-                    .append("LOWER(s.STORE_NAME) LIKE ?")
+                    .append("LOWER(s.STORE_NAME) LIKE ? OR ") // 매장 이름에 대한 검색
+                    .append("LOWER(s.STORE_ADDR) LIKE ?")    // 주소에 대한 검색 추가
                     .append(")");
         }
 
-        // 파라미터 배열 생성 (각 키워드당 3개씩 추가됨)
-        Object[] params = new Object[keywords.length * 3];
+        // 파라미터 배열 생성 (각 키워드당 4개씩 추가됨)
+        Object[] params = new Object[keywords.length * 4]; // 주소 조건 추가
         int index = 0;
         for (String word : keywords) {
             String likeKeyword = "%" + word + "%";
             params[index++] = likeKeyword; // BRAND_NAME
             params[index++] = likeKeyword; // R_TIME
             params[index++] = likeKeyword; // STORE_NAME
+            params[index++] = likeKeyword; // STORE_ADDR
         }
 
         // JDBC 템플릿으로 쿼리 실행
         return jdbcTemplate.query(sql.toString(), params, new StoreRowMapper());
     }
+
 
     // StoreVO 매핑을 위한 RowMapper 클래스
     public static class StoreRowMapper implements RowMapper<StoreVO> {
