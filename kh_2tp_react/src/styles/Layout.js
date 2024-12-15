@@ -29,7 +29,16 @@ const StyledHeader = styled.header`
 
 const StyledMain = styled.main`
   width: 100%;
-  height: calc(100vh - 260px);
+  height: calc(100vh - 240px); /* 헤더의 높이를 제외한 나머지 공간 */
+  display: flex;
+  flex-direction: column; /* 콘텐츠가 세로로 쌓이도록 설정 */
+  @media (max-width: 768px) {
+    margin-bottom: 0;
+  }
+
+  .content {
+    z-index: 10; /* 콘텐츠가 이미지 위로 오도록 설정 */
+  }
 `;
 
 const StyledFooter = styled.footer`
@@ -58,21 +67,19 @@ const Layout = () => {
   const { storeNo } = useParams();
 
   // Main 화면 띄워주는 Component에 Data 전달 (조건 검색 후 받은 Data[])
-  const [PCdataReceivedAfterSearch, setPCDataReceivedAfterSearch] = useState([]); // 검색된 매장들
+  const [PCdataReceivedAfterSearch, setPCDataReceivedAfterSearch] = useState(
+    []
+  ); // 검색된 매장들
 
   // 컴포넌트가 처음 로드될 때, 기본적으로 모든 매장을 가져오는 검색
   const getPCDataFromServerAndUpdateStoreList = useCallback(
     async (region, brandName, reservationTime) => {
       try {
-        // console.log("검색 조건:", { region, brandName, reservationTime }); // 파라미터 확인
-        // API 호출을 통해 조건에 맞는 데이터를 가져옵니다.
-        const response = await AxiosApi.navBarSearching(region, brandName, reservationTime);
-
-        // if (response.data && response.data.length > 0) {
-        //   console.log("검색된 매장들:", response.data);
-        // } else {
-        //   console.log("검색된 매장이 없습니다.");
-        // }
+        const response = await AxiosApi.navBarSearching(
+          region,
+          brandName,
+          reservationTime
+        );
         setPCDataReceivedAfterSearch(response); // 검색된 매장들 상태 업데이트
       } catch (error) {
         console.error("검색 실패:", error);
@@ -83,47 +90,55 @@ const Layout = () => {
 
   useEffect(() => {
     getPCDataFromServerAndUpdateStoreList(region, brandName, reservationTime);
-  }, [getPCDataFromServerAndUpdateStoreList, region, brandName, reservationTime]);
-
+  }, [
+    getPCDataFromServerAndUpdateStoreList,
+    region,
+    brandName,
+    reservationTime,
+  ]);
 
   // {UP} PC Version Data통신----------------------------------------------------------------------------------
 
   // {DOWN} Mobile Version Data 통신---------------------------------------------------------------------------\
   const [searchData, setSearchData] = useState("");
-  const [mobileDataReceivedAfterSearch, setMobileDataReceivedAfterSearch] = useState([]); // 검색된 매장들
+  const [mobileDataReceivedAfterSearch, setMobileDataReceivedAfterSearch] =
+    useState([]); // 검색된 매장들
+  const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
 
   const getMobileDataFromServerAndUpdateSearchList = useCallback(
-    async(searchData) => {
+    async (searchData) => {
       try {
+        setIsLoading(true); // 로딩 시작
         const rsp = await AxiosApi.getMobileHomeSearchData(searchData);
-        setMobileDataReceivedAfterSearch(rsp);
-          } catch (error) {
-            console.error("검색 실패:", error)
+        setMobileDataReceivedAfterSearch(rsp); // 검색된 데이터 상태 업데이트
+      } catch (error) {
+        console.error("검색 실패:", error);
+      } finally {
+        setIsLoading(false); // 로딩 종료
       }
-   },
-   []
+    },
+    []
   );
 
   useEffect(() => {
     getMobileDataFromServerAndUpdateSearchList(searchData);
-  }, [getMobileDataFromServerAndUpdateSearchList,searchData]);
-
+  }, [getMobileDataFromServerAndUpdateSearchList, searchData]);
   //------------------------------------------------------------------------------
-    const [isMobile, setIsMobile] = useState(false);
-  
-    useEffect(() => {
-      const handleResize = () => {
-        // 화면 너비가 특정 값 이하일 때 모바일로 간주 (예: 768px 이하)
-        setIsMobile(window.innerWidth <= 768);
-      };
-  
-      // 초기화 및 리사이즈 이벤트 리스너
-      handleResize();
-      window.addEventListener('resize', handleResize);
-     
-      // 클린업
-      return () => window.removeEventListener('resize', handleResize);
-    }, []);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      // 화면 너비가 특정 값 이하일 때 모바일로 간주 (예: 768px 이하)
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    // 초기화 및 리사이즈 이벤트 리스너
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    // 클린업
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // MO 상세페이지에서 헤더/푸터 숨기기
   const shouldHideHeader = location.pathname === `/stores/${storeNo}`;
@@ -132,10 +147,11 @@ const Layout = () => {
   return (
     <>
       <StyledHeader hide={shouldHideHeader}>
-      <NavBar1
+        <NavBar1
           getMobileDataFromServerAndUpdateSearchList={
-            getMobileDataFromServerAndUpdateSearchList}
-        /> 
+            getMobileDataFromServerAndUpdateSearchList
+          }
+        />
         <NavBar2
           getPCDataFromServerAndUpdateStoreList={
             getPCDataFromServerAndUpdateStoreList
@@ -145,20 +161,26 @@ const Layout = () => {
       </StyledHeader>
 
       <StyledMain>
-          {/* 디버깅용 상태 출력 */}
-          {console.log("현재 PCStores 상태:", PCdataReceivedAfterSearch)}{""}
-          {location.pathname === "/" && !isMobile && (
+        {/* 디버깅용 상태 출력 */}
+        {console.log("현재 PCStores 상태:", PCdataReceivedAfterSearch)}
+        {""}
+        {location.pathname === "/" && !isMobile && (
           <PCHome PCdataReceivedAfterSearch={PCdataReceivedAfterSearch} />
         )}
-          {/* 디버깅용 상태 출력 */}
-          {console.log("현재 MobileStores 상태:", mobileDataReceivedAfterSearch)}{""}
-          {location.pathname === "/" && isMobile && (
-          <MobileHome mobileDataReceivedAfterSearch={mobileDataReceivedAfterSearch} />
-        )}
+        {/* 모바일 데이터 출력 */}
+        {location.pathname === "/" &&
+          isMobile &&
+          (isLoading ? (
+            <p>검색 중입니다...</p> // 로딩 중 메시지
+          ) : (
+            <MobileHome
+              mobileDataReceivedAfterSearch={mobileDataReceivedAfterSearch}
+            />
+          ))}
         <Outlet />
       </StyledMain>
       <StyledFooter hide={shouldHideFooter}>
-      <MobileFooter/>
+        <MobileFooter />
       </StyledFooter>
     </>
   );

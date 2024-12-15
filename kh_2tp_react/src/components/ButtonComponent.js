@@ -10,6 +10,7 @@ const StyledButton = styled.button`
   border: none;
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   font-size: 16px;
+  border-radius: 5px;
 `;
 
 const ButtonComponent = ({ disabled, onClick, children }) => {

@@ -73,7 +73,7 @@ const MobileInput = styled.input`
   width: 100%;
   height: 20px;
   font-size: 13px;
-  border: none;
+  border: 1px solid black;
 `;
 
 const MobileButton = styled.button`
@@ -125,6 +125,7 @@ const NavBar1 = ({ getMobileDataFromServerAndUpdateSearchList }) => {
 
   // 검색 버튼 클릭 시 부모 컴포넌트로 검색어 전달
   const handleSearch = () => {
+    navigate("/");
     if (mobileSearchData) {
       getMobileDataFromServerAndUpdateSearchList(mobileSearchData); // 부모에게 검색어 전달
     } else {
@@ -169,45 +170,45 @@ const NavBar1 = ({ getMobileDataFromServerAndUpdateSearchList }) => {
 
   return (
     <>
-    <Background>
-      <Left>
-        <Link to="/">
-          <img
-            src="https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2F00백부커02B.png?alt=media&token=9bccec14-c221-42c0-8342-16f463bcb1f0"
-            alt="Logo"
-          />
-        </Link>
-      </Left>
-
-      {/* PC 화면: 오른쪽 프로필 이미지 */}
-      {!isMobile ? (
-        <Right>
-          <img
-            src="https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2FProfile.png?alt=media&token=6f3e2ec4-737f-4646-9d52-254c21319266"
-            alt="Profile"
-            onClick={handleImageClick}
-          />
-        </Right>
-      ) : (
-        /* 모바일 화면: 검색 입력 및 버튼 */
-        <MobileRight>
-          <WriteSearch>
-            <p style={{ fontSize: "13px", fontWeight: "300" }}>
-              찾으시는 곳이 있으신가요?
-            </p>
-            <MobileInput
-              placeholder="검색해 보세요."
-              value={mobileSearchData}
-              onChange={writeData} // 입력값 상태 업데이트
+      <Background>
+        <Left>
+          <Link to="/">
+            <img
+              src="https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2F00백부커02B.png?alt=media&token=9bccec14-c221-42c0-8342-16f463bcb1f0"
+              alt="Logo"
             />
-          </WriteSearch>
-          <MobileButton onClick={handleSearch} />{" "}
-          {/* 검색 버튼 클릭 시 handleSearch 호출 */}
-        </MobileRight>
-      )}
-    </Background>
+          </Link>
+        </Left>
 
-    {isLoggedIn ? (
+        {/* PC 화면: 오른쪽 프로필 이미지 */}
+        {!isMobile ? (
+          <Right>
+            <img
+              src="https://firebasestorage.googleapis.com/v0/b/kh-basic-frontend-react-f5a7b.firebasestorage.app/o/PAIKBOOKER%2FProfile.png?alt=media&token=6f3e2ec4-737f-4646-9d52-254c21319266"
+              alt="Profile"
+              onClick={handleImageClick}
+            />
+          </Right>
+        ) : (
+          /* 모바일 화면: 검색 입력 및 버튼 */
+          <MobileRight>
+            <WriteSearch>
+              <p style={{ fontSize: "13px", fontWeight: "300" }}>
+                찾으시는 곳이 있으신가요?
+              </p>
+              <MobileInput
+                placeholder="검색해 보세요."
+                value={mobileSearchData}
+                onChange={writeData} // 입력값 상태 업데이트
+              />
+            </WriteSearch>
+            <MobileButton onClick={handleSearch} />{" "}
+            {/* 검색 버튼 클릭 시 handleSearch 호출 */}
+          </MobileRight>
+        )}
+      </Background>
+
+      {isLoggedIn ? (
         <MemberModal
           isOpen={isModalOpen}
           closeModal={closeModal}
@@ -229,11 +230,7 @@ const NavBar1 = ({ getMobileDataFromServerAndUpdateSearchList }) => {
         />
       )}
       {isSignupModalOpen && <SignupModal closeModal={closeSignupModal} />}
-
     </>
-
-
-
   );
 };
 
