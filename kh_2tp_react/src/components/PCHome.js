@@ -29,45 +29,47 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
 };
 
 const HomeItemBlock = styled.div`
+  margin-top: 1vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
   box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
   background-color: #fff;
-  margin-top: 20px;
+  overflow-x: hidden;
 `;
 
 const DropdownContainer = styled.div`
-  width: 1280px;
+  width: 100%;
+  max-width: 1280px;
   display: flex;
   justify-content: right;
   position: relative;
 `;
 
 const Dropdown = styled.select`
-  padding: 5px 10px;
-  font-size: 1em;
+  padding: 0.5vw 0.5vw;
+  font-size: clamp(13px, 1.2vw, 15px);
   border: none;
   border-bottom: 1px solid black;
-  margin-right: 10px;
-  margin-bottom: 10px;
+  margin-right: 2vw;
+  margin-bottom: 2vh;
   background-color: #fff;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
-  width: 120px;
+  width: 10vw;
   appearance: none;
   background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
   background-repeat: no-repeat;
-  background-position: right 2px center;
+  background-position: right 0.7vw center;
   &:focus {
     outline: none;
   }
   & option {
-  padding: 10px;
-  background-color: black;
-  color: white;
+    padding: 1vw;
+    background-color: black;
+    color: white;
   }
   & option:checked {
     background-color: black;
@@ -75,35 +77,37 @@ const Dropdown = styled.select`
   }
 `;
 
-
 const Background = styled.div`
-  width: 1280px;
+  width: 100vw;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   white-space: nowrap;
   scroll-behavior: smooth;
+  overflow-x: hidden;
 `;
 
 const BrandContainer = styled.div`
   box-sizing: border-box;
-  width: 1280px;
+  width: 100%;
+  max-width: 1280px;
+  margin-left: 5vw;
+  margin-bottom: 2%;
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 1vw;
   position: relative;
+  overflow-x: hidden;
 `;
 
 const BrandMain = styled.div`
   box-sizing: border-box;
   width: 195px;
   height: 160px;
-  margin-top: 10px;
-  margin-bottom: 10px;
   box-sizing: border-box;
-  background-color: #e3e3e3;
-  border-radius: 10px;
+  background-color: #f1f1f1;
+  border-radius: 1em;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -120,10 +124,8 @@ const BrandLogo = styled.div`
 `;
 
 const StoresContainer = styled.div`
-  width: 1060px;
-  padding-left: 70px;
-  padding-right: 70px;
-  margin: 0 auto;
+  width: calc(100% - 195px - 6vw);
+  margin: 0;
   position: relative;
   display: flex;
   align-items: center;
@@ -131,11 +133,32 @@ const StoresContainer = styled.div`
   scroll-behavior: smooth;
 `;
 
+const ArrowButton = styled.button`
+  position: sticky;
+  width: 5vw;
+  height: 160px;
+  background-color: #f1f1f1;
+  color: black;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 1em;
+  border-radius: 1em;
+  &.left-arrow {
+    left: 0;
+  }
+  &.right-arrow {
+    right: 0;
+  }
+`;
+
 const Stores = styled.div`
   box-sizing: border-box;
   display: flex;
-  gap: 20px;
-  width: 920px;
+  gap: 1vw;
+  padding-left: 1vw;
+  margin-right: 1vw;
+  width: 100%;
   white-space: nowrap;
   scroll-behavior: smooth;
   overflow-x: hidden;
@@ -146,8 +169,8 @@ const EachStore = styled.div`
   box-sizing: border-box;
   width: 195px;
   height: 160px;
-  border-radius: 10px;
-  background-color: #e3e3e3;
+  border-radius: 1em;
+  background-color: #f1f1f1;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -161,14 +184,14 @@ const EachImage = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-top-left-radius: 1em;
+  border-top-right-radius: 1em;
 `;
 
 const EachTextContainer = styled.div`
   box-sizing: border-box;
-  padding-left: 10px;
-  padding-bottom: 5px;
+  padding-left: 1.5vw;
+  padding-bottom: 0.5vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -178,9 +201,8 @@ const EachTextContainer = styled.div`
 const EachText1 = styled.div`
   box-sizing: border-box;
   width: 175px;
-  padding-top: 5px;
-  height: 24px;
-  font-size: 0.8em;
+  padding-top: 0.5vw;
+  font-size: clamp(13px, 1.2vw, 15px);
   word-wrap: break-word;
   overflow-wrap: break-word;
   word-break: break-word;
@@ -190,7 +212,7 @@ const EachText1 = styled.div`
 
 const EachText2 = styled.div`
   box-sizing: border-box;
-  font-size: 0.7em;
+  font-size: clamp(13px, 1.2vw, 15px);
 `;
 
 const StyledLink = styled(Link)`
@@ -198,26 +220,6 @@ const StyledLink = styled(Link)`
   color: #000;
   font-weight: bold;
   transition: color 0.3s;
-`;
-
-const ArrowButton = styled.button`
-  position: absolute;
-  width: 50px;
-  height: 160px;
-  background-color: #e3e3e3;
-  color: black;
-  border: none;
-  cursor: pointer;
-  z-index: 10;
-  padding: 10px;
-  font-size: 1em;
-  border-radius: 10px;
-  &.left-arrow {
-    left: 0;
-  }
-  &.right-arrow {
-    right: 0;
-  }
 `;
 
 const PCHome = ({ PCdataReceivedAfterSearch }) => {
@@ -322,13 +324,15 @@ const PCHome = ({ PCdataReceivedAfterSearch }) => {
       setSortByDistance(false);
     }
   };
-    
+
   return (
     <>
       <HomeItemBlock>
         <DropdownContainer>
           <Dropdown onChange={handleSortChange}>
-            <option value="" hidden>정렬 방식 선택</option>
+            <option value="" hidden>
+              정렬 방식 선택
+            </option>
             <option value="name">자음순</option>
             <option value="rating">별점순</option>
             <option value="distance">거리순</option>
@@ -373,17 +377,18 @@ const PCHome = ({ PCdataReceivedAfterSearch }) => {
                         <EachTextContainer>
                           <EachText1>{store.storeName}</EachText1>
                           <EachText2>
-                            <p style={{ color: "RED", display: "inline" }}>
+                            <p style={{ color: "RED", display: "inline", fontSize: "clamp(13px, 1.2vw, 15px)" }}>
                               ★{" "}
                             </p>
-                            <p style={{ display: "inline" }}>
+                            <p style={{ display: "inline", fontSize: "clamp(13px, 1.2vw, 15px)" }}>
                               {store.avgRatingVO.averageRating}
                             </p>
                             <p
                               style={{
                                 color: "#a4a4a4",
                                 display: "inline",
-                                marginLeft: "5px",
+                                marginLeft: "0.5vw",
+                                fontSize: "clamp(13px, 1.2vw, 15px)"
                               }}
                             >
                               {store.brandVO.brandFood}ㆍ{store.storeAddr}

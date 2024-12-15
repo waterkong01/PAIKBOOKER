@@ -33,7 +33,9 @@ const StyledMain = styled.main`
 `;
 
 const StyledFooter = styled.footer`
+  display: none;
   @media (max-width: 768px) {
+    display: block;
     width: 100%;
     bottom: 0;
     z-index: 1000;

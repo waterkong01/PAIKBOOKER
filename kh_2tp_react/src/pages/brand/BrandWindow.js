@@ -108,20 +108,27 @@ const SortBy = styled.div`
 
 const BrandStoresBlock = styled.div`
   display: flex;
+  width: 100vw;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  overflow-x: hidden;
 `;
 
+const Container = styled.div`
+box-sizing: border-box;
+  width: 100%;
+  max-width: 1280px;
+  display: flex;
+  flex-direction: column;
+`;
 const BrandContainer = styled.div`
-  width: 1280px;
+  width: 100%;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  margin-bottom: 20px;
-  background-color: #e3e3e3;
-  border-radius: 10px;
+  margin-bottom: 3vw;
+  background-color: #f1f1f1;
 `;
 
 const BrandLogo = styled.div`
@@ -130,57 +137,50 @@ const BrandLogo = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  border-radius: 10px;
 `;
 
 const StoresContainer = styled.div`
-  width: 1280px;
+  width: 100%;
   margin: 0 auto;
-  padding-left: 3.5px;
-  padding-bottom: 100px;
+  padding-bottom: 10%;
   position: relative;
   display: flex;
   flex-wrap: wrap; /* 행을 넘길 수 있도록 설정 */
   align-items: center;
-  justify-content: start; /* 왼쪽 정렬 */
-  gap: 20px; /* 각 카드 간의 간격 */
-
-   @media (max-width: 768px) {
-    width: 100%; /* 모바일에서는 전체 너비 사용 */
-    padding-left: 50px; /* 왼쪽 여백 설정 */
-   }
+  justify-content: center; /* 왼쪽 정렬 */
+  gap: 1vw; /* 각 카드 간의 간격 */
 `;
 
 const EachStore = styled.div`
   box-sizing: border-box;
-  width: calc((1280px - 90px) / 5); /* 한 줄에 5개 배치 */
+  width: 195px;
   height: 160px;
-  border-radius: 10px;
-  background-color: #e3e3e3;
+  border-radius: 1em;
+  background-color: #f1f1f1;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   position: relative;
-
-   @media (max-width: 768px) {
+  @media (max-width: 768px) {
     width: 100%; /* 모바일 화면에서는 한 줄에 3개 배치 */
   }
 `;
 
 const EachImage = styled.div`
-  width: 100%; /* 부모의 100% 너비 */
+  box-sizing: border-box;
+  width: 195px;
   height: 140px;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-top-left-radius: 1em;
+  border-top-right-radius: 1em;
 `;
 
 const EachTextContainer = styled.div`
   box-sizing: border-box;
-  padding-left: 10px;
-  padding-bottom: 5px;
+  padding-left: 1vw;
+  padding-bottom: 0.5vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -190,9 +190,8 @@ const EachTextContainer = styled.div`
 const EachText1 = styled.div`
   box-sizing: border-box;
   width: 175px;
-  padding-top: 5px;
-  height: 24px;
-  font-size: 0.8em;
+  padding-top: 0.5vw;
+  font-size: clamp(13px, 1.2vw, 15px);
   word-wrap: break-word;
   overflow-wrap: break-word;
   word-break: break-word;
@@ -202,7 +201,7 @@ const EachText1 = styled.div`
 
 const EachText2 = styled.div`
   box-sizing: border-box;
-  font-size: 0.7em;
+  font-size: clamp(13px, 1.2vw, 15px);
 `;
 
 const StyledLink = styled(Link)`
@@ -218,7 +217,7 @@ const BrandWindow = () => {
   const [loading, setLoading] = useState(true); // 로딩 상태 관리
   const [error, setError] = useState(null); // 에러 상태 관리
   // API 호출을 통해 브랜드 정보를 가져오는 함수
-  
+
   useEffect(() => {
     const fetchBrandData = async () => {
       setLoading(true);
@@ -251,49 +250,52 @@ const BrandWindow = () => {
   return (
     <>
       <BrandStoresBlock>
-        <BrandContainer>
-          <BrandLogo
-            style={{
-              backgroundImage: `url(${
-                brandData[0].brandVO.brandLogo2 || "defaultLogoURL"
-              })`,
-            }}
-          />
-        </BrandContainer>
+        <Container>
+          <BrandContainer>
+            <BrandLogo
+              style={{
+                backgroundImage: `url(${
+                  brandData[0].brandVO.brandLogo2 || "defaultLogoURL"
+                })`,
+              }}
+            />
+          </BrandContainer>
 
-        <StoresContainer>
-          {brandData.map((store) => (
-            <StyledLink to={`/stores/${store.storeNo}`} key={store.storeNo}>
-              <EachStore key={store.storeNo}>
-                <EachImage
-                  style={{
-                    backgroundImage: `url(${
-                      store.brandVO.brandImg1 || "defaultImageURL"
-                    })`, // 기본 이미지 URL 사용
-                  }}
-                />
-                <EachTextContainer>
-                  <EachText1>{store.storeName}</EachText1>
-                  <EachText2>
-                    <p style={{ color: "RED", display: "inline" }}>★ </p>
-                    <p style={{ display: "inline" }}>
-                      {store.avgRatingVO.averageRating}
-                    </p>
-                    <p
-                      style={{
-                        color: "#a4a4a4",
-                        display: "inline",
-                        marginLeft: "5px",
-                      }}
-                    >
-                      {store.brandVO.brandFood}ㆍ{store.storeAddr}
-                    </p>
-                  </EachText2>
-                </EachTextContainer>
-              </EachStore>
-            </StyledLink>
-          ))}
-        </StoresContainer>
+          <StoresContainer>
+            {brandData.map((store) => (
+              <StyledLink to={`/stores/${store.storeNo}`} key={store.storeNo}>
+                <EachStore key={store.storeNo}>
+                  <EachImage
+                    style={{
+                      backgroundImage: `url(${
+                        store.brandVO.brandImg1 || "defaultImageURL"
+                      })`, // 기본 이미지 URL 사용
+                    }}
+                  />
+                  <EachTextContainer>
+                    <EachText1>{store.storeName}</EachText1>
+                    <EachText2>
+                      <p style={{ color: "RED", display: "inline", fontSize: "clamp(13px, 1.2vw, 15px)" }}>★ </p>
+                      <p style={{ display: "inline", fontSize: "clamp(13px, 1.2vw, 15px)" }}>
+                        {store.avgRatingVO.averageRating}
+                      </p>
+                      <p
+                        style={{
+                          color: "#a4a4a4",
+                          display: "inline",
+                          marginLeft: "0.5vw",
+                          fontSize: "clamp(13px, 1.2vw, 15px)"
+                        }}
+                      >
+                        {store.brandVO.brandFood}ㆍ{store.storeAddr}
+                      </p>
+                    </EachText2>
+                  </EachTextContainer>
+                </EachStore>
+              </StyledLink>
+            ))}
+          </StoresContainer>
+        </Container>
       </BrandStoresBlock>
     </>
   );

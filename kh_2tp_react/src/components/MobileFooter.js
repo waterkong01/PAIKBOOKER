@@ -12,22 +12,25 @@ const MobileFooterContainer = styled.div`
   align-items: center; /* 세로로 가운데 정렬 */
   width: 100%; /* 전체 너비를 차지하도록 설정 */
   height: 80px;
-  background-color: #f2f2f2;
-  border: 2px solid #c1c1c1;
+  border-top: 1px solid #e4e4e4;;
+  background-color: #ffffff;
 `;
 
 const MobileGoHome = styled.div`
-  padding-left: 30%;
+  width: 30px;
+  height: 30px;
+  margin-left: 28vw;
   cursor: pointer;
+  display: flex;
 `;
 
 const MobileInfo = styled.div`
-  padding-right: 30%;
+  width: 30px;
+  height: 30px;
+  margin-right: 28vw;
   cursor: pointer;
+  display: flex;
 `;
-
-
-
 
 const MobileFooter = () => {
   const [mobileSearchData, setMobileSearchData] = useState("");
@@ -39,23 +42,22 @@ const MobileFooter = () => {
     localStorage.getItem("loggedInUserId") ? true : false
   );
 
-
   const handleImageClick = () => {
     setModalOpen(true);
   };
-  
+
   const closeModal = () => {
     setModalOpen(false);
   };
-  
+
   const closeLoginModal = () => {
     setLoginModalOpen(false);
   };
-  
+
   const closeSignupModal = () => {
     setSignupModalOpen(false);
   };
-  
+
   const handleModalLinkClick = (action) => {
     if (action === "login") {
       setModalOpen(false);
@@ -82,8 +84,8 @@ const MobileFooter = () => {
           <img
             style={{
               filter: "invert(1) grayscale(100%)",
-              width: "60%",
-              height: "60%",
+              width: "100%",
+              height: "100%",
             }}
             src="https://firebasestorage.googleapis.com/v0/b/photo-island-eeaa3.firebasestorage.app/o/PAIKBOOKER_BRAND_IMG%2Fhome_24dp_E8EAED.png?alt=media&token=fe1309f4-0f54-48e7-8b73-b79425b93640"
             alt=""
@@ -91,39 +93,39 @@ const MobileFooter = () => {
         </Link>
       </MobileGoHome>
       <MobileInfo>
-          <img
-           style={{
+        <img
+          style={{
             filter: "invert(1) grayscale(100%)",
-            width: "70%",
-            height: "70%",
+            width: "100%",
+            height: "100%",
           }}
-            src="https://firebasestorage.googleapis.com/v0/b/photo-island-eeaa3.firebasestorage.app/o/PAIKBOOKER_BRAND_IMG%2Fperson_24dp_E8EAED.png?alt=media&token=3be47ba9-ed2f-41cd-813c-3d85bb1a3328"
-            alt="Profile"
-            onClick={handleImageClick}
-          />
+          src="https://firebasestorage.googleapis.com/v0/b/photo-island-eeaa3.firebasestorage.app/o/PAIKBOOKER_BRAND_IMG%2Fperson_24dp_E8EAED.png?alt=media&token=3be47ba9-ed2f-41cd-813c-3d85bb1a3328"
+          alt="Profile"
+          onClick={handleImageClick}
+        />
       </MobileInfo>
 
       {isLoggedIn ? (
         <MemberModal
-            isOpen={isModalOpen}
-            closeModal={closeModal}
-            handleModalLinkClick={handleModalLinkClick}
-            setIsLoggedIn={setIsLoggedIn}
-          />
-        ) : (
-          <ModalLoginPage
-            isOpen={isModalOpen}
-            closeModal={closeModal}
-            handleModalLinkClick={handleModalLinkClick}
-          />
-        )}
+          isOpen={isModalOpen}
+          closeModal={closeModal}
+          handleModalLinkClick={handleModalLinkClick}
+          setIsLoggedIn={setIsLoggedIn}
+        />
+      ) : (
+        <ModalLoginPage
+          isOpen={isModalOpen}
+          closeModal={closeModal}
+          handleModalLinkClick={handleModalLinkClick}
+        />
+      )}
 
-        {isLoginModalOpen && (
-          <LoginModal
-            closeModal={closeLoginModal}
-            setIsLoggedIn={setIsLoggedIn}
-          />
-        )}
+      {isLoginModalOpen && (
+        <LoginModal
+          closeModal={closeLoginModal}
+          setIsLoggedIn={setIsLoggedIn}
+        />
+      )}
       {isSignupModalOpen && <SignupModal closeModal={closeSignupModal} />}
     </MobileFooterContainer>
   );

@@ -2,8 +2,6 @@ import styled from "styled-components";
 import { useState, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 
-
-
 // 두 위도-경도 좌표 간의 거리를 계산하는 Haversine 공식
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
   // 각도를 라디안으로 변환하는 함수
@@ -31,43 +29,42 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
 };
 
 const MobileHomeItemBlock = styled.div`
-    width: 100%;
-    max-width: 768px; /* 너비를 768px로 고정 */
-    margin: 0 auto; /* 화면 중앙 정렬 */
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    background-color: #fff;
-    min-width: 680px; /* 최소 너비 640px로 설정 */
+  width: 100vw;
+  margin: 0 auto; /* 화면 중앙 정렬 */
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: #fff;
+  min-width: 680px; /* 최소 너비 640px로 설정 */
 `;
 
 const DropdownContainer = styled.div`
-    width: 100%;
-    height: 30px;
-    display: flex;
-    justify-content: right;
-    position: relative;
+  width: 100%;
+  max-width: 768px;
+  height: 30px;
+  display: flex;
+  justify-content: right;
+  position: relative;
 `;
 
 const Dropdown = styled.select`
   height: 30px; /* 드롭다운의 고정 높이 */
-  text-align: 30px;
-  padding-left: 30px;
-  font-size: 0.7em;
+  padding-left: 1vw;
+  font-size: (13px, 1.2vw, 15px);
   border: none;
   border-bottom: 1px solid black;
-  margin-right: 10px;
-  margin-bottom: 10px;
+  margin-right: 1vw;
+  margin-bottom: 1vw;
   background-color: #fff;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
-  width: 120px;
+  width: 20vw;
   appearance: none;
   background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
   background-repeat: no-repeat;
-  background-position: right 2px center;
+  background-position: right 1vw center;
   &:focus {
     outline: none;
   }
@@ -83,7 +80,8 @@ const Dropdown = styled.select`
 `;
 
 const Background = styled.div`
-  width: 768px;
+  width: 100%;
+  max-width: 768px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -97,29 +95,31 @@ const BrandContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column; // 세로로 나열되도록 변경
-  align-items: center;
-  gap: 20px;
+  align-items: left;
+  justify-content: center;
+  gap: 5vw;
   position: relative;
 `;
 
 const BrandMain = styled.div`
+  width: 90%;
   box-sizing: border-box;
-  width: 400px; /* 부모 요소 너비에 맞게 조정 */
-  height: 38px; /* 고정 높이 */
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 1vw;
+  margin-bottom: 1vw;
   box-sizing: border-box;
   background-color: none;
-  border-radius: 10px;
+  border-radius: 1em;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   position: relative;
 `;
 
 const NameBar = styled.div`
+box-sizing: border-box;
   width: 100%;
-  margin-left: 80px;
+  left: 1vw;
+  position: relative;
   display: flex;
   flex-direction: row;
 `;
@@ -127,14 +127,13 @@ const NameBar = styled.div`
 const BrandFontBox = styled.div`
   display: flex;
   flex-direction: column;
- 
 `;
 
 const BrandName = styled.div`
   width: 100%;
   height: 100%;
-  padding-left: 5px;
-  font-size: 0.7em; // 브랜드 이름 크기
+  padding-left: 1vw;
+  font-size: clamp(13px, 1.2vw, 15px);
   font-weight: bold; // 브랜드 이름 강조
   color: black;
   background-color: none; // 배경색 추가 (로고가 없을 때 대비용)
@@ -143,11 +142,11 @@ const BrandName = styled.div`
 const BrandDesc = styled.div`
   width: 100%;
   height: 100%;
-  padding-left: 5px;
-  font-size: 10px;
+  padding-left: 1vw;
+  font-size: clamp(13px, 1.2vw, 15px);
   color: #a1a1a1;
   display: flex;
-  justify-items:start;
+  justify-items: start;
 `;
 
 const ArrowsAndStores = styled.div`
@@ -157,29 +156,29 @@ const ArrowsAndStores = styled.div`
 `;
 
 const StoresContainer = styled.div`
-  width: 90vw;
+  box-sizing: border-box;
+  width: 87vw;
   margin-top: 0;
   margin-bottom: 0;
-  margin-left: 2%;
   position: relative;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding-right: 2vw;
-  padding-left: 2vw;
+  gap: 1vw;
+  padding-right: 1vw;
+  padding-left: 1vw;
 `;
 
 const ArrowButton = styled.button`
   position: sticky;
-  width: 5%;
+  width: 4vw;
   height: 160px;
-  background-color: #e3e3e3;
+  background-color: #f1f1f1;
   color: black;
   border: none;
   cursor: pointer;
   z-index: 10;
   font-size: 1em;
-  border-radius: 10px;
+  border-radius: 1em;
   &.left-arrow {
     left: 0;
   }
@@ -195,16 +194,15 @@ const Stores = styled.div`
   scroll-behavior: smooth;
   overflow-x: hidden;
   position: sticky;
-  margin-left: 5%;
-  gap: 10px;
+  gap: 1vw;
 `;
 
 const EachStore = styled.div`
   box-sizing: border-box;
   width: 195px;
   height: 160px;
-  border-radius: 10px;
-  background-color: #e3e3e3;
+  border-radius: 1em;
+  background-color: #f1f1f1;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -218,14 +216,14 @@ const EachImage = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-top-left-radius: 1em;
+  border-top-right-radius: 1em;
 `;
 
 const EachTextContainer = styled.div`
   box-sizing: border-box;
-  padding-left: 10px;
-  padding-bottom: 5px;
+  padding-left: 1.5vw;
+  padding-bottom: 0.5vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -235,9 +233,8 @@ const EachTextContainer = styled.div`
 const EachText1 = styled.div`
   box-sizing: border-box;
   width: 175px;
-  padding-top: 5px;
-  height: 24px;
-  font-size: 0.8em;
+  padding-top: 0.5vw;
+  font-size: clamp(13px, 1.2vw, 15px);
   word-wrap: break-word;
   overflow-wrap: break-word;
   word-break: break-word;
@@ -247,7 +244,7 @@ const EachText1 = styled.div`
 
 const EachText2 = styled.div`
   box-sizing: border-box;
-  font-size: 0.7em;
+  font-size: clamp(13px, 1.2vw, 15px);
 `;
 
 const StyledLink = styled(Link)`
@@ -257,8 +254,6 @@ const StyledLink = styled(Link)`
   transition: color 0.3s;
 `;
 
-
-
 const MobileHome = ({ mobileDataReceivedAfterSearch }) => {
   const [sortType, setSortType] = useState("name");
   const [sortByDistance, setSortByDistance] = useState(false);
@@ -267,8 +262,8 @@ const MobileHome = ({ mobileDataReceivedAfterSearch }) => {
 
   // console.log("sortByDistance:", sortByDistance);
   // console.log("sortType:", sortType);
-   // 브랜드 이름과 설명을 매핑한 배열
-   const brandDescriptions = [
+  // 브랜드 이름과 설명을 매핑한 배열
+  const brandDescriptions = [
     { brandName: "빽보이피자", description: "TRUST ME, THIS IS THE BEST!" },
     { brandName: "역전우동", description: "백종원의 우동&덮밥 전문점" },
     { brandName: "빽다방", description: "합리적인 커피 문화를 만들어 갑니다." },
@@ -277,18 +272,42 @@ const MobileHome = ({ mobileDataReceivedAfterSearch }) => {
     { brandName: "한신포차", description: "대한민국 실내 포장마차" },
     { brandName: "백스비어", description: "Delicious Food&Beer" },
     { brandName: "새마을식당", description: "백종원의 열탄불고기 전문점점" },
-    { brandName: "제순식당", description: "소박하지만 돌아서면 생각나는 따뜻한 맛" },
+    {
+      brandName: "제순식당",
+      description: "소박하지만 돌아서면 생각나는 따뜻한 맛",
+    },
     { brandName: "리춘시장", description: "대한민국 No.1 중식 주점점 브랜드" },
     { brandName: "고투웍", description: "아메리칸 차이니즈 푸드" },
-    { brandName: "홍콩분식", description: "홍콩반점의 노하우를 담은 떡볶이 브랜드" },
-    { brandName: "백종원의쌈밥", description: "20여가지 신선한 채소로 즐기는 건강한 한 상!" },
-    { brandName: "본가", description: "한식의 세계화에 앞장 서는 우삼겹의 원조" },
-    { brandName: "인생설렁탕", description: "인생에 기억될 맛, 인생을 추억할 맛" },
+    {
+      brandName: "홍콩분식",
+      description: "홍콩반점의 노하우를 담은 떡볶이 브랜드",
+    },
+    {
+      brandName: "백종원의쌈밥",
+      description: "20여가지 신선한 채소로 즐기는 건강한 한 상!",
+    },
+    {
+      brandName: "본가",
+      description: "한식의 세계화에 앞장 서는 우삼겹의 원조",
+    },
+    {
+      brandName: "인생설렁탕",
+      description: "인생에 기억될 맛, 인생을 추억할 맛",
+    },
     { brandName: "막이오름", description: "우리술의 새로운 막이 오르다" },
-    { brandName: "연돈볼카츠", description: "제주 연돈의 노하우와 우리 돼지 한돈의 꽉 찬 만남" },
+    {
+      brandName: "연돈볼카츠",
+      description: "제주 연돈의 노하우와 우리 돼지 한돈의 꽉 찬 만남",
+    },
     { brandName: "돌배기집", description: "백종원의 차돌박이 전문점점" },
-    { brandName: "미정국수", description: "오랜시간 정성으로 만들어낸 한 그릇의 국수" },
-    { brandName: "백철판판", description: "여러가지 식재료로 만드는 다양한 철판요리" },
+    {
+      brandName: "미정국수",
+      description: "오랜시간 정성으로 만들어낸 한 그릇의 국수",
+    },
+    {
+      brandName: "백철판판",
+      description: "여러가지 식재료로 만드는 다양한 철판요리",
+    },
   ];
 
   const setRef = (index) => (element) => {
@@ -299,30 +318,32 @@ const MobileHome = ({ mobileDataReceivedAfterSearch }) => {
   const referenceLon = 127.03646889929213;
 
   // 배열이 비어 있지 않으면: 데이터를 reduce를 통해 브랜드별로 그룹화하여 새로운 배열을 생성
- const stores = useMemo(() => {
-  const data = Array.isArray(mobileDataReceivedAfterSearch.data) ? mobileDataReceivedAfterSearch.data : mobileDataReceivedAfterSearch;
-  
-  console.log("Data received:", data);
+  const stores = useMemo(() => {
+    const data = Array.isArray(mobileDataReceivedAfterSearch.data)
+      ? mobileDataReceivedAfterSearch.data
+      : mobileDataReceivedAfterSearch;
 
-  return data && data.length > 0
-    ? data.reduce((acc, curr) => {
-        const brandName = curr.brandVO?.brandName; // brandVO가 null이 아닌지 확인
-        if (!brandName) return acc; // brandName이 없는 경우 제외
+    console.log("Data received:", data);
 
-        const brand = acc.find((item) => item.brand.brandName === brandName);
+    return data && data.length > 0
+      ? data.reduce((acc, curr) => {
+          const brandName = curr.brandVO?.brandName; // brandVO가 null이 아닌지 확인
+          if (!brandName) return acc; // brandName이 없는 경우 제외
 
-        if (brand) {
-          brand.stores.push(curr);
-        } else {
-          acc.push({
-            brand: curr.brandVO,
-            stores: [curr],
-          });
-        }
-        return acc;
-      }, [])
-    : [];
-}, [mobileDataReceivedAfterSearch]);
+          const brand = acc.find((item) => item.brand.brandName === brandName);
+
+          if (brand) {
+            brand.stores.push(curr);
+          } else {
+            acc.push({
+              brand: curr.brandVO,
+              stores: [curr],
+            });
+          }
+          return acc;
+        }, [])
+      : [];
+  }, [mobileDataReceivedAfterSearch]);
 
   console.log("stores:", stores);
 
@@ -393,13 +414,13 @@ const MobileHome = ({ mobileDataReceivedAfterSearch }) => {
     }
   };
 
-    // 해당 브랜드 이름에 맞는 설명을 찾는 함수
-    const getBrandDescription = (brandName) => {
-      const brand = brandDescriptions.find(
-        (item) => item.brandName === brandName
-      );
-      return brand ? brand.description : "설명 없음"; // 기본값은 '설명 없음'
-    };
+  // 해당 브랜드 이름에 맞는 설명을 찾는 함수
+  const getBrandDescription = (brandName) => {
+    const brand = brandDescriptions.find(
+      (item) => item.brandName === brandName
+    );
+    return brand ? brand.description : "설명 없음"; // 기본값은 '설명 없음'
+  };
 
   return (
     <>
@@ -421,68 +442,80 @@ const MobileHome = ({ mobileDataReceivedAfterSearch }) => {
                 <StyledLink
                   to={`/brand/${brandData.brand.brandNo}`}
                   key={brandData.brand.brandNo}
-                 >
+                >
                   <BrandMain>
                     <NameBar>
-                        <div style={{backgroundColor:"black", width:"5px",height:"30px"}}></div>
-                        <BrandFontBox>  
-                          <BrandName>
-                            {brandData.brand.brandName} {/* 브랜드 이름 표시 */}
-                          </BrandName>
-                          <BrandDesc>
-                            {getBrandDescription(brandData.brand.brandName)} {/* 브랜드 설명 표시 */}
-                          </BrandDesc>
-                        </BrandFontBox>
+                      <div
+                        style={{
+                          backgroundColor: "black",
+                          width: "5px",
+                          height: "38px",
+                        }}
+                      ></div>
+                      <BrandFontBox>
+                        <BrandName>
+                          {brandData.brand.brandName} {/* 브랜드 이름 표시 */}
+                        </BrandName>
+                        <BrandDesc>
+                          {getBrandDescription(brandData.brand.brandName)}{" "}
+                          {/* 브랜드 설명 표시 */}
+                        </BrandDesc>
+                      </BrandFontBox>
                     </NameBar>
                   </BrandMain>
                 </StyledLink>
-               <ArrowsAndStores>
+                <ArrowsAndStores>
                   <ArrowButton
-                      className="left-arrow"
-                      onClick={() => scrollLeft(index)} >
-                      &lt;
+                    className="left-arrow"
+                    onClick={() => scrollLeft(index)}
+                  >
+                    &lt;
                   </ArrowButton>
                   <StoresContainer>
                     <Stores ref={setRef(index)}>
                       {brandData.stores.map((store) => (
-                        <StyledLink to={`/stores/${store.storeNo}`} key={store.storeNo}>
-                            <EachStore>
-                              <EachImage
-                                style={{
-                                  backgroundImage: `url(${brandData.brand.brandImg1})`,
-                                }}
-                              ></EachImage>
-                              <EachTextContainer>
-                                <EachText1>{store.storeName}</EachText1>
-                                <EachText2>
-                                  <p style={{ color: "RED", display: "inline" }}>
-                                    ★{" "}
-                                  </p>
-                                  <p style={{ display: "inline" }}>
-                                    {store.avgRatingVO.averageRating}
-                                  </p>
-                                  <p
-                                    style={{
-                                      color: "#a4a4a4",
-                                      display: "inline",
-                                      marginLeft: "5px",
-                                    }}
-                                  >
-                                    {store.brandVO.brandFood}ㆍ{store.storeAddr}
-                                  </p>
-                                </EachText2>
-                              </EachTextContainer>
-                            </EachStore>
+                        <StyledLink
+                          to={`/stores/${store.storeNo}`}
+                          key={store.storeNo}
+                        >
+                          <EachStore>
+                            <EachImage
+                              style={{
+                                backgroundImage: `url(${brandData.brand.brandImg1})`,
+                              }}
+                            ></EachImage>
+                            <EachTextContainer>
+                              <EachText1>{store.storeName}</EachText1>
+                              <EachText2>
+                                <p style={{ color: "RED", display: "inline" }}>
+                                  ★{" "}
+                                </p>
+                                <p style={{ display: "inline" }}>
+                                  {store.avgRatingVO.averageRating}
+                                </p>
+                                <p
+                                  style={{
+                                    color: "#a4a4a4",
+                                    display: "inline",
+                                    marginLeft: "5px",
+                                  }}
+                                >
+                                  {store.brandVO.brandFood}ㆍ{store.storeAddr}
+                                </p>
+                              </EachText2>
+                            </EachTextContainer>
+                          </EachStore>
                         </StyledLink>
                       ))}
                     </Stores>
                   </StoresContainer>
                   <ArrowButton
                     className="right-arrow"
-                    onClick={() => scrollRight(index)}>
+                    onClick={() => scrollRight(index)}
+                  >
                     &gt;
                   </ArrowButton>
-               </ArrowsAndStores>
+                </ArrowsAndStores>
               </div>
             ))}
           </BrandContainer>
