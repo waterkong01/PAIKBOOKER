@@ -36,7 +36,7 @@ export const StoreDetailLeft = styled.div`
   margin-left: 2%;
   margin-right: 1%;
   width: 50%;
-  margin-top: 1150px;
+  margin-top: 930px;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -463,7 +463,7 @@ export const PersonButton = styled.button`
   aspect-ratio: 1; /* 1:1 비율 */
   border: 1px solid black;
   border-radius: 2em;
-  font-size: 0.9vw;
+  font-size: 0.8vw;
   display: flex;
   align-items: center;
   justify-content: center;
