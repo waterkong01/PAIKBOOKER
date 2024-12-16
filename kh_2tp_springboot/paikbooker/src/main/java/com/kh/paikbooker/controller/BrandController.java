@@ -25,7 +25,7 @@ public class BrandController {
     public ResponseEntity<List<StoreVO>> searchStores(@PathVariable int brandNo) {
         // 브랜드 번호에 해당하는 매장 리스트를 조회
         List<StoreVO> brandStores = PCSearchService.getStoresByBrandNo(brandNo);  // brandNo를 사용하여 매장 정보 필터링
-        log.info("검색된 매장 목록: {}", brandStores);  // 매장 목록 로그 출력
+        // log.info("검색된 매장 목록: {}", brandStores);  // 매장 목록 로그 출력
         return ResponseEntity.ok(brandStores); // 매장 리스트 반환
     }
 }
