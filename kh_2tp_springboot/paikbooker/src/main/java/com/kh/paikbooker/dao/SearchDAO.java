@@ -17,7 +17,6 @@ import java.util.Map;
 @Slf4j
 @Repository
 @RequiredArgsConstructor
-
 public class SearchDAO {
     private final JdbcTemplate jdbcTemplate;
 
@@ -34,7 +33,6 @@ public class SearchDAO {
                 "GROUP BY s.STORE_NAME, s.STORE_NO, s.STORE_PHONE, s.STORE_ADDR, s.STORE_MAP, " +
                 "b.BRAND_NO, b.BRAND_NAME, b.BRAND_FOOD, b.BRAND_LOGO2, b.BRAND_IMG1, b.BRAND_IMG2";
 
-        // JdbcTemplate를 사용하여 쿼리 실행
         return jdbcTemplate.query(sql, new Object[]{brandNo}, new StoreRowMapper());
     }
 
@@ -67,9 +65,17 @@ public class SearchDAO {
 
         // 조건 3: 예약 시간
         if (reservationTime != null && !reservationTime.isEmpty()) {
-            sql.append(" AND res.R_TIME = ?");
-            params.add(reservationTime);
+            try {
+                int parsedTime = parseReservationTime(reservationTime); // 문자열 시간을 정수로 변환
+                sql.append(" AND res.R_TIME = ?");
+                params.add(parsedTime);
+            } catch (NumberFormatException e) {
+                log.error("Invalid reservation time format: {}", reservationTime, e);
+            }
         }
+
+        log.info("SQL Query: {}", sql.toString());
+        log.info("Query parameters: {}", params);
 
         // 쿼리 실행하여 결과를 리스트로 받음
         List<StoreVO> storeList = jdbcTemplate.query(sql.toString(), params.toArray(), new StoreRowMapper());
@@ -78,20 +84,25 @@ public class SearchDAO {
         return removeDuplicateStores(storeList);
     }
 
+    // 시간 문자열을 정수로 변환하는 헬퍼 메서드
+    private int parseReservationTime(String time) {
+        // "4:00" 형태를 정수 "4"로 변환
+        if (time.contains(":")) {
+            String[] parts = time.split(":");
+            return Integer.parseInt(parts[0]); // 시간 부분만 정수로 변환
+        }
+        throw new NumberFormatException("Invalid time format: " + time);
+    }
+
     // STORE_NO를 기준으로 중복을 제거하는 메서드
     private List<StoreVO> removeDuplicateStores(List<StoreVO> storeList) {
-        // STORE_NO를 기준으로 중복 제거
         Map<Integer, StoreVO> uniqueStores = new HashMap<>();
-
         for (StoreVO store : storeList) {
-            // STORE_NO가 key가 되어 중복되는 STORE_NO는 마지막 값으로 덮어씀
             uniqueStores.put(store.getStoreNo(), store);
         }
-
-        // Map에서 값만 추출하여 중복 제거된 리스트 반환
         return new ArrayList<>(uniqueStores.values());
     }
-    // 카테고리 목록을 반환하는 메서드들
+
     public List<String> getRegions() {
         String sql = "SELECT DISTINCT STORE_ADDR FROM STORE_TB";
         return jdbcTemplate.queryForList(sql, String.class);
@@ -103,7 +114,6 @@ public class SearchDAO {
     }
 
     public List<StoreVO> mobileSearchByKeyword(String keyword) {
-        // SQL 쿼리의 기본 구조
         StringBuilder sql = new StringBuilder(
                 "SELECT s.STORE_NAME, s.STORE_NO, s.STORE_PHONE, s.STORE_ADDR, s.STORE_MAP, " +
                         "b.BRAND_NAME, b.BRAND_NO, b.BRAND_FOOD, b.BRAND_LOGO2, b.BRAND_IMG1, b.BRAND_IMG2, " +
@@ -112,53 +122,44 @@ public class SearchDAO {
                         "JOIN BRAND_TB b ON s.BRAND_NAME = b.BRAND_NAME " +
                         "LEFT JOIN V_STORE_AVG rv ON s.STORE_NAME = rv.STORE_NAME " +
                         "LEFT JOIN RESERVATION_TB res ON s.STORE_NO = res.STORE_NO " +
-                        "WHERE 1=1 " // 기본 조건 (추가적인 WHERE 조건을 붙이기 쉽게 하기 위해)
+                        "WHERE 1=1 "
         );
 
-        // 입력 키워드를 공백으로 분리
         String[] keywords = keyword.trim().toLowerCase().split("\\s+");
-
-        // 각 키워드에 대해 조건 추가
         for (String word : keywords) {
             String likeKeyword = "%" + word + "%";
             sql.append(" AND (")
                     .append("LOWER(b.BRAND_NAME) LIKE ? OR ")
                     .append("LOWER(res.R_TIME) LIKE ? OR ")
-                    .append("LOWER(s.STORE_NAME) LIKE ? OR ") // 매장 이름에 대한 검색
-                    .append("LOWER(s.STORE_ADDR) LIKE ?")    // 주소에 대한 검색 추가
+                    .append("LOWER(s.STORE_NAME) LIKE ? OR ")
+                    .append("LOWER(s.STORE_ADDR) LIKE ?")
                     .append(")");
         }
 
-        // 파라미터 배열 생성 (각 키워드당 4개씩 추가됨)
-        Object[] params = new Object[keywords.length * 4]; // 주소 조건 추가
+        Object[] params = new Object[keywords.length * 4];
         int index = 0;
         for (String word : keywords) {
             String likeKeyword = "%" + word + "%";
-            params[index++] = likeKeyword; // BRAND_NAME
-            params[index++] = likeKeyword; // R_TIME
-            params[index++] = likeKeyword; // STORE_NAME
-            params[index++] = likeKeyword; // STORE_ADDR
+            params[index++] = likeKeyword;
+            params[index++] = likeKeyword;
+            params[index++] = likeKeyword;
+            params[index++] = likeKeyword;
         }
 
-        // JDBC 템플릿으로 쿼리 실행
         return jdbcTemplate.query(sql.toString(), params, new StoreRowMapper());
     }
 
-
-    // StoreVO 매핑을 위한 RowMapper 클래스
     public static class StoreRowMapper implements RowMapper<StoreVO> {
         @Override
         public StoreVO mapRow(ResultSet rs, int rowNum) throws SQLException {
             StoreVO store = new StoreVO();
 
-            // STORE_TB 테이블에서 가져온 컬럼
             store.setStoreNo(rs.getInt("STORE_NO"));
             store.setStoreName(rs.getString("STORE_NAME"));
             store.setStorePhone(rs.getString("STORE_PHONE"));
             store.setStoreAddr(rs.getString("STORE_ADDR"));
             store.setStoreMap(rs.getString("STORE_MAP"));
 
-            // BRAND_TB 테이블에서 가져온 컬럼
             BrandVO brand = new BrandVO();
             brand.setBrandNo(rs.getInt("BRAND_NO"));
             brand.setBrandName(rs.getString("BRAND_NAME"));
@@ -166,17 +167,15 @@ public class SearchDAO {
             brand.setBrandLogo2(rs.getString("BRAND_LOGO2"));
             brand.setBrandImg1(rs.getString("BRAND_IMG1"));
             brand.setBrandImg1(rs.getString("BRAND_IMG2"));
-            store.setBrandVO(brand); // StoreVO의 brandVO 필드에 브랜드 정보 추가
+            store.setBrandVO(brand);
 
-            // 조인으로 리뷰평균 가져오는 컬럼
             AvgRatingVO avgRatingVO = new AvgRatingVO();
             avgRatingVO.setAverageRating(rs.getDouble("AVERAGE_RATING"));
-            store.setAvgRatingVO(avgRatingVO); // StoreVO의 reviewVO 필드에 리뷰 정보 추가
+            store.setAvgRatingVO(avgRatingVO);
 
-            // RESERVATION_TB 테이블에서 가져온 컬럼
             ReservationVO reservation = new ReservationVO();
             reservation.setrTime(rs.getString("R_TIME"));
-            store.setReservationTimeVO(reservation); // StoreVO의 reservationTimeVO 필드에 예약 정보 추가
+            store.setReservationTimeVO(reservation);
 
             return store;
         }
