@@ -31,21 +31,19 @@ const ReservationRow = styled.div`
 
 const ReviewLink = styled(Link)`
   text-decoration: none;
-  color: #fff;
+  color: #000;
 `;
 
 const ReviewButton = styled.button`
-  width: 100%;
-  max-width: 150px;
-  padding: 10px;
-  border: none;
+  height: 40px;
+  padding: 0 16px;
   border-radius: 5px;
-  background-color: #007bff;
-  color: #fff;
-  font-size: 16px;
+  border: 1px solid;
+  margin-top: 10px;
   cursor: pointer;
-  &:hover {
-    background-color: #0056b3;
+  &:active {
+    background-color: #000;
+    color: #fff;
   }
 `;
 

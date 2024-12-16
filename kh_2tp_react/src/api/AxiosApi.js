@@ -29,21 +29,12 @@ const AxiosApi = {
   },
 
   // 회원가입
-  signup: async (
-    userName,
-    userId,
-    userPw,
-    userMail,
-    userBirth,
-    userPhone,
-    userImg
-  ) => {
+  signup: async (userName, userId, userPw, userMail, userPhone, userImg) => {
     const signupData = {
       userName: userName,
       userId: userId,
       userPw: userPw,
       userMail: userMail,
-      userBirth: userBirth,
       userPhone: userPhone,
       userImg: userImg,
     };

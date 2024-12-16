@@ -19,14 +19,4 @@ public class UserVO {
     private String userMail;
     private String userPhone;
     private String userImg;
-
-/*    public UserVO(String userName, String userId, String userPw, String userMail, Date userBirth, String userPhone,String userImg) {
-        this.userName = userName;
-        this.userId = userId;
-        this.userPw = userPw;
-        this.userMail = userMail;
-        this.userBirth = userBirth;
-        this.userPhone = userPhone;
-        this.userImg= userImg;
-    }*/
 }

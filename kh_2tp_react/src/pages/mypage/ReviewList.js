@@ -39,6 +39,7 @@ const ReviewButton = styled.button`
   padding: 0 16px;
   border-radius: 5px;
   border: 1px solid;
+  color: #000;
   cursor: pointer;
   &:active {
     background-color: #000;

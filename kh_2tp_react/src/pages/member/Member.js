@@ -31,7 +31,6 @@ const UserImage = styled.img`
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   object-fit: cover;
-  /* border: 2px solid #007bff; */
   display: ${(props) =>
     props.isLoading ? "none" : "block"}; /* 로딩 중에는 이미지 숨기기 */
 `;
@@ -39,18 +38,16 @@ const UserImage = styled.img`
 const MemberName = styled.h2`
   font-size: 20px;
   color: #333;
-  
 `;
 const BoldName = styled.span`
   font-size: 1em;
   font-weight: bold;
-`
+`;
 
 const ErrorMessage = styled.div`
   color: red;
   font-size: 14px;
 `;
-
 
 const MenuContainer = styled.div`
   display: grid;
@@ -132,7 +129,7 @@ const Member = () => {
     fetchMemberData();
   }, []);
 
-/*   const handleEditClick = () => {
+  /*   const handleEditClick = () => {
     navigate("/member/MemberInfo"); // 멤버 수정 페이지로 이동
   }; */
 
@@ -172,14 +169,14 @@ const Member = () => {
         )}
 
         <MemberName>
-          {member ? 
+          {member ? (
             <>
-              <BoldName>
-                {member.userName}
-              </BoldName>
+              <BoldName>{member.userName}</BoldName>
               님, 안녕하세요!
             </>
-          : "불러오는중"}
+          ) : (
+            "불러오는중"
+          )}
         </MemberName>
         {error && <ErrorMessage>{error}</ErrorMessage>}
 
@@ -196,7 +193,7 @@ const Member = () => {
         ))}
       </MenuContainer>
 
-{/*       {selectedMenu && (
+      {/*       {selectedMenu && (
         <div className="menu-detail">
           <h2>Detail for {menuItems.find((item) => item.id === selectedMenu).title}</h2>
           <p>

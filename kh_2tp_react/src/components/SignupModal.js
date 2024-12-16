@@ -14,10 +14,6 @@ const SignupModal = ({ closeModal }) => {
   const [inputConPw, setInputConPw] = useState("");
   const [inputEmail, setInputEmail] = useState("");
 
-  const [selectedYear, setSelectedYear] = useState("");
-  const [selectedMonth, setSelectedMonth] = useState("");
-  const [selectedDay, setSelectedDay] = useState("");
-
   const [isId, setIsId] = useState(false);
   const [isPhone, setIsPhone] = useState(false);
   const [isMail, setIsMail] = useState(false);
@@ -33,21 +29,6 @@ const SignupModal = ({ closeModal }) => {
   const [conPwMessage, setConPwMessage] = useState("");
   const [mailMessage, setMailMessage] = useState("");
   const [phoneMessage, setPhoneMessage] = useState("");
-
-  const currentYear = new Date().getFullYear();
-  const minYear = currentYear - 100; // 14년 전까지 가능
-  const maxYear = currentYear - 14; // 14년 전까지 가능
-  const years = [];
-
-  for (let year = currentYear - 1; year >= minYear; year--) {
-    if (year <= maxYear) {
-      years.push(year);
-    }
-  }
-
-  // 월과 일 옵션 생성
-  const months = Array.from({ length: 12 }, (_, i) => i + 1);
-  const days = Array.from({ length: 31 }, (_, i) => i + 1);
 
   const handleFileInputChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -80,18 +61,12 @@ const SignupModal = ({ closeModal }) => {
       }
     }
 
-    const selectedDate = `${selectedYear}-${String(selectedMonth).padStart(
-      2,
-      "0"
-    )}-${String(selectedDay).padStart(2, "0")}`;
-
     try {
       const memberReg = await AxiosApi.signup(
         inputName,
         inputId,
         inputPw,
         inputEmail,
-        selectedDate,
         inputPhone,
         finalProfileUrl
       );

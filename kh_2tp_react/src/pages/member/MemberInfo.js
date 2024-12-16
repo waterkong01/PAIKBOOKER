@@ -22,7 +22,6 @@ const MemberInfo = () => {
     userName: "",
     userMail: "",
     userPhone: "",
-    userBirth: "",
     userImg: DEFAULT_PROFILE_URL,
     userPw: "",
   });
@@ -31,7 +30,6 @@ const MemberInfo = () => {
   const [inputName, setInputName] = useState("");
   const [inputMail, setInputMail] = useState("");
   // const [inputPw, setInputPw] = useState("");
-  const [inputBirth, setInputBirth] = useState("");
 
   // Validations
   const [mailMessage, setMailMessage] = useState("");
@@ -39,24 +37,6 @@ const MemberInfo = () => {
   const [isMail, setIsMail] = useState(true);
   // const [isPw, setIsPw] = useState(true);
   const [isName, setIsName] = useState(false);
-
-  const [selectedYear, setSelectedYear] = useState("");
-  const [selectedMonth, setSelectedMonth] = useState("");
-  const [selectedDay, setSelectedDay] = useState("");
-
-  const currentYear = new Date().getFullYear();
-  const minYear = currentYear - 100; // 14년 전까지 가능
-  const maxYear = currentYear - 14; // 14년 전까지 가능
-  const years = [];
-
-  for (let year = currentYear - 1; year >= minYear; year--) {
-    if (year <= maxYear) {
-      years.push(year);
-    }
-  }
-
-  const months = Array.from({ length: 12 }, (_, i) => i + 1);
-  const days = Array.from({ length: 31 }, (_, i) => i + 1);
 
   // Profile image
   const [file, setFile] = useState(null);
@@ -81,13 +61,6 @@ const MemberInfo = () => {
           setUserInfo(userData);
           setInputName(userData.userName);
           setInputMail(userData.userMail);
-          setInputBirth(
-            userData.userBirth ? userData.userBirth.substring(0, 10) : ""
-          );
-          const birthParts = userData.userBirth.split("-");
-          setSelectedYear(birthParts[0]);
-          setSelectedMonth(birthParts[1]);
-          setSelectedDay(birthParts[2]);
           setProfileUrl(userData.userImg || DEFAULT_PROFILE_URL);
         }
       } catch (error) {
@@ -109,16 +82,6 @@ const MemberInfo = () => {
       reader.readAsDataURL(selectedFile);
     } else {
       alert("유효한 이미지 파일만 선택해주세요.");
-    }
-  };
-
-  const handleBirthChange = (type, value) => {
-    if (type === "selectedYear") {
-      setSelectedYear(value);
-    } else if (type === "selectedMonth") {
-      setSelectedMonth(value);
-    } else if (type === "selectedDay") {
-      setSelectedDay(value);
     }
   };
 
@@ -166,45 +129,11 @@ const MemberInfo = () => {
     }
 
     // 변경된 필드만 추출
-    /* const updatedFields = {};
-    if (userInfo.USER_NAME !== inputName) updatedFields.USER_NAME = inputName;
-    if (userInfo.USER_MAIL !== inputMail) updatedFields.USER_MAIL = inputMail;
-    if (inputPw) updatedFields.USER_PW = inputPw;
-    if (userInfo.USER_BIRTH.substring(0, 10) !== inputBirth)
-      updatedFields.USER_BIRTH = inputBirth;
-    if (userInfo.USER_IMG !== finalProfileUrl)
-      updatedFields.USER_IMG = finalProfileUrl;
-
-    if (Object.keys(updatedFields).length === 0) {
-      alert("변경된 내용이 없습니다.");
-      return;
-    }
-
-    try {
-      const response = await AxiosApi.updateMemberInfo(
-        userInfo.userId,
-        updatedFields
-      );
-
-      if (response.data) {
-        alert("회원 정보가 성공적으로 수정되었습니다.");
-        navigate("/Member");
-      } else {
-        alert("회원 정보 수정에 실패했습니다.");
-      }
-    } catch (error) {
-      console.error("서버 응답 실패:", error);
-      alert("서버가 응답하지 않습니다.");
-    } */
-
-    // 변경된 필드만 추출
     const updatedFields = {};
 
     if (userInfo.userName !== inputName) updatedFields.USER_NAME = inputName;
     if (userInfo.userMail !== inputMail) updatedFields.USER_MAIL = inputMail;
     if (userInfo.userPw) updatedFields.USER_PW = userInfo.userPw; // 이미 변경된 비밀번호를 포함
-    if (userInfo.userBirth !== inputBirth)
-      updatedFields.USER_BIRTH = inputBirth;
     if (userInfo.userImg !== finalProfileUrl)
       updatedFields.USER_IMG = finalProfileUrl;
 
