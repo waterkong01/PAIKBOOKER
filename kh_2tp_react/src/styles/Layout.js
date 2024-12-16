@@ -39,7 +39,6 @@ const StyledMain = styled.main`
   .content {
     z-index: 10; /* 콘텐츠가 이미지 위로 오도록 설정 */
   }
-  overflow: hidden;
 `;
 
 const StyledFooter = styled.footer`

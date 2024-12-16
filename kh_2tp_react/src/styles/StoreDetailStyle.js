@@ -36,6 +36,7 @@ export const StoreDetailLeft = styled.div`
   margin-left: 2%;
   margin-right: 1%;
   width: 50%;
+  margin-top: 1150px;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -231,6 +232,7 @@ export const BrandMapContainer = styled.div`
   overflow: hidden;
   border-radius: 1em;
   background-color: #f0f0f0;
+  z-index: 0;
   @media (max-width: 768px) {
     margin-top: 10%;
     width: 100%;
@@ -279,7 +281,7 @@ export const MenuArrowButton = styled.button`
   color: black;
   border: none;
   cursor: pointer;
-  z-index: 5;
+  z-index: 0;
   padding: 1%;
   font-size: clamp(10px, 1vw, 12px);
   border-radius: 0.7em;

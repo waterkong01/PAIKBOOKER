@@ -77,7 +77,6 @@ const Dropdown = styled.select`
   }
 `;
 
-
 const Background = styled.div`
   width: 100vw;
   position: relative;
@@ -101,7 +100,6 @@ const BrandContainer = styled.div`
   align-items: center;
   gap: 1vw;
   position: relative;
-
 `;
 
 const BrandMain = styled.div`
@@ -122,7 +120,7 @@ const BrandLogo = styled.div`
   width: 100px;
   height: 100px;
   background-size: contain;
-  background-repeat: no -repeat;
+  background-repeat: no-repeat;
   background-position: center;
 `;
 
@@ -193,7 +191,7 @@ const EachImage = styled.div`
 
 const EachTextContainer = styled.div`
   box-sizing: border-box;
-  padding-left: 1.5vw;
+  padding-left: 0.8vw;
   padding-bottom: 0.5vw;
   display: flex;
   flex-direction: column;
