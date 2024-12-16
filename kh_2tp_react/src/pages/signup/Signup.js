@@ -12,7 +12,6 @@ const DEFAULT_PROFILE_URL =
   "https://firebasestorage.googleapis.com/v0/b/project-mini-db956.firebasestorage.app/o/default_profile.png?alt=media&token=6ccfd06d-4d99-4c7b-b603-1baf0517116b";
 
 const Signup = () => {
-
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
@@ -23,27 +22,6 @@ const Signup = () => {
   const [inputPw, setInputPw] = useState("");
   const [inputConPw, setInputConPw] = useState("");
   const [inputEmail, setInputEmail] = useState("");
-
-  // 현재 날짜
-  const currentYear = new Date().getFullYear();
-  const minYear = currentYear - 100; // 14년 전까지 가능
-  const maxYear = currentYear - 14; // 14년 전까지 가능
-  const years = [];
-
-  for (let year = currentYear - 1; year >= minYear; year--) {
-    if (year <= maxYear) {
-      years.push(year);
-    }
-  }
-
-  // 월과 일 옵션 생성
-  const months = Array.from({ length: 12 }, (_, i) => i + 1);
-  const days = Array.from({ length: 31 }, (_, i) => i + 1);
-
-  // States for birth date
-  const [selectedYear, setSelectedYear] = useState("");
-  const [selectedMonth, setSelectedMonth] = useState("");
-  const [selectedDay, setSelectedDay] = useState("");
 
   // Validation states
   const [isId, setIsId] = useState(false);
@@ -65,7 +43,7 @@ const Signup = () => {
   const [phoneMessage, setPhoneMessage] = useState("");
 
   // Arrays for year, month, and day selection
-/*   const years = Array.from(
+  /*   const years = Array.from(
     { length: 100 },
     (_, i) => new Date().getFullYear() - i
   );
@@ -105,18 +83,12 @@ const Signup = () => {
       }
     }
 
-    const selectedDate = `${selectedYear}-${String(selectedMonth).padStart(
-      2,
-      "0"
-    )}-${String(selectedDay).padStart(2, "0")}`;
-
     try {
       const memberReg = await AxiosApi.signup(
         inputName,
         inputId,
         inputPw,
         inputEmail,
-        selectedDate,
         inputPhone,
         finalProfileUrl
       );
@@ -235,12 +207,6 @@ const Signup = () => {
     setInputName(e.target.value);
     setIsName(true);
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(`생년월일: ${selectedYear}-${selectedMonth}-${selectedDay}`);
-  };
-
   return (
     <Container>
       <ProfileWrapper>
@@ -351,35 +317,6 @@ const Signup = () => {
           <span className={isPhone ? "success" : "error"}>{phoneMessage}</span>
         )}
       </Items>
-      <Items variant="title">
-        <p>생년월일</p>
-      </Items>
-      <Items variant="item3">
-        <BirthSelect onChange={(e) => setSelectedYear(e.target.value)}>
-          <option value="">년도</option>
-          {years.map((year) => (
-            <option key={year} value={year}>
-              {year}
-            </option>
-          ))}
-        </BirthSelect>
-        <BirthSelect onChange={(e) => setSelectedMonth(e.target.value)}>
-          <option value="">월</option>
-          {months.map((month) => (
-            <option key={month} value={month}>
-              {month}
-            </option>
-          ))}
-        </BirthSelect>
-        <BirthSelect onChange={(e) => setSelectedDay(e.target.value)}>
-          <option value="">일</option>
-          {days.map((day) => (
-            <option key={day} value={day}>
-              {day}
-            </option>
-          ))}
-        </BirthSelect>
-      </Items>
       <Items variant="item2">
         {isName && isId && isPw && isConPw && isMail && isPhone ? (
           <Button enabled onClick={onClickSignup}>
@@ -434,12 +371,5 @@ const FileInputLabel = styled.label`
 const FileInput = styled.input`
   display: none;
 `;
-
-const BirthSelect = styled.select`
-  border: 1px solid #999;
-  border-radius: 18px;
-  margin-left: 30px;
-  padding: 1em;
-`
 
 export default Signup;

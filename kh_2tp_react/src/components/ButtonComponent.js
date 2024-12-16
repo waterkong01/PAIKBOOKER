@@ -3,7 +3,7 @@ import styled from "styled-components";
 import React from "react";
 
 const StyledButton = styled.button`
-  background-color: ${({ disabled }) => (disabled ? "#ccc" : "#007bff")};
+  background-color: ${({ disabled }) => (disabled ? "#ccc" : "#000")};
   color: ${({ disabled }) => (disabled ? "#666" : "#fff")};
   padding: 10px 20px;
   margin: 0 30px;

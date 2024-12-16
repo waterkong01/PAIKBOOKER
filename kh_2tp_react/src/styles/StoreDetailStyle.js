@@ -36,7 +36,6 @@ export const StoreDetailLeft = styled.div`
   margin-left: 2%;
   margin-right: 1%;
   width: 50%;
-  margin-top: 1150px;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -98,7 +97,7 @@ export const BrandImage = styled.img`
   padding: 0;
   height: 100%;
   display: block;
-  object-fit: contain;
+  object-fit: cover;
   @media (max-width: 768px) {
     width: 100%;
   }
@@ -115,6 +114,7 @@ export const StoreInfoContainer = styled.div`
   gap: 1%;
   flex-wrap: wrap;
   @media (max-width: 768px) {
+    width: 100%;
     flex-direction: column;
     align-items: center;
     order: 3;
@@ -130,6 +130,7 @@ export const StoreAddrAndPhoneContainer = styled.div`
   flex-direction: column;
   @media (max-width: 768px) {
     align-items: center;
+    width: 100%;
   }
 `;
 
@@ -463,7 +464,7 @@ export const PersonButton = styled.button`
   aspect-ratio: 1; /* 1:1 비율 */
   border: 1px solid black;
   border-radius: 2em;
-  font-size: 0.9vw;
+  font-size: 0.8vw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -471,9 +472,9 @@ export const PersonButton = styled.button`
   background-color: white;
   color: black;
   &:hover {
-      background-color: black;
-      color:white;
-    }
+    background-color: black;
+    color: white;
+  }
   &.selected {
     background-color: black;
     color: white;
@@ -553,4 +554,3 @@ export const MobileReservationButton = styled.button`
     display: none;
   }
 `;
-

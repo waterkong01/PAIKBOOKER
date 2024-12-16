@@ -29,7 +29,6 @@ const StyledHeader = styled.header`
 
 const StyledMain = styled.main`
   width: 100%;
-  height: calc(100vh - 260px); /* 헤더의 높이를 제외한 나머지 공간 */
   display: flex;
   flex-direction: column; /* 콘텐츠가 세로로 쌓이도록 설정 */
   @media (max-width: 768px) {

@@ -42,12 +42,11 @@ const Dropdown = styled.select`
   width: 100%;
   height: 100%;
   padding: 10px 15px;
-  font-size: 16px;
   border: none;
   border-radius: 5px;
   margin-right: 10px;
   background-color: #fff;
-  font-size: calc(5px + 0.8vw);
+  font-size: calc(5px + 0.6vw);
   cursor: pointer;
   transition: all 0.3s ease;
 
