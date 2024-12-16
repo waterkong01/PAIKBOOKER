@@ -8,7 +8,6 @@ import AxiosApi from "../../api/AxiosApi";
 import { storage } from "../../api/Firebase";
 import styled from "styled-components";
 import NavBarModal from "../../components/NavBarModal";
-import { InputContainer } from "../../components/SignupModal";
 import { DateSelector, SelectBox } from "../../components/SignupModal";
 
 const DEFAULT_PROFILE_URL =
@@ -346,16 +345,6 @@ const MemberInfo = () => {
           disabled
         />
       </InputContainer>
-      {/* <InputContainer>
-        <p>생년월일</p>
-        <Input
-          type="date"
-          name="userBirth"
-          placeholder="생일"
-          value={inputBirth}
-          onChange={(e) => setInputBirth(e.target.value)}
-        />
-      </InputContainer> */}
       <Items variant="item2">
         <Button enabled={isName && isMail} onClick={onClickSaveChanges}>
           저장
@@ -402,8 +391,10 @@ const ProfileEditContainer = styled.div`
   flex-direction: column;
   padding: 0 5vw;
   /* max-width: 700px; */
-  width: 90%;
-  margin: auto;
+  width: 100%;
+  min-width: 500px;
+  /* margin: auto; */
+  margin-bottom: 3vw;
   border: 1px solid #000;
   border-radius: 10px;
   align-items: center;
@@ -426,7 +417,7 @@ const ProfileEditContainer = styled.div`
 const ProfileWrapper = styled.div`
   display: flex;
   justify-content: center;
-  padding: 2vw 0;
+  padding: 3vw 0;
 `
 
 const ProfileBox = styled.div`
@@ -446,7 +437,13 @@ const ProfileImage = styled.div`
     object-fit: cover;
   }
 `;
-
+const InputContainer = styled.div`
+  width: 65%;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+`;
 const FileInputLabel = styled.label`
   width: 40px;
   text-align: center;
@@ -467,7 +464,8 @@ const FileInput = styled.input`
 `;
 
 const Input = styled.input`
-  width: 415px;
+  /* width: 415px; */
+  /* width: 50%; */
   padding: 9px;
   margin-bottom: 4px;
   border: 1px solid #ccc;

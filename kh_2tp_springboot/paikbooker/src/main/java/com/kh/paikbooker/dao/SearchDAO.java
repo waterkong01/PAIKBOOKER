@@ -71,9 +71,6 @@ public class SearchDAO {
             params.add(reservationTime);
         }
 
-        log.info("SQL Query: {}", sql.toString());
-        log.info("Query parameters: {}", params);
-
         // 쿼리 실행하여 결과를 리스트로 받음
         List<StoreVO> storeList = jdbcTemplate.query(sql.toString(), params.toArray(), new StoreRowMapper());
 

@@ -8,9 +8,14 @@ const Container = styled.div`
     gap: 2vw;
     grid-template-columns: repeat(2, 1fr);
     justify-items: stretch;
+    margin-bottom: 3vw;
+    /* margin-bottom: 6vw; */
     & > a:first-child {
         grid-column: span 2; /* 첫 번째 박스는 전체 너비 차지 */
         aspect-ratio: initial;
+    }
+    @media (max-width: 1405px) {
+        margin-bottom: 3vw;
     }
 `
 const ReviewLink = styled(Link)`

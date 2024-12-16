@@ -33,7 +33,7 @@ public class PCSearchDropDownController {
             @RequestParam(required = false) String reservationTime) {
 
         // 디버깅용
-        log.error("검색 조건 - 지역: {}, 브랜드명: {}, 예약시간: {}", region, brandName, reservationTime);
+        // log.error("검색 조건 - 지역: {}, 브랜드명: {}, 예약시간: {}", region, brandName, reservationTime);
 
         // StoreDao를 사용하여 조건에 맞는 매장 리스트를 조회
         List<StoreVO> storeList = PCSearchService.searchData(region, brandName, reservationTime);

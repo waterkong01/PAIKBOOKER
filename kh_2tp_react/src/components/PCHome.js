@@ -33,7 +33,7 @@ const HomeItemBlock = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 100vw;
   box-sizing: border-box;
   background-color: #fff;
   overflow-x: hidden;
@@ -52,13 +52,13 @@ const Dropdown = styled.select`
   font-size: clamp(13px, 1.2vw, 15px);
   border: none;
   border-bottom: 1px solid black;
-  margin-right: 2vw;
+  margin-right: 5vw;
   margin-bottom: 2vh;
   background-color: #fff;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
-  width: 10vw;
+  width: 13vw;
   appearance: none;
   background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
   background-repeat: no-repeat;
@@ -77,6 +77,7 @@ const Dropdown = styled.select`
   }
 `;
 
+
 const Background = styled.div`
   width: 100vw;
   position: relative;
@@ -86,6 +87,8 @@ const Background = styled.div`
   white-space: nowrap;
   scroll-behavior: smooth;
   overflow-x: hidden;
+  overflow-y: auto;
+  padding-bottom: 10%;
 `;
 
 const BrandContainer = styled.div`
@@ -98,7 +101,7 @@ const BrandContainer = styled.div`
   align-items: center;
   gap: 1vw;
   position: relative;
-  overflow-x: hidden;
+
 `;
 
 const BrandMain = styled.div`
@@ -119,7 +122,7 @@ const BrandLogo = styled.div`
   width: 100px;
   height: 100px;
   background-size: contain;
-  background-repeat: no-repeat;
+  background-repeat: no -repeat;
   background-position: center;
 `;
 
@@ -377,10 +380,21 @@ const PCHome = ({ PCdataReceivedAfterSearch }) => {
                         <EachTextContainer>
                           <EachText1>{store.storeName}</EachText1>
                           <EachText2>
-                            <p style={{ color: "RED", display: "inline", fontSize: "clamp(13px, 1.2vw, 15px)" }}>
+                            <p
+                              style={{
+                                color: "RED",
+                                display: "inline",
+                                fontSize: "clamp(13px, 1.2vw, 15px)",
+                              }}
+                            >
                               ★{" "}
                             </p>
-                            <p style={{ display: "inline", fontSize: "clamp(13px, 1.2vw, 15px)" }}>
+                            <p
+                              style={{
+                                display: "inline",
+                                fontSize: "clamp(13px, 1.2vw, 15px)",
+                              }}
+                            >
                               {store.avgRatingVO.averageRating}
                             </p>
                             <p
@@ -388,7 +402,7 @@ const PCHome = ({ PCdataReceivedAfterSearch }) => {
                                 color: "#a4a4a4",
                                 display: "inline",
                                 marginLeft: "0.5vw",
-                                fontSize: "clamp(13px, 1.2vw, 15px)"
+                                fontSize: "clamp(13px, 1.2vw, 15px)",
                               }}
                             >
                               {store.brandVO.brandFood}ㆍ{store.storeAddr}

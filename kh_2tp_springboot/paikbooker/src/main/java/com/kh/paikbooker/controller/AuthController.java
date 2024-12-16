@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.kh.paikbooker.service.EmailService;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +20,7 @@ import java.util.Map;
 public class AuthController {
 
     private final UserDAO userDao;
+    private final EmailService emailService;
 
     // 로그인
     @PostMapping("/login")
@@ -27,7 +30,6 @@ public class AuthController {
         boolean inSuccess = userDao.login(vo.getUserId(), vo.getUserPw());
         return ResponseEntity.ok(inSuccess);
     }
-    // 회원 가입
 
     // 아이디 중복 체크
     @GetMapping("/idCheck/{userId}")
@@ -37,7 +39,6 @@ public class AuthController {
         return ResponseEntity.ok(!idCheck); // 중복일 경우 false 반환
     }
 
-
     // 회원 가입
     @PostMapping("/signup")
     public ResponseEntity<Boolean> signup(@RequestBody UserVO vo) {
@@ -45,7 +46,6 @@ public class AuthController {
         boolean isSuccess = userDao.signup(vo);
         return ResponseEntity.ok(isSuccess);
     }
-
 
     // 가입 여부 확인
     @GetMapping("/exists/{email}")
@@ -63,11 +63,6 @@ public class AuthController {
         String userId = userDao.findIdByEmail(email);
         Map<String, Object> response = new HashMap<>();
 
-/*        if (userId != null) {
-            return ResponseEntity.ok(userId);
-        } else {
-            return ResponseEntity.badRequest().body("아이디를 찾을 수 없습니다.");
-        }*/
         if (userId != null) {
             response.put("success", true);
             response.put("userId", userId);
@@ -79,29 +74,21 @@ public class AuthController {
         }
     }
 
+    // 비번찾기
+    @PostMapping("/sendPw")
+    public ResponseEntity<Boolean> sendPw (@RequestBody UserVO vo){
+        log.info("메일:{}",vo.getUserMail());
+        log.info("비밀번호:{}",vo.getUserPw());
+        boolean result = emailService.sendEmail(vo);
+        return ResponseEntity.ok(result);
+    }
+    // 아이디와 메일 확인
+    @PostMapping("/checkIdMail")
+    public ResponseEntity<Boolean> checkIdMail(@RequestBody UserVO vo){
+        log.info("아이디:{}",vo.getUserId());
+        log.info("메일:{}",vo.getUserMail());
+        boolean inSuccess = userDao.checkIdMail(vo.getUserId(), vo.getUserMail());
+        return ResponseEntity.ok(inSuccess);
+    }
 
-
-//    // 회원 정보 조회
-//    @GetMapping("/{id}")
-//    public ResponseEntity<MemberVo> getMemberInfo(@PathVariable String id) {
-//        log.info("회원 정보 조회 요청: {}", id);
-//        MemberVo member = memberDao.findMemberById(id);
-//        return ResponseEntity.ok(member);
-//    }
-
-    // 회원 정보 수정
-//    @PutMapping("/{email}")
-//    public ResponseEntity<Boolean> updateMember(@PathVariable String email, @RequestBody MemberVo vo) {
-//        log.info("회원 정보 수정 요청: email={}, 변경 데이터={}", email, vo);
-//        boolean updateSuccess = memberDao.updateMember(email, vo);
-//        return ResponseEntity.ok(updateSuccess);
-//    }
-
-    // 회원 삭제
-//    @DeleteMapping("/{email}")
-//    public ResponseEntity<Boolean> deleteMember(@PathVariable String email) {
-//        log.info("회원 삭제 요청: email={}", email);
-//        boolean deleteSuccess = memberDao.deleteMember(email);
-//        return ResponseEntity.ok(deleteSuccess);
-//    }
 }

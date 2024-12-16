@@ -8,7 +8,7 @@ const AxiosApi = {
     return response.data;
   },
 
-  // 로그인a
+  // 로그인
   login: async (userId, userPw) => {
     const loginData = {
       userId: userId,
@@ -186,6 +186,34 @@ const AxiosApi = {
     return await axios.post(`${PAIKBOOKER_DOMAIN}/auth/findIdByEmail`, { email });
   },
 
+
+  checkIdMail: async (userId, userMail) => {
+    const checkData = {
+      userId: userId,
+      userMail: userMail,
+    };
+    try {
+      return await axios.post(`${PAIKBOOKER_DOMAIN}/auth/checkIdMail`, checkData);
+    } catch (error) {
+      console.error("checkIdMail error:", error);
+      throw error;
+    }
+  },
+
+  // 비밀번호 업데이트와 메일보내기 
+  sendPw: async (userId,userMail,userPw) => {
+    const emailData = {
+      userId:userId,
+      userMail: userMail,
+      userPw: userPw,
+    };
+    try {
+      return await axios.post(`${PAIKBOOKER_DOMAIN}/auth/sendPw`, emailData);
+    } catch (error) {
+      console.error("sendTemporaryPassword error:", error);
+      throw error;
+    }
+  },
 };
 
 export default AxiosApi;

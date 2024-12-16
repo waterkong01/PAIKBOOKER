@@ -12,6 +12,7 @@ export const StyledTable = styled.table`
     border: 1px solid #000;
     border-radius: 10px;
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 3vw;
     /* border-spacing: 15px; */
     tr {
         height: 43px;
@@ -42,7 +43,6 @@ export const ReviewUser = styled.input`
 export const ReviewContent = styled.textarea`
     width: 50%;
     height: 43px;
-    margin-top: 10px;
     padding: 10px;
     font-size: 1rem;
     resize: none;
@@ -56,15 +56,14 @@ export const ReviewForm = styled.form`
     display: flex;
     flex-direction: column;
     align-items: center;
-    div {
-        
-    }
+    gap: 0.5vw;
 `
 export const RatingBox = styled.div`
     min-width: 175px;
     width: 22%;
     display: flex;
     flex-direction: column;
+    gap: 0.5vw;;
 `
 export const ReviewRating = styled.div`
     display: flex;

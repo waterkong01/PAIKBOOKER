@@ -1,12 +1,6 @@
 import styled from "styled-components";
 import PrivacyPolicyTxt from "./PrivacyPolicyTxt";
-
-const TxtBox = styled.div`
-    background-color: #F0F0F0;
-    padding: 30px;
-    border-radius: 30px;
-    p { white-Space: pre-wrap; }
-`
+import { TxtBox } from "../../components/MemberDetailComponent";
 
 const PrivacyPolicy = () => {
     return (

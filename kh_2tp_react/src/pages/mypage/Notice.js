@@ -4,12 +4,15 @@ import styled from "styled-components";
 const NoticeStyle = styled.div`
     border-radius: 50px;
     table {
-        width: 90%;
-        margin: auto;
+        width: 100%;
+        /* margin: auto; */
         border: 1px solid #000;
         border-radius: 10px;
         box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
         border-spacing: 15px;
+        @media (max-width: 1405px) {
+            margin-bottom: 3vw;
+        }
     }
     th, td {
         padding: 10px;
@@ -19,7 +22,7 @@ const NoticeStyle = styled.div`
     .notice_content {
         position: relative;
         text-align: left;
-        width: 80%;
+        width: 73%;
     }
     .notice_details {
         padding: 15px 15px;

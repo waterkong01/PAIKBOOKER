@@ -27,8 +27,8 @@ public class MobileSearchService {
         String searchKeyword2 = processedKeyword;  // 예: "강남" -> "강남"
 
         // 로그를 추가하여 실제 검색하는 키워드를 확인
-        System.out.println("Searching with: " + searchKeyword1);  // 로그 추가
-        System.out.println("Searching with: " + searchKeyword2);  // 로그 추가
+        // System.out.println("Searching with: " + searchKeyword1);  // 로그 추가
+        // System.out.println("Searching with: " + searchKeyword2);  // 로그 추가
 
         // DAO 호출하여 두 가지 형태로 검색 결과 반환
         List<StoreVO> stores = searchDAO.mobileSearchByKeyword(searchKeyword1);

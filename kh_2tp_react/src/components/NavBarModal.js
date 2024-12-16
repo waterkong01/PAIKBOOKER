@@ -2,6 +2,21 @@
 import React from "react";
 import styled from "styled-components";
 
+// 모달 컴포넌트
+const NavBarModal = ({ show, onClose, children }) => {
+  if (!show) return null; // show가 false면 아무것도 렌더링 하지 않음
+
+  return (
+    <ModalOverlay onClick={onClose}>
+      <ModalContent onClick={(e) => e.stopPropagation()}>
+        {" "}
+        {/* 클릭 시 모달 내부 클릭은 무시 */}
+        <CloseButton onClick={onClose}>×</CloseButton>
+        {children}
+      </ModalContent>
+    </ModalOverlay>
+  );
+};
 
 // 모달 오버레이 (배경)
 const ModalOverlay = styled.div`
@@ -27,7 +42,8 @@ const ModalContent = styled.div`
   max-height: 80%; // 화면 크기에 비례하여 최대 높이 조정
   overflow-y: auto; // 내용이 많으면 스크롤 추가
   position: relative;
-
+  display: flex;
+  flex-direction: column;
   @media (max-width: 768px) {
     width: 90%; // 작은 화면에서는 90%로 크기 설정
     max-width: 500px; // 더 작은 크기 조정
@@ -45,22 +61,5 @@ const CloseButton = styled.button`
   cursor: pointer;
   color: #333;
 `;
-
-// 모달 컴포넌트
-const NavBarModal = ({ show, onClose, children }) => {
-  if (!show) return null; // show가 false면 아무것도 렌더링 하지 않음
-
-  return (
-    <ModalOverlay onClick={onClose}>
-      <ModalContent onClick={(e) => e.stopPropagation()}>
-        {" "}
-        {/* 클릭 시 모달 내부 클릭은 무시 */}
-        <CloseButton onClick={onClose}>×</CloseButton>
-        {children}
-      </ModalContent>
-    </ModalOverlay>
-  );
-};
-
 
 export default NavBarModal;

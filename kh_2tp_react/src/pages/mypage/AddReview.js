@@ -53,20 +53,6 @@ const AddReview = () => {
         textRef.current.style.height = textRef.current.scrollHeight + "px";
     }, []);
 
-
-/*     const brandStyles = {
-        "한신포차": {
-          border: "2px solid #ff3920",  // Nike에 대한 스타일
-        },
-        "Adidas": {
-          backgroundColor: "#E1E1E1", 
-          color: "#333",
-          border: "2px solid #000",  // Adidas에 대한 스타일
-        },
-    };
-      
-    const currentBrandStyle = brandStyles[brandName] || {}; */
-
     return (
         // <Container style={currentBrandStyle}>
         <Container>

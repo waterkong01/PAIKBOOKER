@@ -42,6 +42,7 @@ const MemberName = styled.h2`
   
 `;
 const BoldName = styled.span`
+  font-size: 1em;
   font-weight: bold;
 `
 
@@ -56,7 +57,7 @@ const MenuContainer = styled.div`
   grid-template-columns: repeat(4, 1fr);
   gap: 50px;
   width: 90%;
-  padding: 20px;
+  padding-bottom: 20px;
 
   @media (max-width: 1200px) {
     grid-template-columns: repeat(3, 1fr); /* 화면이 좁아지면 한 줄에 3개 */
@@ -87,6 +88,7 @@ const MenuBox = styled.a`
     transform: scale(1.05);
   }
   h2 {
+    font-size: 18px;
     margin-bottom: 5px;
     font-weight: bold;
   }

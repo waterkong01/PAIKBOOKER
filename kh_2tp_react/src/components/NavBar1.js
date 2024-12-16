@@ -159,6 +159,7 @@ const NavBar1 = ({ getMobileDataFromServerAndUpdateSearchList }) => {
     } else if (action === "logout") {
       setIsLoggedIn(false); // 로그인 상태 false
       localStorage.removeItem("loggedInUserId"); // 로컬스토리지 삭제
+      // localStorage.clear(); // 로컬스토리지 삭제
       setModalOpen(false); // 모달 닫기
       navigate("/");
       alert("로그아웃 되었습니다.");

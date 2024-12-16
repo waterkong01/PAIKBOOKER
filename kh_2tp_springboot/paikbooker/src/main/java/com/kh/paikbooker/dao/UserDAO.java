@@ -24,14 +24,41 @@ public class UserDAO {
     // SQL Queries
     private static final String CHECK_EMAIL = "SELECT COUNT(*) FROM USER_TB WHERE USER_MAIL = ?";
     private static final String LOGIN_QUERY = "SELECT COUNT(*) FROM USER_TB WHERE USER_ID = ? AND USER_PW = ?";
-    private static final String SIGNUP_QUERY = "INSERT INTO USER_TB (USER_NO,USER_NAME, USER_ID, USER_PW, USER_MAIL, USER_BIRTH, USER_PHONE, USER_IMG) VALUES (USER_NO_SEQ.NEXTVAL,?, ?, ?, ?, ?, ?, ?)";
+    private static final String SIGNUP_QUERY = "INSERT INTO USER_TB (USER_NO,USER_NAME, USER_ID, USER_PW, USER_MAIL, USER_PHONE, USER_IMG) VALUES (USER_NO_SEQ.NEXTVAL,?, ?, ?, ?, ?, ?)";
     private static final String CHECK_ID = "SELECT COUNT(*) FROM USER_TB WHERE USER_ID = ?'";
     private static final String SELECT_INFO = "SELECT * FROM USER_TB WHERE USER_ID = ?";
     private static final String DELETE_MEMBER = "DELETE FROM USER_TB WHERE USER_MAIL = ?";
-    private static final String UPDATE_MEMBER = "UPDATE USER_TB SET USER_NAME = ?, USER_PW = ?, USER_PHONE = ? WHERE USER_MAIL = ?";
-    private static final String SELECT_ALL_MEMBERS = "SELECT * FROM USER_TB";
-
+    private static final String RESET_PASSWORD_QUERY = "UPDATE USER_TB SET USER_PW = ? WHERE USER_ID = ?";
+    private static final String CHECK_FIND_PW = "SELECT COUNT(*) FROM USER_TB WHERE USER_ID = ? AND USER_MAIL = ?";
+    private static final String UPDATE_PASSWORD = "UPDATE USER_TB SET USER_PW = ? WHERE USER_ID = ?";
     private static final String FIND_ID_BY_EMAIL = "SELECT USER_ID FROM USER_TB WHERE USER_MAIL = ?";
+
+
+    public boolean checkIdMail(String userId, String userMail) {
+        try {
+            int count = jdbcTemplate.queryForObject(CHECK_FIND_PW, new Object[]{userId, userMail}, Integer.class);
+            return count > 0;
+        } catch (DataAccessException e) {
+            log.error("아이디와 이메일로 사용자 존재 여부 확인 중 에러 발생", e);
+            return false;
+        }
+    }
+
+    // 아이디와 비밀번호 확인
+
+    // 비밀번호 업데이트
+    public boolean updatePassword(UserVO userVo) {
+        try {
+            int result = jdbcTemplate.update(UPDATE_PASSWORD,userVo.getUserPw(), userVo.getUserId());
+            return result > 0;
+        } catch (DataAccessException e) {
+            log.error("비밀번호 업데이트 중 에러 발생", e);
+            return false;
+        }
+    }
+
+
+
 
     // 로그인
     public boolean login(String userId, String userPw) {
@@ -49,7 +76,7 @@ public class UserDAO {
     // 회원 가입
     public boolean signup(UserVO vo) {
         try {
-            int result = jdbcTemplate.update(SIGNUP_QUERY, vo.getUserName(), vo.getUserId(), vo.getUserPw(), vo.getUserMail(), vo.getUserBirth(), vo.getUserPhone(), vo.getUserImg());
+            int result = jdbcTemplate.update(SIGNUP_QUERY, vo.getUserName(), vo.getUserId(), vo.getUserPw(), vo.getUserMail(), vo.getUserPhone(), vo.getUserImg());
             return result > 0;
         } catch (DataAccessException e) {
             log.error("회원 가입 중 예외 발생", e);
@@ -70,15 +97,6 @@ public class UserDAO {
         }
     }
 
-//    public MemberVo getMemberInfo(String user_id) {
-//        try {
-//            List<MemberVo> members = jdbcTemplate.query(SELECT_INFO, new Object[]{user_id}, new MemberRowMapper());
-//            return members.isEmpty() ? null : members.get(0);
-//        } catch (DataAccessException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
 
     public UserVO getMemberInfo(String userId) {
         try {
@@ -90,8 +108,18 @@ public class UserDAO {
         }
     }
 
+    public String findIdByEmail(String email) {
+        try {
+            return jdbcTemplate.queryForObject(FIND_ID_BY_EMAIL, new Object[]{email}, String.class);
+        } catch (DataAccessException e) {
+            log.error("이메일로 아이디 찾기 중 에러 발생", e);
+            return null;
+        }
+    }
 
-    // 회원 정보 수정
+
+
+
     public boolean updateMember(String userId, Map<String, Object> updatedFields) {
         StringBuilder queryBuilder = new StringBuilder("UPDATE USER_TB SET ");
         List<Object> params = new ArrayList<>();
@@ -113,6 +141,11 @@ public class UserDAO {
             return false;
         }
     }
+
+
+
+
+
     // 회원 삭제
     public boolean deleteMember(String userMail) {
         try {
@@ -134,34 +167,15 @@ public class UserDAO {
         }
     }
 
-
-
-    public String findIdByEmail(String email) {
+    public boolean resetPassword(String userId, String tempPassword) {
         try {
-            return jdbcTemplate.queryForObject(FIND_ID_BY_EMAIL, new Object[]{email}, String.class);
+            int result = jdbcTemplate.update(RESET_PASSWORD_QUERY, tempPassword, userId);
+            return result > 0;
         } catch (DataAccessException e) {
-            log.error("이메일로 아이디 찾기 중 에러 발생", e);
-            return null;
+            log.error("비밀번호 초기화 실패", e);
+            return false;
         }
     }
-
-    // RowMapper (MemberVo 객체 생성)
-
-
-
-//    private static class MemberRowMapper implements RowMapper<MemberVo> {
-//        @Override
-////        public MemberVo mapRow(ResultSet rs, int rowNum) throws SQLException {
-////            return new MemberVo(
-////                    rs.getString("user_name"),
-////                    null, // user_id
-////                    null, // user_pw
-////                    null, // user_mail
-////                    null, // user_birth
-////                    null, // user_phone
-////                    rs.getString("user_img")
-////            );
-////        }
 
     private static class MemberRowMapper implements RowMapper<UserVO> {
         @Override
@@ -172,12 +186,9 @@ public class UserDAO {
                     rs.getString("user_pw"),
                     rs.getString("user_name"),
                     rs.getString("user_mail"),
-                    rs.getDate("user_birth"),
                     rs.getString("user_phone"),
                     rs.getString("user_img")
             );
         }
     }
-
-
 }

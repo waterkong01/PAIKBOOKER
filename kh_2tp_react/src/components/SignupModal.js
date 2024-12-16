@@ -291,7 +291,7 @@ const SignupModal = ({ closeModal }) => {
           {phoneMessage && <Message isValid={isPhone}>{phoneMessage}</Message>}
         </InputContainer>
 
-        <DateSelector>
+        {/* <DateSelector>
           <p>생년월일</p>
           <select onChange={(e) => setSelectedYear(e.target.value)}>
             <option value="">년도</option>
@@ -317,7 +317,7 @@ const SignupModal = ({ closeModal }) => {
               </option>
             ))}
           </select>
-        </DateSelector>
+        </DateSelector> */}
 
         <ButtonContainer>
           <SignupButton
@@ -356,7 +356,7 @@ const ModalContainer = styled.div`
   padding: 20px;
 
   width: 600px;
-  height: 800px; /* 모달 창의 크기 유지 */
+  /* height: 800px; */
   position: relative;
   display: flex;
   flex-direction: column;
@@ -412,6 +412,7 @@ const FileInput = styled.input`
 `;
 
 export const InputContainer = styled.div`
+  /* width: 65%; */
   margin-bottom: 15px;
   display: flex;
   justify-content: center;
@@ -461,9 +462,8 @@ const DateSelector = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-  margin-top: 20px;
+  /* margin-top: 20px; */
   display: flex;
-
   justify-content: center;
 `;
 

@@ -2,104 +2,130 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AxiosApi from "../../api/AxiosApi";
 import styled from "styled-components";
-import { ReviewContainer, StyledTable } from "../../components/ReviewComponent";
+
+const ReservationWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* padding: 20px; */
+`;
+
+const ReservationCard = styled.div`
+    width: 100%;
+    /* max-width: 600px; */
+    padding: 20px;
+    /* margin: 10px 0; */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const ReservationRow = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 16px;
+
+    & span {
+        font-weight: bold;
+    }
+    /* &nth */
+`;
 
 const ReviewLink = styled(Link)`
     text-decoration: none;
-    color: #000;
-    &:active {
-        color: #FFF;
-    } 
-`
-export const ReviewButton = styled.button`
-    height: 40px;
-    aspect-ratio: 7 / 4;
+    color: #fff;
+`;
+
+const ReviewButton = styled.button`
+    width: 100%;
+    max-width: 150px;
+    padding: 10px;
+    border: none;
     border-radius: 5px;
-    &:active {
-        background-color: #000;
-        color: #FFF;
-    } 
-`
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    &:hover {
+        background-color: #0056b3;
+    }
+`;
+
+const EmptyMessage = styled.div`
+    margin-top: 20px;
+    font-size: 18px;
+    color: #666;
+`;
 
 const Reservation = () => {
-    const [reservations, setReservations] = useState("");
+    const [reservations, setReservations] = useState([]);
     const [userId, setUserId] = useState(null);
 
-    useEffect (() => {
+    useEffect(() => {
         const loggedInUserId = localStorage.getItem("loggedInUserId");
-        setUserId(loggedInUserId);  // 로그인된 사용자 ID 상태에 저장
+        setUserId(loggedInUserId);
 
-        const getReservations = async () => {
+        const fetchReservations = async () => {
             try {
-/*                 const rsp = await AxiosApi.reservationList();
-                console.log(rsp.data);
-                setReservations(rsp.data); */
-                const rsp = await AxiosApi.reservationList(); // 리뷰 목록 API 호출
-                // 로그인된 사용자 ID와 리뷰 작성자 ID가 일치하는 리뷰만 필터링
-                const filteredReservations = rsp.data.filter(reservation => reservation.userId === loggedInUserId);
-                setReservations(filteredReservations);  // 필터링된 리뷰 상태에 저장
+                const rsp = await AxiosApi.reservationList();
+                if (rsp.data) {
+                    const filteredReservations = rsp.data.filter(
+                        (reservation) => reservation.userId === loggedInUserId
+                    );
+                    setReservations(filteredReservations);
+                }
             } catch (e) {
                 console.error("Error:", e);
-                alert("서버가 응답하지 않습니다.", e);
+                alert("서버가 응답하지 않습니다.");
             }
         };
-        if (loggedInUserId) {
-            getReservations();  // 로그인된 사용자 ID가 있을 때만 리뷰 목록 불러오기
-        }
-    }, []);
+
+        if (loggedInUserId) fetchReservations();
+    }, [userId]);
 
     return (
-        <>
-            <StyledTable>
-                <thead>
-                    <tr>
-                        {/* <th>예약 번호</th> */}
-                        {/* <th>사용자 아이디</th> */}
-                        {/* <th>예약자명</th> */}
-                        {/* <th>매장 번호</th> */}
-                        <th>매장명</th>
-                        <th>매장 연락처</th>
-                        <th>예약 인원</th>
-                        <th>방문 예정 시간</th>
-                        <th>예약완료일</th>
-                        {/* <th>브랜드명</th> */}
-                    </tr>
-                </thead>
-                <tbody>
-                    {reservations.length > 0 ? (
-                        reservations &&
-                        reservations.map(reservation => (
-                            <tr key={reservation.userId}>
-                                {/* <td>{reservation.rNo}</td> */}
-                                {/* <td>{reservation.userId}</td> */}
-                                {/* <td>{reservation.userName}</td> */}
-                                {/* <td>{reservation.storeNo}</td> */}
-                                <td>{reservation.storeName}</td>
-                                <td>{reservation.storePhone}</td>
-                                <td>{reservation.rPersonCnt}</td>
-                                <td>{reservation.rTime}:00</td>
-                                <td>{reservation.rSubmitTime}</td>
-                                {/* <td>{reservation.brandName}</td> */}
-                                <td>
-                                    {!reservation.hasReview && ( // hasReview가 false일 때만 버튼 렌더링
-                                        <ReviewButton>
-                                            <ReviewLink to={`/AddReview?userId=${reservation.userId}&storeName=${reservation.storeName}&rSubmitTime=${reservation.rSubmitTime}&rTime=${reservation.rTime}&brandName=${reservation.brandName}`} className="link_style">
-                                                <span>리뷰 추가</span>
-                                            </ReviewLink>
-                                        </ReviewButton>
-                                    )}
-                                </td>
-                            </tr>
-                        ))
-                    ):(
-                        <tr>
-                            <td colSpan="11">예약 내역이 없습니다.</td>
-                        </tr>
-                    )}
-                </tbody>
-            </StyledTable>
-        </>
+        <ReservationWrapper>
+            {reservations.length > 0 ? (
+                reservations.map((reservation) => (
+                    <ReservationCard key={reservation.rNo}>
+                        <ReservationRow>
+                            <span>매장명</span>
+                            <div>{reservation.storeName}</div>
+                        </ReservationRow>
+                        <ReservationRow>
+                            <span>매장 연락처</span>
+                            <div>{reservation.storePhone}</div>
+                        </ReservationRow>
+                        <ReservationRow>
+                            <span>예약 인원</span>
+                            <div>{reservation.rPersonCnt}</div>
+                        </ReservationRow>
+                        <ReservationRow>
+                            <span>방문 예정 시간</span>
+                            <div>{reservation.rTime}:00</div>
+                        </ReservationRow>
+                        <ReservationRow>
+                            <span>예약 완료일</span>
+                            <div>{reservation.rSubmitTime}</div>
+                        </ReservationRow>
+                        {!reservation.hasReview && (
+                            <ReviewButton>
+                                <ReviewLink
+                                    to={`/AddReview?userId=${reservation.userId}&storeName=${reservation.storeName}&rSubmitTime=${reservation.rSubmitTime}&rTime=${reservation.rTime}&brandName=${reservation.brandName}`}
+                                >
+                                    리뷰 추가
+                                </ReviewLink>
+                            </ReviewButton>
+                        )}
+                    </ReservationCard>
+                ))
+            ) : (
+                <EmptyMessage>예약 내역이 없습니다.</EmptyMessage>
+            )}
+        </ReservationWrapper>
     );
-}
+};
 
 export default Reservation;
