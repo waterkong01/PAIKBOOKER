@@ -1,5 +1,5 @@
 import axios from "axios";
-const PAIKBOOKER_DOMAIN = "http://localhost:8111";
+const PAIKBOOKER_DOMAIN = "http://192.168.10.8:8111";
 
 const AxiosApi = {
   // NavBar) 브랜드 로고 가져오기 (NavBar3)
@@ -176,16 +176,17 @@ const AxiosApi = {
 
   // MobileHome Search
   getMobileHomeSearchData: async (searchData) => {
-    return await axios.get(PAIKBOOKER_DOMAIN + `/mobile/search`,{
+    return await axios.get(PAIKBOOKER_DOMAIN + `/mobile/search`, {
       params: { keyword: searchData }, // 검색어를 쿼리 파라미터로 전달
     });
   },
-  
+
   // ID 찾기
   findIdByEmail: async (email) => {
-    return await axios.post(`${PAIKBOOKER_DOMAIN}/auth/findIdByEmail`, { email });
+    return await axios.post(`${PAIKBOOKER_DOMAIN}/auth/findIdByEmail`, {
+      email,
+    });
   },
-
 
   checkIdMail: async (userId, userMail) => {
     const checkData = {
@@ -193,17 +194,20 @@ const AxiosApi = {
       userMail: userMail,
     };
     try {
-      return await axios.post(`${PAIKBOOKER_DOMAIN}/auth/checkIdMail`, checkData);
+      return await axios.post(
+        `${PAIKBOOKER_DOMAIN}/auth/checkIdMail`,
+        checkData
+      );
     } catch (error) {
       console.error("checkIdMail error:", error);
       throw error;
     }
   },
 
-  // 비밀번호 업데이트와 메일보내기 
-  sendPw: async (userId,userMail,userPw) => {
+  // 비밀번호 업데이트와 메일보내기
+  sendPw: async (userId, userMail, userPw) => {
     const emailData = {
-      userId:userId,
+      userId: userId,
       userMail: userMail,
       userPw: userPw,
     };

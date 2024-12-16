@@ -35,6 +35,9 @@ const Left = styled.div`
   img {
     width: 76px;
   }
+  @media (max-width: 768px) {
+    margin-left: 13px;
+  }
 `;
 
 const Right = styled.div`

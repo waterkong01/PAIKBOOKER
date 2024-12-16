@@ -84,7 +84,7 @@ const MemberInfo = () => {
           setInputBirth(
             userData.userBirth ? userData.userBirth.substring(0, 10) : ""
           );
-          const birthParts = userData.userBirth.split('-');
+          const birthParts = userData.userBirth.split("-");
           setSelectedYear(birthParts[0]);
           setSelectedMonth(birthParts[1]);
           setSelectedDay(birthParts[2]);
@@ -113,11 +113,11 @@ const MemberInfo = () => {
   };
 
   const handleBirthChange = (type, value) => {
-    if (type === 'selectedYear') {
+    if (type === "selectedYear") {
       setSelectedYear(value);
-    } else if (type === 'selectedMonth') {
+    } else if (type === "selectedMonth") {
       setSelectedMonth(value);
-    } else if (type === 'selectedDay') {
+    } else if (type === "selectedDay") {
       setSelectedDay(value);
     }
   };
@@ -134,7 +134,7 @@ const MemberInfo = () => {
     }
   };
 
-/*   const onChangePw = (e) => {
+  /*   const onChangePw = (e) => {
     const passwordRegex =
       /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
 
@@ -199,20 +199,25 @@ const MemberInfo = () => {
 
     // 변경된 필드만 추출
     const updatedFields = {};
-  
+
     if (userInfo.userName !== inputName) updatedFields.USER_NAME = inputName;
     if (userInfo.userMail !== inputMail) updatedFields.USER_MAIL = inputMail;
     if (userInfo.userPw) updatedFields.USER_PW = userInfo.userPw; // 이미 변경된 비밀번호를 포함
-    if (userInfo.userBirth !== inputBirth) updatedFields.USER_BIRTH = inputBirth;
-    if (userInfo.userImg !== finalProfileUrl) updatedFields.USER_IMG = finalProfileUrl;
-  
+    if (userInfo.userBirth !== inputBirth)
+      updatedFields.USER_BIRTH = inputBirth;
+    if (userInfo.userImg !== finalProfileUrl)
+      updatedFields.USER_IMG = finalProfileUrl;
+
     if (Object.keys(updatedFields).length === 0) {
       alert("변경된 내용이 없습니다.");
       return;
     }
-  
+
     try {
-      const response = await AxiosApi.updateMemberInfo(userInfo.userId, updatedFields);
+      const response = await AxiosApi.updateMemberInfo(
+        userInfo.userId,
+        updatedFields
+      );
       if (response.data) {
         alert("회원 정보가 성공적으로 수정되었습니다.");
         navigate("/Member");
@@ -226,7 +231,7 @@ const MemberInfo = () => {
   };
 
   const handlePasswordChange = () => {
-/*     if (currentPassword === userInfo.userPw) {
+    /*     if (currentPassword === userInfo.userPw) {
       if (newPassword === confirmNewPassword) {
         setPasswordMessage("비밀번호가 수정되었습니다.");
         setIsPasswordMatch(true);
@@ -245,13 +250,13 @@ const MemberInfo = () => {
       if (newPassword === confirmNewPassword) {
         setPasswordMessage("비밀번호가 수정되었습니다.");
         setIsPasswordMatch(true);
-  
+
         // userInfo 객체의 비밀번호를 새 비밀번호로 업데이트
         setUserInfo((prevState) => ({
           ...prevState,
           userPw: newPassword,
         }));
-  
+
         // 비밀번호 변경 모달 닫기
         setShowPasswordModal(false);
       } else {
@@ -261,7 +266,7 @@ const MemberInfo = () => {
     } else {
       setPasswordMessage("현재 비밀번호가 잘못되었습니다.");
       setIsPasswordMatch(false);
-    }  
+    }
   };
 
   return (
@@ -412,17 +417,17 @@ const ProfileEditContainer = styled.div`
     justify-content: center;
     align-items: center;
   }
-`
+`;
 
 const ProfileWrapper = styled.div`
   display: flex;
   justify-content: center;
   padding: 3vw 0;
-`
+`;
 
 const ProfileBox = styled.div`
   position: relative;
-`
+`;
 
 const ProfileImage = styled.div`
   width: 150px;
@@ -430,7 +435,7 @@ const ProfileImage = styled.div`
   border-radius: 50%;
   overflow: hidden;
   border: 2px solid #ccc;
-  
+
   img {
     width: 100%;
     height: 100%;
@@ -482,12 +487,16 @@ const Input = styled.input`
 
 const PasswordChangeButton = styled.button`
   margin-top: 10px;
-  background-color: #007bff;
+  background-color: #ccc;
   color: white;
   padding: 5px 10px;
   border: none;
   cursor: pointer;
   border-radius: 5px;
+  &:hover {
+    background-color: #000;
+    color: #fff;
+  }
 `;
 
 export default MemberInfo;

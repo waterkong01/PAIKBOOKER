@@ -588,7 +588,10 @@ const StoreDetail = () => {
             />
           )}
           {isLoginModalOpen && (
-            <LoginModal onClose={() => setIsLoginModalOpen(false)} />
+            <LoginModal
+              setIsLoggedIn={setIsLoggedIn}
+              closeModal={() => setIsLoginModalOpen(false)}
+            />
           )}
         </Detail.StoreDetailContainer>
       </Detail.Container>
