@@ -12,7 +12,7 @@ import java.util.Map;
 
 @RestController
 @Slf4j
-@CrossOrigin(origins = "http://192.168.10.8:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/member")
 @RequiredArgsConstructor
 public class UserController {

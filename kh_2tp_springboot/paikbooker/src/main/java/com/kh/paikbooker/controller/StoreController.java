@@ -18,7 +18,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/stores")
-@CrossOrigin(origins = "http://192.168.10.8:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
 public class StoreController {
 
