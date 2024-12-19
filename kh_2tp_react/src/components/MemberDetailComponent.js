@@ -6,23 +6,23 @@ export const Mypage = styled.p`
     padding-left: 3vw;
 `
 export const Container = styled.div`
-    width: 100%;
-    /* height: 100%; */
-    margin-top: 2vh;
-    padding: 0 3vw;
-    display: flex;
-    /* gap: 3vw; */
-    justify-content: space-between;
-
-    flex-wrap: wrap;
-    @media (max-width: 1405px) {
-        gap: 5vh;
-        flex-direction: column;
-    }
-/*     @media (max-width: 768px) {
+  width: 100%;
+  /* height: 100%; */
+  margin-top: 2vh;
+  padding: 0 3vw;
+  display: flex;
+  /* gap: 3vw; */
+  justify-content: space-between;
+  padding-bottom: 100px;
+  flex-wrap: wrap;
+  @media (max-width: 1405px) {
+    gap: 5vh;
+    flex-direction: column;
+  }
+  /*     @media (max-width: 768px) {
         flex-direction: column;
     } */
-`
+`;
 export const MemberDetailLeft = styled.div`
     width: 48%;
     .menu_container {
@@ -45,7 +45,7 @@ export const MemberDetailLeft = styled.div`
     }
     @media (max-width: 400px) {
         .menu_container {
-            grid-template-columns: repeat(1, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 5vw;
         }
     }

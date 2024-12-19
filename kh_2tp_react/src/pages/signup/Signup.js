@@ -42,14 +42,6 @@ const Signup = () => {
   const [mailMessage, setMailMessage] = useState("");
   const [phoneMessage, setPhoneMessage] = useState("");
 
-  // Arrays for year, month, and day selection
-  /*   const years = Array.from(
-    { length: 100 },
-    (_, i) => new Date().getFullYear() - i
-  );
-  const months = Array.from({ length: 12 }, (_, i) => i + 1);
-  const days = Array.from({ length: 31 }, (_, i) => i + 1); */
-
   // Handle file input and display preview
   const handleFileInputChange = (e) => {
     const selectedFile = e.target.files[0];

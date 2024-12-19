@@ -37,6 +37,7 @@ const HomeItemBlock = styled.div`
   box-sizing: border-box;
   background-color: #fff;
   overflow-x: hidden;
+  
 `;
 
 const DropdownContainer = styled.div`

@@ -97,21 +97,6 @@ const MemberInfo = () => {
     }
   };
 
-  /*   const onChangePw = (e) => {
-    const passwordRegex =
-      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
-
-    const passwordCurrent = e.target.value;
-    setInputPw(passwordCurrent);
-    if (!passwordRegex.test(passwordCurrent)) {
-      setPwMessage("숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!");
-      setIsPw(false);
-    } else {
-      setPwMessage("안전한 비밀번호입니다.");
-      setIsPw(true);
-    }
-  }; */
-
   const onClickSaveChanges = async () => {
     let finalProfileUrl = profileUrl;
 
@@ -160,21 +145,6 @@ const MemberInfo = () => {
   };
 
   const handlePasswordChange = () => {
-    /*     if (currentPassword === userInfo.userPw) {
-      if (newPassword === confirmNewPassword) {
-        setPasswordMessage("비밀번호가 수정되었습니다.");
-        setIsPasswordMatch(true);
-        localStorage.setItem("loggedInUserPassword", newPassword);
-        setUserInfo({ ...userInfo, userPw: newPassword });
-        setShowPasswordModal(false);
-      } else {
-        setPasswordMessage("비밀번호 확인이 일치하지 않습니다.");
-        setIsPasswordMatch(false);
-      }
-    } else {
-      setPasswordMessage("현재 비밀번호가 잘못되었습니다.");
-      setIsPasswordMatch(false);
-    } */
     if (currentPassword === userInfo.userPw) {
       if (newPassword === confirmNewPassword) {
         setPasswordMessage("비밀번호가 수정되었습니다.");
