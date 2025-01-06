@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@CrossOrigin(origins = "http://192.168.10.8:3000")
+@CrossOrigin(origins = "http://192.168.110.8:3000")
 @RequestMapping("/reservation")
 @RequiredArgsConstructor
 public class ReservationController {

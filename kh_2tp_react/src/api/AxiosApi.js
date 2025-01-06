@@ -1,5 +1,5 @@
 import axios from "axios";
-const PAIKBOOKER_DOMAIN = "http://192.168.10.8:8111";
+const PAIKBOOKER_DOMAIN = "http://192.168.110.8:8111";
 
 const AxiosApi = {
   // NavBar) 브랜드 로고 가져오기 (NavBar3)

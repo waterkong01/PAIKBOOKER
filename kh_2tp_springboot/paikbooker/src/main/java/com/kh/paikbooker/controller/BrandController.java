@@ -14,7 +14,7 @@ import java.util.List;
 // 메서드의 반환값이 기본적으로 JSON 형태로 직렬화됩니다.
 @Slf4j //  Lombok 라이브러리에서 제공하는 어노테이션으로,
 // 로깅(logging)을 쉽게 사용할 수 있도록 자동으로 로거(Logger) 객체를 생성해주는 기능을 제공.
-@CrossOrigin(origins = "http://192.168.10.8:3000")
+@CrossOrigin(origins = "http://192.168.110.8:3000")
 @RequestMapping("/brand")
 @RequiredArgsConstructor // final 또는 @NonNull 필드만 초기화하는 생성자를 자동 생성.
 public class BrandController {
