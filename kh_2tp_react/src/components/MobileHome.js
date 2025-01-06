@@ -29,14 +29,14 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
 };
 
 const MobileHomeItemBlock = styled.div`
-  width: 100vw;
+  width: 100%;
   margin: 0 auto; /* 화면 중앙 정렬 */
   box-sizing: border-box;
   display: flex;
   align-items: center;
   flex-direction: column;
   background-color: #fff;
-  min-width: 680px; /* 최소 너비 640px로 설정 */
+  overflow-x: hidden;
 `;
 
 const DropdownContainer = styled.div`
@@ -45,6 +45,7 @@ const DropdownContainer = styled.div`
   height: 30px;
   display: flex;
   justify-content: right;
+  margin-right: 20px;
   position: relative;
 `;
 

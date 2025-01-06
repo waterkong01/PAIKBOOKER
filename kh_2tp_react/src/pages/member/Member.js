@@ -9,9 +9,9 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* justify-content: center; */
-  /* height: 100vh; */
-  /* background-color: #f9f9f9; */
+  width: 100%;
+  overflow: hidden;
+  padding-bottom: 100px;
 `;
 
 const UserInfo = styled.div`
@@ -19,11 +19,10 @@ const UserInfo = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 25px;
-  /* background-color: white; */
-  /* padding: 20px; */
   padding: 100px;
   border-radius: 10px;
-  /* box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); */
+  width: 100%;
+
 `;
 
 const UserImage = styled.img`
@@ -52,7 +51,7 @@ const ErrorMessage = styled.div`
 const MenuContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 50px;
+  gap: 3vw;
   width: 90%;
   padding-bottom: 20px;
 
@@ -129,10 +128,6 @@ const Member = () => {
     fetchMemberData();
   }, []);
 
-  /*   const handleEditClick = () => {
-    navigate("/member/MemberInfo"); // 멤버 수정 페이지로 이동
-  }; */
-
   const handleMenuBoxClick = (id) => {
     navigate(`/MemberDetail/${id}`);
   };
@@ -193,34 +188,9 @@ const Member = () => {
         ))}
       </MenuContainer>
 
-      {/*       {selectedMenu && (
-        <div className="menu-detail">
-          <h2>Detail for {menuItems.find((item) => item.id === selectedMenu).title}</h2>
-          <p>
-            {menuItems.find((item) => item.id === selectedMenu).description}
-          </p>
-          <button onClick={() => setSelectedMenu(null)}>Go Back</button>
-        </div>
-      )} */}
     </Container>
   );
 };
 
-/* const EditButton = styled.button`
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin-top: 20px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #45a049;
-  }
-`; */
 
 export default Member;

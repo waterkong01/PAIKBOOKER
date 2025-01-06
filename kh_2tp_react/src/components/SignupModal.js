@@ -266,33 +266,6 @@ const SignupModal = ({ closeModal }) => {
           {phoneMessage && <Message isValid={isPhone}>{phoneMessage}</Message>}
         </InputContainer>
 
-        {/* <DateSelector>
-          <p>생년월일</p>
-          <select onChange={(e) => setSelectedYear(e.target.value)}>
-            <option value="">년도</option>
-            {years.map((year) => (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            ))}
-          </select>
-          <select onChange={(e) => setSelectedMonth(e.target.value)}>
-            <option value="">월</option>
-            {months.map((month) => (
-              <option key={month} value={month}>
-                {month}
-              </option>
-            ))}
-          </select>
-          <select onChange={(e) => setSelectedDay(e.target.value)}>
-            <option value="">일</option>
-            {days.map((day) => (
-              <option key={day} value={day}>
-                {day}
-              </option>
-            ))}
-          </select>
-        </DateSelector> */}
 
         <ButtonContainer>
           <SignupButton

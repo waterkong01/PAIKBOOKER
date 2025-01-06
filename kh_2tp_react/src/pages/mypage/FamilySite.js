@@ -4,6 +4,7 @@ import TheBornSvg from "../../image/TheBorn.svg";
 import SearchSvg from "../../image/Search.svg";
 
 const Container = styled.div`
+    width: 100%;
     display: grid;
     gap: 2vw;
     grid-template-columns: repeat(2, 1fr);
@@ -14,11 +15,9 @@ const Container = styled.div`
         grid-column: span 2; /* 첫 번째 박스는 전체 너비 차지 */
         aspect-ratio: initial;
     }
-    @media (max-width: 1405px) {
-        margin-bottom: 3vw;
-    }
 `
 const ReviewLink = styled(Link)`
+    width: 100%;
     height: 250px;
     /* background-color: royalblue; */
     text-decoration: none;
