@@ -26,6 +26,8 @@
 > 주요 기능: 
 >
 > 발표 자료(PDF): https://drive.google.com/file/d/1QsyiCh53LYFp5YXPs1O_X2wpjRkn3xuB/view?usp=drive_link
+>
+> 더 많은 프로젝트 정보: https://www.notion.so/3-PAIKBOOKER-5c9338cbf4c74f8db425790558353624?source=copy_link
 
 
 ## **⚒️ 기술 및 환경**
