@@ -31,18 +31,19 @@
 ## **⚒️ 기술 및 환경**
 > ### 프론트엔드
 > 언어: JavaScript</br>
-> 프레임워크: React.js</br>
+> 라이브러리: React
 > ### 백엔드
 > 언어: Java</br>
-> 프레임워크: Spring Boot</br>
-> 데이터베이스: ORACLE
-> API 관리: RESTful API 기반
+> 프레임워크: Spring Boot
+> ### DB
+> 데이터베이스: ORACLE</br>
+> 관리 도구: DBeaver
 > ### 클라우드 스토리지
 > Firebase Storage
 > ### IDE
 > IntelliJ, Visual Studio Code
 > ### 협업 도구
-> Github, Notion, Figma, Google Sheets
+> Github(소스 공유), Notion(프로젝트 기록), Figma(화면 설계 및 디자인), Google Sheets(WBS), draw.io(DB설계)
 
 ## **📃 작품 배경 및 소개**
 > ### 작품 배경
