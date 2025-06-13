@@ -68,7 +68,16 @@
 
 ## **🔎 기능 구현**
 ### **구현사항(본인 역할)**
-![Image](https://github.com/user-attachments/assets/13bdaf77-f33e-4465-b0ba-f1b5474995f6)
-
+![Image](https://github.com/user-attachments/assets/c9686f2a-71b0-4841-bb1f-6f353cce5313)
+![Image](https://github.com/user-attachments/assets/9fe527cf-5e91-4e44-a406-9c0ee49aa8e1)
+![Image](https://github.com/user-attachments/assets/9b0457ac-24df-46d6-9a01-7bb1c78ce535)
+![Image](https://github.com/user-attachments/assets/e1f67538-5244-418f-adba-134ee7ec1633)
+![Image](https://github.com/user-attachments/assets/1b46d27f-d539-4af1-a683-9a75f0195dec)
+![Image](https://github.com/user-attachments/assets/ed67e504-787d-4906-9301-affa8e18a4ed)
+![Image](https://github.com/user-attachments/assets/d1b13ab2-ceb6-424b-b58b-ad7d0df4731e)
+![Image](https://github.com/user-attachments/assets/e5219465-e348-4eba-8e91-a397c777bd7b)
+![Image](https://github.com/user-attachments/assets/377d36e1-0489-4ed8-b9e9-265e224424cb)
+![Image](https://github.com/user-attachments/assets/1aa67c6c-fae4-4956-8487-605b63421255)
+![Image](https://github.com/user-attachments/assets/3878be28-5047-4287-b2cd-1dc1298c927c)
 
 ![footer](https://capsule-render.vercel.app/api?type=waving&height=150&color=5c666a&fontAlign=50&textBg=false&section=footer&fontSize=61&fontAlignY=42)
