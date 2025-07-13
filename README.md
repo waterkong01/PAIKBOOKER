@@ -29,7 +29,7 @@
 >
 > 발표 자료(PDF): https://drive.google.com/file/d/1QsyiCh53LYFp5YXPs1O_X2wpjRkn3xuB/view?usp=drive_link
 >
-> 더 많은 프로젝트 정보(Notion): https://www.notion.so/PAIKBOOKER-2118c659c95f806ab595fd937932b2b7?source=copy_link
+> 더 많은 프로젝트 정보(Notion): https://wheat-composer-cac.notion.site/PAIKBOOKER-2118c659c95f806ab595fd937932b2b7?source=copy_link
 
 
 ## **⚒️ 기술 및 환경**
